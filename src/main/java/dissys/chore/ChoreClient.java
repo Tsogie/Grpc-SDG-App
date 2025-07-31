@@ -21,45 +21,46 @@ import java.util.logging.Logger;
  */
 public class ChoreClient {
     private static final Logger logger = Logger.getLogger(ChoreClient.class.getName());
-
+    private static ManagedChannel channel;
     private static ChoreDividerStub stubAsync;
     public static void main(String[] args) throws Exception {
+        
         int port = 50001;
         String host = "localhost";
-        ManagedChannel channel = ManagedChannelBuilder
+        channel = ManagedChannelBuilder
                 .forAddress(host, port)
                 .usePlaintext()
                 .build();
         ChoreDividerBlockingStub stub = ChoreDividerGrpc.newBlockingStub(channel);
         stubAsync = ChoreDividerGrpc.newStub(channel);
         
-        requestReport();
+        try{
 
-      try{
+            ChoreRequest request = ChoreRequest.newBuilder().setNumPeople(2).build();
 
-        ChoreRequest request = ChoreRequest.newBuilder().setNumPeople(2).build();
+            ChoreResponse response = stub.doChoderDivide(request); //ene trigger hiij bgn boluu?
 
-        ChoreResponse response = stub.doChoderDivide(request); //ene trigger hiij bgn boluu?
-
-        System.out.println("Response from Server");
-        logger.info(response.getChoreResult());
+            System.out.println("Response from Server (Unary, Chore Divide)");
+            logger.info(response.getChoreResult());
 
         }catch(StatusRuntimeException e){
             e.printStackTrace();
         }finally {         
-	    channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
-	    }
-      
+	    //channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
+	}
+        
+      //this method is for client streaming
+      requestReport();
       
     }//main
     
-    public static void requestReport(){
+    public static void requestReport() throws InterruptedException{
     
         StreamObserver<ReportResponse> responseObserver = 
                 new StreamObserver<ReportResponse>(){
             @Override
             public void onNext(ReportResponse v) {
-                System.out.println("Response from server: " + v.getReportResult());            }
+                System.out.println("Response from server (Client streaming, Chore Report): " + v.getReportResult());            }
 
             @Override
             public void onError(Throwable thrwbl) {
@@ -75,21 +76,29 @@ public class ChoreClient {
         StreamObserver<ReportRequest> requestObserver = stubAsync.doChoreReport(responseObserver);
     
         try{
-        requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(11).build());
-        Thread.sleep(500);
-         requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(1).build());
-        Thread.sleep(500);
-         requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(6).build());
-        Thread.sleep(500);
-        
-        requestObserver.onCompleted();
-        
-        Thread.sleep(10000);
+            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(11).build());
+            Thread.sleep(500);
+            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(1).build());
+            Thread.sleep(500);
+            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(6).build());
+            Thread.sleep(500);
+            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(3).build());
+            Thread.sleep(500);
+            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(4).build());
+            Thread.sleep(500);
+            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(10).build());
+            Thread.sleep(500);
+
+            requestObserver.onCompleted();
+
+            Thread.sleep(10000);
         }catch(RuntimeException e){
         e.printStackTrace();
         }catch(InterruptedException e){
         e.printStackTrace();
-        }
+        }finally {         
+	    channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
+	}
     }
 
     }//class

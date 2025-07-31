@@ -1,0 +1,31 @@
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "grpc.generated.flight";
+ 
+package Flight;
+
+// The FlightEmissionCalculator service definition. This service has one service.
+// rpc soEmissionCalculatio is bi-directional (stream CO2Request; stream CO2Response). 
+// it gets city names and returns total emission amount at that time.
+// for example, when client add new city, server returns recalculated emission amount.
+
+service FlightEmissionCalculator {
+  rpc doEmissionCalculation (stream CO2Request) returns (stream CO2Response){}
+  
+}
+
+message CO2Request{
+    string startCity = 1; //this parameter is starting location of flight
+    string nextCity = 2; //this parameter is destination location. If user wants to add multiple //city, nextCity updates each time. 
+}
+message CO2Response{
+    double totalCO2 = 1; //this parameter is total amount of CO2 according to flight //distance. 
+}
+
+
+
+
+
+

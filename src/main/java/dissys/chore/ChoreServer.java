@@ -591,6 +591,9 @@ public class ChoreServer extends ChoreDividerImplBase {
 
             @Override
             public void onCompleted() {
+                
+                //once client streaming is done, client side should call onCompleted method on requestObserver.
+                //this stage, server do calculation according to clients requests and sends back report.
                 System.out.println(LocalTime.now().toString() + " Recieving is completed");
                 ArrayList<String> completedTasksString = new ArrayList<>();
                 
@@ -636,12 +639,15 @@ public class ChoreServer extends ChoreDividerImplBase {
                     
                     
                 }//for
-                
+                //creating report, and setting reportResult to it.
                 ReportResponse report = ReportResponse.newBuilder()
-                        .setReportResult("\n Report \n Number of completed tasks: " 
+                        .setReportResult("\nReport \nNumber of completed tasks: " 
                                 + completedNums + "\nCompleted tasks : " 
                                 + completedTasksString.toString())
                         .build();
+                //once report is ready, her sending back report responseObserver.onNext().
+                //behaviour of responseObserver onNext() is defined in Client side
+                //because it is client streaming, server will send back one response
                 responseObserver.onNext(report);
                 responseObserver.onCompleted();
             }//onCompleted

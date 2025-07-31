@@ -1,0 +1,123 @@
+package dissys.flight;
+
+import grpc.generated.flight.CO2Request;
+import grpc.generated.flight.CO2Response;
+import grpc.generated.flight.FlightEmissionCalculatorGrpc.FlightEmissionCalculatorImplBase;
+import io.grpc.Server;
+import io.grpc.ServerBuilder;
+import io.grpc.stub.StreamObserver;
+import java.io.IOException;
+import java.util.ArrayList;
+
+/**
+ *
+ * @author Tsogzolmaa;
+ */
+public class FlightServer extends FlightEmissionCalculatorImplBase{
+
+    public static void main(String[] args) {
+        // TODO code application logic here
+        
+        FlightServer flightServer = new FlightServer();
+        int port = 50002;
+        try{
+            
+        Server server = ServerBuilder.forPort(port)
+                .addService(flightServer)
+                .build()
+                .start();
+
+        System.out.println("Server started on port: " + port);
+        server.awaitTermination();
+            
+        }catch(IOException e){
+            e.printStackTrace();
+        
+        }catch(InterruptedException e){
+            e.printStackTrace();}
+        
+    }
+    
+    @Override 
+    
+    public StreamObserver<CO2Request> doEmissionCalculation(StreamObserver<CO2Response> responseObserver){
+    
+        return new StreamObserver<CO2Request>(){
+            
+            //"Dublin", "London", "Ulaanbaatar"
+            double totalCO;
+            ArrayList<String> cityArray = new ArrayList<>();
+            @Override
+            public void onNext(CO2Request v) {
+                System.out.println("Starting city " + v.getStartCity());
+                System.out.println("Server recieved next city " + v.getNextCity());
+                //cityArray.add(v.getStartCity());
+                cityArray.add(v.getNextCity());
+                if(cityArray.size() == 1){
+                    if(v.getStartCity().equalsIgnoreCase("Dublin")){
+                        if(cityArray.get(0).equalsIgnoreCase("London")){
+                            totalCO = 200;
+                        }else if (cityArray.get(0).equalsIgnoreCase("Ulaanbaatar")){
+                            totalCO = 20000;
+                        }
+                    }
+                    if(v.getStartCity().equalsIgnoreCase("London")){
+                        if(cityArray.get(0).equalsIgnoreCase("Dublin")){
+                            totalCO = 202;
+                        }else if (cityArray.get(0).equalsIgnoreCase("Ulaanbaatar")){
+                            totalCO = 20002;
+                        }
+                    }
+                    if(v.getStartCity().equalsIgnoreCase("Ulaanbaatar")){
+                        if(cityArray.get(0).equalsIgnoreCase("Dublin")){
+                            totalCO = 20022;
+                        }else if (cityArray.get(0).equalsIgnoreCase("London")){
+                            totalCO = 20044;
+                        }
+                    }   
+                }
+                if(cityArray.size() == 2){
+                
+                    if(v.getStartCity().equalsIgnoreCase("Dublin")){
+                        if(cityArray.get(0).equalsIgnoreCase("London")){
+                            totalCO = 30001;
+                        }else if(cityArray.get(0).equalsIgnoreCase("Ulaanbaatar")){
+                            totalCO = 30002;
+                        }
+                    }
+                    if(v.getStartCity().equalsIgnoreCase("London")){
+                        if(cityArray.get(0).equalsIgnoreCase("Dublin")){
+                            totalCO = 30011;
+                        }else if(cityArray.get(0).equalsIgnoreCase("Ulaanbaatar")){
+                            totalCO = 30022;
+                        }
+                    }
+                     if(v.getStartCity().equalsIgnoreCase("Ulaanbaatar")){
+                        if(cityArray.get(0).equalsIgnoreCase("Dublin")){
+                            totalCO = 30111;
+                        }else if(cityArray.get(0).equalsIgnoreCase("London")){
+                            totalCO = 30222;
+                        }
+                    }               
+                
+                }
+                
+            responseObserver.onNext(CO2Response.newBuilder().setTotalCO2(totalCO).build());
+                
+                
+                
+            }
+
+            @Override
+            public void onError(Throwable thrwbl) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            //request completes, response will complete.
+            public void onCompleted() {
+                responseObserver.onCompleted();             }
+        };
+    }
+    
+}
