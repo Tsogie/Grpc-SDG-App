@@ -47,8 +47,8 @@ public class StoreMonitoringClient {
             ArrayList<String> responseArray = new ArrayList<>();
             @Override
             public void onNext(MonitoringResponse v) {
-                System.out.println("Response 1 from server " + v.getStockLevelMessage());
-                System.out.println("Response 2 from server " + v.getUpdateMessage());
+                System.out.println("Response from server " + v.getStockLevelMessage());
+                responseArray.add(v.getStockLevelMessage());
             }
 
             @Override
@@ -58,7 +58,8 @@ public class StoreMonitoringClient {
 
             @Override
             public void onCompleted() {
-                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                System.out.println("Server response(s) completed");
+                System.out.println("Recieved response(s) : " + responseArray.toString());
             }
 
         };

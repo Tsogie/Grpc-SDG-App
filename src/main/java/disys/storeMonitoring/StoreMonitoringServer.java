@@ -8,6 +8,7 @@ import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  *
@@ -28,6 +29,7 @@ public class StoreMonitoringServer extends StoreMonitoringServiceImplBase {
                     .addService(monitoringServer)
                     .build()
                     .start();
+            System.out.println("Server started on port " + port);
             server.awaitTermination();
         
         }catch(IOException e){
@@ -49,18 +51,21 @@ public class StoreMonitoringServer extends StoreMonitoringServiceImplBase {
         String stockMessage;
         boolean anyUpdates = true;
         String updateMessage;
+        System.out.println("Server recieved message from client: " + request.getSectionName() );
         if(inRequest.equalsIgnoreCase("Beverages")){
         
-            if(!isStockOk){
+            if(isStockOk){
                 stockMessage = "Stock level low";
                 MonitoringResponse response = MonitoringResponse.newBuilder().setStockLevelMessage(stockMessage).build();
                 responseObserver.onNext(response);
             }
             if(anyUpdates){
                 
-                findAnyUpdate(inRequest);
-            
+                MonitoringResponse response = MonitoringResponse.newBuilder().setStockLevelMessage(findAnyUpdate(inRequest)).build();
+                responseObserver.onNext(response);
+     
             }
+            responseObserver.onCompleted();
         }
     
     }
@@ -69,15 +74,16 @@ public class StoreMonitoringServer extends StoreMonitoringServiceImplBase {
     
         ArrayList<String> updateMessages = new ArrayList<>();
         
-        updateMessages.add(sectionName + " recently restocked");
-        updateMessages.add("Delivery recieved at " + sectionName + " section");
-        updateMessages.add("New product PD938h89 added at " + sectionName + " section");
-        updateMessages.add("Promotion available at" + sectionName + " section");
-        updateMessages.add("Discount on product PD900h70: 20 % off today at" + sectionName + " section");
-        updateMessages.add(sectionName + " recently restocked");
+        updateMessages.add("\n" + sectionName + " recently restocked");
+        updateMessages.add("\nDelivery recieved at " + sectionName + " section");
+        updateMessages.add("\nNew product PD938h89 added at " + sectionName + " section");
+        updateMessages.add("\nPromotion available at " + sectionName + " section");
+        updateMessages.add("\nDiscount on product PD900h70: 20 % off today at " + sectionName + " section");
+        updateMessages.add("\nNew shipment just arrived at " + sectionName + " section");
         
+        Collections.shuffle(updateMessages);
         
-        return"";
+        return updateMessages.get(0) + updateMessages.get(2);
     }
     
 }//class

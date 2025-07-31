@@ -6,7 +6,7 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
  */
 @javax.annotation.Generated(
     value = "by gRPC proto compiler (version 1.52.1)",
-    comments = "Source: restock.proto")
+    comments = "Source: monitoring.proto")
 @io.grpc.stub.annotations.GrpcGenerated
 public final class StoreMonitoringServiceGrpc {
 
@@ -220,7 +220,7 @@ public final class StoreMonitoringServiceGrpc {
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
-      return grpc.generated.monitoring.Restock.getDescriptor();
+      return grpc.generated.monitoring.Monitoring.getDescriptor();
     }
 
     @java.lang.Override

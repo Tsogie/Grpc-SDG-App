@@ -6,10 +6,12 @@ grpc\generated\chore\ChoreRequest$1.class
 dissys\flight\FlightServer$1.class
 grpc\generated\flight\FlightEmissionCalculatorGrpc$FlightEmissionCalculatorFutureStub.class
 grpc\generated\flight\FlightEmissionCalculatorGrpc$FlightEmissionCalculatorBlockingStub.class
+disys\storeMonitoring\StoreMonitoringClient$1.class
 grpc\generated\flight\CO2Response.class
 grpc\generated\monitoring\StoreMonitoringServiceGrpc$StoreMonitoringServiceMethodDescriptorSupplier.class
 grpc\generated\monitoring\StoreMonitoringServiceGrpc$StoreMonitoringServiceStub.class
 grpc\generated\monitoring\Restock.class
+disys\storeMonitoring\StoreMonitoringServer.class
 grpc\generated\monitoring\StoreMonitoringServiceGrpc$1.class
 grpc\generated\monitoring\StoreMonitoringServiceGrpc$StoreMonitoringServiceBaseDescriptorSupplier.class
 grpc\generated\monitoring\StoreMonitoringServiceGrpc$StoreMonitoringServiceFutureStub.class
@@ -34,7 +36,6 @@ grpc\generated\monitoring\MonitoringResponse.class
 grpc\generated\monitoring\MonitoringResponseOrBuilder.class
 grpc\generated\chore\ChoreResponse$1.class
 dissys\chore\ChoreServer.class
-disys\automatedRestock\RestockClient.class
 grpc\generated\monitoring\MonitoringResponse$1.class
 grpc\generated\chore\ChoreResponse.class
 grpc\generated\flight\CO2Request.class
@@ -46,8 +47,10 @@ grpc\generated\monitoring\StoreMonitoringServiceGrpc$2.class
 grpc\generated\chore\ChoreRequest$Builder.class
 grpc\generated\chore\ReportRequestOrBuilder.class
 grpc\generated\chore\ChoreDividerGrpc$3.class
+disys\storeMonitoring\StoreMonitoringClient.class
 grpc\generated\monitoring\StoreMonitoringServiceGrpc.class
 grpc\generated\flight\FlightEmissionCalculatorGrpc$FlightEmissionCalculatorFileDescriptorSupplier.class
+grpc\generated\monitoring\Monitoring.class
 grpc\generated\flight\FlightEmissionCalculatorGrpc$1.class
 dissys\flight\FlightClient.class
 dissys\flight\FlightClient$1.class
@@ -72,7 +75,6 @@ grpc\generated\flight\FlightEmissionCalculatorGrpc$FlightEmissionCalculatorImplB
 dissys\chore\ChoreClient.class
 grpc\generated\chore\ReportRequest$1.class
 grpc\generated\chore\ReportResponse.class
-disys\automatedRestock\RestockServer.class
 grpc\generated\chore\ReportResponse$1.class
 grpc\generated\chore\Chore.class
 grpc\generated\flight\FlightEmmission.class
