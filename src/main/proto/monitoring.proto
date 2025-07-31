@@ -1,0 +1,35 @@
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "grpc.generated.monitoring";
+ 
+package Monitoring;
+
+// The StoreRestockingService service definition. This service has one service.
+// rpc doRestocking is server streaming (stream RestockResponse). 
+// it helps monitor the store. it gets store section name, and returns updates about that section
+
+service StoreMonitoringService {
+    rpc doMonitoring (MonitoringRequest) returns (stream MonitoringResponse){}  
+}
+
+message MonitoringRequest{ 
+    string sectionName = 1; //certain section of store to monitor. 
+}
+
+message MonitoringResponse{
+    bool isStockOk = 1; //if there is sufficient stock in the monitoring section it is true, //otherwise it is false. According to true or false, client will receive notification or alert //message.
+    bool anyUpdate = 2; // it is true if there is any status update (restocking in process, restocking failed, restocked) 
+    string updateMessage = 3;
+    string stockLevelMessage = 4;
+    
+}
+
+
+
+
+
+
+
+
