@@ -1,0 +1,34 @@
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "grpc.generated.chore";
+ 
+
+package Chore;
+
+// The greeting service definition. This service is called Greeter which means our server class must
+// inherit from CalculatorImplBase
+service ChoreDivider {
+  
+  rpc doChoderDivide  (ChoreRequest) returns (ChoreResponse) {}
+  rpc doChoreReport (stream ReportRequest) returns (ReportResponse){}
+  
+}
+
+message ChoreRequest{
+    int32 numPeople = 1;
+}
+message ChoreResponse{
+    string choreResult = 1;
+}
+message ReportRequest{
+    int32 completedTaskNum = 1;
+}
+message ReportResponse{
+    string reportResult = 1;
+}
+
+
+
+
