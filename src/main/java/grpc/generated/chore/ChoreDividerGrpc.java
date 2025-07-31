@@ -4,8 +4,9 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
 
 /**
  * <pre>
- * The greeting service definition. This service is called Greeter which means our server class must
- * inherit from CalculatorImplBase
+ * The ChoreDivider service definition. This service contains 2 micro services.
+ * rpc doChoreDivide is unary. it gets number of people and returns randomly divided chores.
+ * rpc doChoreReport is client streaming. 
  * </pre>
  */
 @javax.annotation.Generated(
@@ -127,8 +128,9 @@ public final class ChoreDividerGrpc {
 
   /**
    * <pre>
-   * The greeting service definition. This service is called Greeter which means our server class must
-   * inherit from CalculatorImplBase
+   * The ChoreDivider service definition. This service contains 2 micro services.
+   * rpc doChoreDivide is unary. it gets number of people and returns randomly divided chores.
+   * rpc doChoreReport is client streaming. 
    * </pre>
    */
   public static abstract class ChoreDividerImplBase implements io.grpc.BindableService {
@@ -169,8 +171,9 @@ public final class ChoreDividerGrpc {
 
   /**
    * <pre>
-   * The greeting service definition. This service is called Greeter which means our server class must
-   * inherit from CalculatorImplBase
+   * The ChoreDivider service definition. This service contains 2 micro services.
+   * rpc doChoreDivide is unary. it gets number of people and returns randomly divided chores.
+   * rpc doChoreReport is client streaming. 
    * </pre>
    */
   public static final class ChoreDividerStub extends io.grpc.stub.AbstractAsyncStub<ChoreDividerStub> {
@@ -204,8 +207,9 @@ public final class ChoreDividerGrpc {
 
   /**
    * <pre>
-   * The greeting service definition. This service is called Greeter which means our server class must
-   * inherit from CalculatorImplBase
+   * The ChoreDivider service definition. This service contains 2 micro services.
+   * rpc doChoreDivide is unary. it gets number of people and returns randomly divided chores.
+   * rpc doChoreReport is client streaming. 
    * </pre>
    */
   public static final class ChoreDividerBlockingStub extends io.grpc.stub.AbstractBlockingStub<ChoreDividerBlockingStub> {
@@ -230,8 +234,9 @@ public final class ChoreDividerGrpc {
 
   /**
    * <pre>
-   * The greeting service definition. This service is called Greeter which means our server class must
-   * inherit from CalculatorImplBase
+   * The ChoreDivider service definition. This service contains 2 micro services.
+   * rpc doChoreDivide is unary. it gets number of people and returns randomly divided chores.
+   * rpc doChoreReport is client streaming. 
    * </pre>
    */
   public static final class ChoreDividerFutureStub extends io.grpc.stub.AbstractFutureStub<ChoreDividerFutureStub> {

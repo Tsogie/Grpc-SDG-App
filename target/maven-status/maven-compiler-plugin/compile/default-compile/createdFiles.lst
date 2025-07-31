@@ -17,6 +17,7 @@ grpc\generated\chore\ChoreDividerGrpc$ChoreDividerMethodDescriptorSupplier.class
 grpc\generated\chore\ChoreRequest.class
 grpc\generated\chore\ReportRequest$Builder.class
 grpc\generated\chore\ChoreRequestOrBuilder.class
+dissys\chore\ChoreServer$1.class
 grpc\generated\chore\ChoreDividerGrpc$ChoreDividerFileDescriptorSupplier.class
 grpc\generated\chore\ReportRequest.class
 grpc\generated\chore\ChoreDividerGrpc$ChoreDividerImplBase.class
@@ -29,3 +30,4 @@ grpc\generated\chore\ChoreResponse$1.class
 grpc\generated\chore\ReportResponse$1.class
 dissys\chore\ChoreServer.class
 grpc\generated\chore\Chore.class
+dissys\chore\ChoreClient$1.class

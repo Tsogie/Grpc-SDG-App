@@ -7,8 +7,9 @@ option java_package = "grpc.generated.chore";
 
 package Chore;
 
-// The greeting service definition. This service is called Greeter which means our server class must
-// inherit from CalculatorImplBase
+// The ChoreDivider service definition. This service contains 2 micro services.
+// rpc doChoreDivide is unary. it gets number of people and returns randomly divided chores.
+// rpc doChoreReport is client streaming. 
 service ChoreDivider {
   
   rpc doChoderDivide  (ChoreRequest) returns (ChoreResponse) {}
