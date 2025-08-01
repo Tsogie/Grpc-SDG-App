@@ -1,5 +1,6 @@
 package dissys.flight;
 
+import ServiceRegistryAndDiscovery.SmartServiceRegistration;
 import grpc.generated.flight.CO2Request;
 import grpc.generated.flight.CO2Response;
 import grpc.generated.flight.FlightEmissionCalculatorGrpc.FlightEmissionCalculatorImplBase;
@@ -22,12 +23,18 @@ public class FlightServer extends FlightEmissionCalculatorImplBase{
         int port = 50002;
         try{
             
-        Server server = ServerBuilder.forPort(port)
+        Server server = ServerBuilder
+                .forPort(port)
                 .addService(flightServer)
                 .build()
                 .start();
 
         System.out.println("Server started on port: " + port);
+        
+        SmartServiceRegistration ssr = SmartServiceRegistration.getInstance();
+        System.out.println("Created instance of SmartServiceRegistration for FlightEmissionCalculator ");
+        ssr.registerService("_grpc._tcp.local.", "FlightEmissionCalculator", port, "Grpc bi-di FlightEmissionCalculator service");
+        System.out.println("Service registering");
         server.awaitTermination();
             
         }catch(IOException e){

@@ -1,5 +1,6 @@
 package disys.storeMonitoring;
 
+import ServiceRegistryAndDiscovery.SmartServiceRegistration;
 import grpc.generated.monitoring.MonitoringRequest;
 import grpc.generated.monitoring.MonitoringResponse;
 import grpc.generated.monitoring.StoreMonitoringServiceGrpc.StoreMonitoringServiceImplBase;
@@ -29,7 +30,12 @@ public class StoreMonitoringServer extends StoreMonitoringServiceImplBase {
                     .addService(monitoringServer)
                     .build()
                     .start();
-            System.out.println("Server started on port " + port);
+            System.out.println("Server started on port: " + port);
+        
+            SmartServiceRegistration ssr = SmartServiceRegistration.getInstance();
+            System.out.println("Created instance of SmartServiceRegistration for StoreMonitoringService ");
+            ssr.registerService("_grpc._tcp.local.", "StoreMonitoringService", port, "Grpc server streaming StoreMonitoringService service");
+            System.out.println("Service registering");
             server.awaitTermination();
         
         }catch(IOException e){

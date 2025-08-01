@@ -1,11 +1,11 @@
 grpc\generated\chore\ReportResponseOrBuilder.class
+dissys\flight\FlightClient$2.class
 grpc\generated\chore\ChoreDividerGrpc$MethodHandlers.class
 grpc\generated\flight\CO2Response$1.class
 grpc\generated\monitoring\MonitoringRequestOrBuilder.class
 grpc\generated\chore\ChoreRequest$1.class
 dissys\flight\FlightServer$1.class
 grpc\generated\flight\FlightEmissionCalculatorGrpc$FlightEmissionCalculatorFutureStub.class
-ServiceRegistryAndDiscovery\SmartServiceDiscovery$SmartServiceListener.class
 grpc\generated\flight\FlightEmissionCalculatorGrpc$FlightEmissionCalculatorBlockingStub.class
 disys\storeMonitoring\StoreMonitoringClient$1.class
 grpc\generated\flight\CO2Response.class
@@ -24,6 +24,7 @@ grpc\generated\chore\ReportResponse$Builder.class
 grpc\generated\monitoring\StoreMonitoringServiceGrpc$StoreMonitoringServiceFileDescriptorSupplier.class
 grpc\generated\monitoring\StoreMonitoringServiceGrpc$3.class
 grpc\generated\chore\ChoreDividerGrpc$ChoreDividerStub.class
+dissys\chore\ChoreClient$2.class
 grpc\generated\chore\ChoreDividerGrpc$ChoreDividerFutureStub.class
 grpc\generated\monitoring\MonitoringRequest$1.class
 grpc\generated\chore\ReportRequest$Builder.class
@@ -61,14 +62,12 @@ grpc\generated\monitoring\StoreMonitoringServiceGrpc$StoreMonitoringServiceImplB
 grpc\generated\flight\FlightEmissionCalculatorGrpc.class
 grpc\generated\chore\ChoreDividerGrpc$ChoreDividerBaseDescriptorSupplier.class
 grpc\generated\monitoring\StoreMonitoringServiceGrpc$StoreMonitoringServiceBlockingStub.class
-ServiceRegistryAndDiscovery\SmartServiceDiscovery$1.class
 grpc\generated\monitoring\StoreMonitoringServiceGrpc$MethodHandlers.class
 grpc\generated\chore\ChoreDividerGrpc$ChoreDividerMethodDescriptorSupplier.class
 grpc\generated\flight\FlightEmissionCalculatorGrpc$MethodHandlers.class
 grpc\generated\chore\ChoreRequest.class
 grpc\generated\flight\FlightEmissionCalculatorGrpc$FlightEmissionCalculatorBaseDescriptorSupplier.class
 grpc\generated\flight\FlightEmissionCalculatorGrpc$2.class
-ServiceRegistryAndDiscovery\SmartServiceDiscovery.class
 dissys\chore\ChoreServer$1.class
 grpc\generated\chore\ChoreDividerGrpc$ChoreDividerFileDescriptorSupplier.class
 grpc\generated\flight\CO2RequestOrBuilder.class
@@ -77,6 +76,7 @@ grpc\generated\chore\ChoreDividerGrpc$2.class
 grpc\generated\flight\CO2Response$Builder.class
 grpc\generated\flight\FlightEmissionCalculatorGrpc$FlightEmissionCalculatorImplBase.class
 dissys\chore\ChoreClient.class
+disys\storeMonitoring\StoreMonitoringClient$2.class
 grpc\generated\chore\ReportRequest$1.class
 grpc\generated\chore\ReportResponse.class
 grpc\generated\chore\ReportResponse$1.class

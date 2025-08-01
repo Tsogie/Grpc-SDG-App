@@ -15,9 +15,13 @@ import io.grpc.stub.StreamObserver;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.time.LocalTime;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import javax.jmdns.JmDNS;
+import javax.jmdns.ServiceEvent;
+import javax.jmdns.ServiceInfo;
+import javax.jmdns.ServiceListener;
 
 /**
  *
@@ -35,13 +39,49 @@ public class ChoreClient {
         //int port = 50001;
         //String host = "localhost";
         String serviceName = "ChoreDivider";
-        
-        jmdns.requestServiceInfo(serviceType, serviceName, 1);
+        //jmdns.requestServiceInfo(serviceType, serviceName, 1);
+           
+        jmdns.addServiceListener(serviceType, new ServiceListener(){
+            @Override
+            public void serviceAdded(ServiceEvent se) {
+                System.out.println("Service added: " + se.getName());
+            }
 
+            @Override
+            public void serviceRemoved(ServiceEvent se) {
+                System.out.println("Service removed: " + se.getName());
+            }
+
+            @Override
+            public void serviceResolved(ServiceEvent se) {
+                ServiceInfo serviceInfo = se.getInfo();
+                System.out.println("Service resolved at Chore");
+                
+                String discoveredHost = serviceInfo.getHostAddresses()[0];
+                int discoveredPort = serviceInfo.getPort();
+                String inServiceName = serviceInfo.getName();
+                
+                try{
+                    if(inServiceName.equalsIgnoreCase(serviceName)){                    
+                        requestChoreDivide(discoveredHost, discoveredPort);                   
+                    }
+   
+                }catch(IOException e){
+                    e.printStackTrace();                
+                }catch(InterruptedException e){
+                    e.printStackTrace();
+                }catch (RejectedExecutionException e){
+                    e.printStackTrace();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        
         Thread.sleep(30000);
     }//main
-    
-    
+   
     public static void requestChoreDivide(String host, int port) throws Exception{
     
         channel = ManagedChannelBuilder
@@ -65,6 +105,7 @@ public class ChoreClient {
         }finally {         
 	    //channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
 	}
+        Thread.sleep(10000);
         requestReport();
     
     }
