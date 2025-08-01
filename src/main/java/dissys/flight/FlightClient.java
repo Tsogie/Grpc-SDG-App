@@ -65,10 +65,10 @@ public class FlightClient {
     
         try{
     
-            String startCity = "Ulaanbaatar";
+            String startCity = "London";
             requestObserver.onNext(CO2Request.newBuilder().setStartCity(startCity).setNextCity("Dublin").build());
             Thread.sleep(500);
-            requestObserver.onNext(CO2Request.newBuilder().setStartCity(startCity).setNextCity("London").build());
+            requestObserver.onNext(CO2Request.newBuilder().setStartCity(startCity).setNextCity("Ulaanbaatar").build());
             Thread.sleep(500);
 
             requestObserver.onCompleted();

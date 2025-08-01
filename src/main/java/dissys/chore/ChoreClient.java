@@ -36,7 +36,7 @@ public class ChoreClient {
         
         try{
 
-            ChoreRequest request = ChoreRequest.newBuilder().setNumPeople(2).build();
+            ChoreRequest request = ChoreRequest.newBuilder().setNumPeople(4).build();
 
             ChoreResponse response = stub.doChoderDivide(request); //ene trigger hiij bgn boluu?
 
