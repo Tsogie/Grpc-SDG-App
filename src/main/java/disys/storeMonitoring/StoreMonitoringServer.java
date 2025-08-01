@@ -1,5 +1,6 @@
 package disys.storeMonitoring;
 
+import AllServerRegister.RegisterAll;
 import ServiceRegistryAndDiscovery.SmartServiceRegistration;
 import grpc.generated.monitoring.MonitoringRequest;
 import grpc.generated.monitoring.MonitoringResponse;
@@ -20,12 +21,13 @@ public class StoreMonitoringServer extends StoreMonitoringServiceImplBase {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
-        StoreMonitoringServer monitoringServer = new StoreMonitoringServer();
+  
+    public static void main(String[] args){
+     StoreMonitoringServer monitoringServer = new StoreMonitoringServer();
         int port = 50003;
-        
+        //RegisterAll.regiterAllServers();
         try{
+            
             Server server = ServerBuilder.forPort(port)
                     .addService(monitoringServer)
                     .build()
@@ -45,9 +47,8 @@ public class StoreMonitoringServer extends StoreMonitoringServiceImplBase {
         e.getMessage();
         
         }
-        
-    }//main
     
+    } 
     @Override 
     public void doMonitoring(MonitoringRequest request, StreamObserver<MonitoringResponse> responseObserver){
     

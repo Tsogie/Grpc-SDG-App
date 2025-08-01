@@ -45,6 +45,7 @@ public class ChoreClient {
             @Override
             public void serviceAdded(ServiceEvent se) {
                 System.out.println("Service added: " + se.getName());
+                jmdns.requestServiceInfo(serviceType, serviceName, 1);
             }
 
             @Override
@@ -105,7 +106,7 @@ public class ChoreClient {
         }finally {         
 	    //channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
 	}
-        Thread.sleep(10000);
+        //Thread.sleep(10000);
         requestReport();
     
     }
@@ -119,7 +120,8 @@ public class ChoreClient {
 
             @Override
             public void onError(Throwable thrwbl) {
-                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                System.err.println("Error occurred during stream: " + thrwbl.getMessage());
+                thrwbl.printStackTrace();            
             }
 
             @Override

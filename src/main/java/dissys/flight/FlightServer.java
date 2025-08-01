@@ -1,5 +1,6 @@
 package dissys.flight;
 
+import AllServerRegister.RegisterAll;
 import ServiceRegistryAndDiscovery.SmartServiceRegistration;
 import grpc.generated.flight.CO2Request;
 import grpc.generated.flight.CO2Response;
@@ -16,9 +17,10 @@ import java.util.ArrayList;
  */
 public class FlightServer extends FlightEmissionCalculatorImplBase{
 
-    public static void main(String[] args) {
-        // TODO code application logic here
+   
+    public static void main(String[] args){
         
+        //RegisterAll.regiterAllServers();
         FlightServer flightServer = new FlightServer();
         int port = 50002;
         try{
@@ -42,9 +44,8 @@ public class FlightServer extends FlightEmissionCalculatorImplBase{
         
         }catch(InterruptedException e){
             e.printStackTrace();}
-        
-    }
     
+    }
     @Override 
     
     public StreamObserver<CO2Request> doEmissionCalculation(StreamObserver<CO2Response> responseObserver){
@@ -117,8 +118,8 @@ public class FlightServer extends FlightEmissionCalculatorImplBase{
 
             @Override
             public void onError(Throwable thrwbl) {
-                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-            }
+                System.err.println("Error occurred during stream: " + thrwbl.getMessage());
+                thrwbl.printStackTrace();             }
 
             @Override
             //request completes, response will complete.

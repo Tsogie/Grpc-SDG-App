@@ -33,6 +33,7 @@ grpc\generated\chore\ReportRequest.class
 grpc\generated\chore\ChoreDividerGrpc$ChoreDividerImplBase.class
 grpc\generated\monitoring\MonitoringRequest.class
 grpc\generated\chore\ChoreResponseOrBuilder.class
+AllServerRegister\RegisterAll.class
 grpc\generated\flight\FlightEmissionCalculatorGrpc$3.class
 grpc\generated\monitoring\MonitoringResponse.class
 grpc\generated\monitoring\MonitoringResponseOrBuilder.class

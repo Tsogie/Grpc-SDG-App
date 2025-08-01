@@ -1,5 +1,6 @@
 package dissys.chore;
 
+import AllServerRegister.RegisterAll;
 import ServiceRegistryAndDiscovery.SmartServiceRegistration;
 import grpc.generated.chore.ChoreDividerGrpc.ChoreDividerImplBase;
 import grpc.generated.chore.ChoreRequest;
@@ -22,8 +23,10 @@ import java.util.logging.Logger;
 public class ChoreServer extends ChoreDividerImplBase {
 
     private static final Logger logger = Logger.getLogger(ChoreServer.class.getName());
-    public static void main(String[] args) {
-
+   
+    public static void main(String[] args){
+    
+        //RegisterAll.regiterAllServers();
         ChoreServer choreServer = new ChoreServer();
         int port = 50001;
         try{
@@ -36,7 +39,7 @@ public class ChoreServer extends ChoreDividerImplBase {
             
             SmartServiceRegistration ssr = SmartServiceRegistration.getInstance();
             System.out.println("Created instance of SmartServiceRegistration ");
-            ssr.registerService("_grpc._tcp.local.", "ChoreDivider", port, "Grpc unary ChoreDivider service");
+            ssr.registerService("_grpc._tcp.local.", "ChoreDivider", port, "Grpc unary, client streaming ChoreDivider service");
             System.out.println("Service registering");
             server.awaitTermination();
             
@@ -45,8 +48,9 @@ public class ChoreServer extends ChoreDividerImplBase {
         
         }catch(InterruptedException e){
             e.printStackTrace();}
-    }
     
+    
+    }
     public String divideTwo(ArrayList<Integer> randomizedChores){
     
         if (randomizedChores == null || randomizedChores.size() < 11) {
@@ -591,8 +595,8 @@ public class ChoreServer extends ChoreDividerImplBase {
 
             @Override
             public void onError(Throwable thrwbl) {
-                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-            }
+                System.err.println("Error occurred during stream: " + thrwbl.getMessage());
+                thrwbl.printStackTrace();            }
 
             @Override
             public void onCompleted() {
