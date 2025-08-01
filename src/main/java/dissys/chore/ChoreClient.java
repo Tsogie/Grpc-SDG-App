@@ -11,9 +11,13 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
+import java.net.InetAddress;
 import java.time.LocalTime;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
+import javax.jmdns.JmDNS;
+import javax.jmdns.ServiceEvent;
+import javax.jmdns.ServiceListener;
 
 /**
  *
@@ -23,10 +27,40 @@ public class ChoreClient {
     private static final Logger logger = Logger.getLogger(ChoreClient.class.getName());
     private static ManagedChannel channel;
     private static ChoreDividerStub stubAsync;
+    static JmDNS jmdns;
     public static void main(String[] args) throws Exception {
         
-        int port = 50001;
-        String host = "localhost";
+        jmdns = JmDNS.create(InetAddress.getLocalHost());
+        String serviceType = "_grpc._tcp.local.";
+        //int port = 50001;
+        //String host = "localhost";
+        jmdns.addServiceListener(serviceType, new ServiceListener(){
+            @Override
+            public void serviceAdded(ServiceEvent se) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public void serviceRemoved(ServiceEvent se) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+
+            @Override
+            public void serviceResolved(ServiceEvent se) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+        });
+        
+        //this method is for unary 
+        //requestChoreDivide();
+        //this method is for client streaming
+        requestReport();
+      
+    }//main
+    
+    
+    public static void requestChoreDivide(){
+    
         channel = ManagedChannelBuilder
                 .forAddress(host, port)
                 .usePlaintext()
@@ -48,12 +82,8 @@ public class ChoreClient {
         }finally {         
 	    //channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
 	}
-        
-      //this method is for client streaming
-      requestReport();
-      
-    }//main
     
+    }
     public static void requestReport() throws InterruptedException{
     
         StreamObserver<ReportResponse> responseObserver = 

@@ -16,17 +16,17 @@ public class SmartServiceDiscovery {
 
         @Override
         public void serviceAdded(ServiceEvent se) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            System.out.println("Service added");
         }
 
         @Override
         public void serviceRemoved(ServiceEvent se) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            System.out.println("Service removed");
         }
 
         @Override
         public void serviceResolved(ServiceEvent se) {
-            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            System.out.println("Service resolved");
         }
     
     

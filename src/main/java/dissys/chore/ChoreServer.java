@@ -1,5 +1,6 @@
 package dissys.chore;
 
+import ServiceRegistryAndDiscovery.SmartServiceRegistration;
 import grpc.generated.chore.ChoreDividerGrpc.ChoreDividerImplBase;
 import grpc.generated.chore.ChoreRequest;
 import grpc.generated.chore.ChoreResponse;
@@ -32,8 +33,10 @@ public class ChoreServer extends ChoreDividerImplBase {
                     .build()
                     .start();
             logger.info("Server started, listening on " + port);
-            server.awaitTermination();
             
+            SmartServiceRegistration ssr = SmartServiceRegistration.getInstance();
+            ssr.registerService("_grpc._tcp.local.", "ChoreDivider", port, "Grpc unary ChoreDivider service");
+            server.awaitTermination();
             
         }catch(IOException e){
             e.printStackTrace();
