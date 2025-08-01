@@ -36,6 +36,7 @@ public class SmartServiceRegistration {
     public static void registerService(String type, String serviceName, int port, String message) throws IOException{
         ServiceInfo serviceInfo = ServiceInfo.create(type, serviceName, port, message);
         jmdns.registerService(serviceInfo);
+        System.out.println("Service registered " + serviceInfo);
     }
 
     
