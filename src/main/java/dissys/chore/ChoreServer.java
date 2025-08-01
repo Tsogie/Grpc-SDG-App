@@ -1,6 +1,5 @@
 package dissys.chore;
 
-import AllServerRegister.RegisterAll;
 import ServiceRegistryAndDiscovery.SmartServiceRegistration;
 import grpc.generated.chore.ChoreDividerGrpc.ChoreDividerImplBase;
 import grpc.generated.chore.ChoreRequest;
@@ -26,31 +25,52 @@ public class ChoreServer extends ChoreDividerImplBase {
    
     public static void main(String[] args){
     
-        //RegisterAll.regiterAllServers();
-        ChoreServer choreServer = new ChoreServer();
+//        //RegisterAll.regiterAllServers();
+//        ChoreServer choreServer = new ChoreServer();
+//        int port = 50001;
+//        try{
+//            Server server =ServerBuilder
+//                    .forPort(port)
+//                    .addService(choreServer)
+//                    .build()
+//                    .start();
+//            logger.info("Server started, listening on " + port);
+//            
+//            SmartServiceRegistration ssr = SmartServiceRegistration.getInstance();
+//            System.out.println("Created instance of SmartServiceRegistration ");
+//            ssr.registerService("_grpc._tcp.local.", "ChoreDivider", port, "Grpc unary, client streaming ChoreDivider service");
+//            System.out.println("Service registering");
+//            server.awaitTermination();
+//            
+//        }catch(IOException e){
+//            e.printStackTrace();
+//        
+//        }catch(InterruptedException e){
+//            e.printStackTrace();}
+    
+    
+    }//main
+    
+    public void startServer() {
         int port = 50001;
-        try{
-            Server server =ServerBuilder
+        try {
+            Server server = ServerBuilder
                     .forPort(port)
-                    .addService(choreServer)
+                    .addService(this)
                     .build()
                     .start();
+
             logger.info("Server started, listening on " + port);
-            
+
             SmartServiceRegistration ssr = SmartServiceRegistration.getInstance();
-            System.out.println("Created instance of SmartServiceRegistration ");
             ssr.registerService("_grpc._tcp.local.", "ChoreDivider", port, "Grpc unary, client streaming ChoreDivider service");
-            System.out.println("Service registering");
-            server.awaitTermination();
-            
-        }catch(IOException e){
+
+            server.awaitTermination(); // Keep the server running
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
-        
-        }catch(InterruptedException e){
-            e.printStackTrace();}
+        }
+    }//startServer
     
-    
-    }
     public String divideTwo(ArrayList<Integer> randomizedChores){
     
         if (randomizedChores == null || randomizedChores.size() < 11) {

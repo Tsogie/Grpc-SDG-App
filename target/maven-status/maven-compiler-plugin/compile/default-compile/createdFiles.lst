@@ -3,6 +3,7 @@ dissys\flight\FlightClient$2.class
 grpc\generated\chore\ChoreDividerGrpc$MethodHandlers.class
 grpc\generated\flight\CO2Response$1.class
 grpc\generated\monitoring\MonitoringRequestOrBuilder.class
+dissys\chore\Gui$3.class
 grpc\generated\chore\ChoreRequest$1.class
 dissys\flight\FlightServer$1.class
 grpc\generated\flight\FlightEmissionCalculatorGrpc$FlightEmissionCalculatorFutureStub.class
@@ -11,6 +12,7 @@ disys\storeMonitoring\StoreMonitoringClient$1.class
 grpc\generated\flight\CO2Response.class
 grpc\generated\monitoring\StoreMonitoringServiceGrpc$StoreMonitoringServiceMethodDescriptorSupplier.class
 grpc\generated\monitoring\StoreMonitoringServiceGrpc$StoreMonitoringServiceStub.class
+dissys\chore\Gui.class
 grpc\generated\monitoring\Restock.class
 disys\storeMonitoring\StoreMonitoringServer.class
 grpc\generated\monitoring\StoreMonitoringServiceGrpc$1.class
@@ -52,6 +54,7 @@ grpc\generated\chore\ReportRequestOrBuilder.class
 grpc\generated\chore\ChoreDividerGrpc$3.class
 disys\storeMonitoring\StoreMonitoringClient.class
 grpc\generated\monitoring\StoreMonitoringServiceGrpc.class
+dissys\chore\Gui$1.class
 grpc\generated\flight\FlightEmissionCalculatorGrpc$FlightEmissionCalculatorFileDescriptorSupplier.class
 grpc\generated\monitoring\Monitoring.class
 ServiceRegistryAndDiscovery\SmartServiceRegistration.class
@@ -81,6 +84,7 @@ disys\storeMonitoring\StoreMonitoringClient$2.class
 grpc\generated\chore\ReportRequest$1.class
 grpc\generated\chore\ReportResponse.class
 grpc\generated\chore\ReportResponse$1.class
+dissys\chore\Gui$2.class
 grpc\generated\chore\Chore.class
 grpc\generated\flight\FlightEmmission.class
 grpc\generated\flight\CO2ResponseOrBuilder.class

@@ -31,13 +31,12 @@ public class ChoreClient {
     private static final Logger logger = Logger.getLogger(ChoreClient.class.getName());
     private static ManagedChannel channel;
     private static ChoreDividerStub stubAsync;
+    private static ChoreDividerBlockingStub stub;
     static JmDNS jmdns;
     public static void main(String[] args) throws IOException, InterruptedException {
         
         jmdns = JmDNS.create(InetAddress.getLocalHost());
         String serviceType = "_grpc._tcp.local.";
-        //int port = 50001;
-        //String host = "localhost";
         String serviceName = "ChoreDivider";
         //jmdns.requestServiceInfo(serviceType, serviceName, 1);
            
@@ -45,7 +44,7 @@ public class ChoreClient {
             @Override
             public void serviceAdded(ServiceEvent se) {
                 System.out.println("Service added: " + se.getName());
-                jmdns.requestServiceInfo(serviceType, serviceName, 1);
+                //jmdns.requestServiceInfo(serviceType, serviceName, 1);
             }
 
             @Override
@@ -85,12 +84,14 @@ public class ChoreClient {
    
     public static void requestChoreDivide(String host, int port) throws Exception{
     
-        channel = ManagedChannelBuilder
+          channel = ManagedChannelBuilder
                 .forAddress(host, port)
                 .usePlaintext()
                 .build();
-        ChoreDividerBlockingStub stub = ChoreDividerGrpc.newBlockingStub(channel);
+        stub = ChoreDividerGrpc.newBlockingStub(channel);
         stubAsync = ChoreDividerGrpc.newStub(channel);
+        
+        //Gui gui = new Gui(stub);
         
         try{
 
@@ -106,7 +107,7 @@ public class ChoreClient {
         }finally {         
 	    //channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
 	}
-        //Thread.sleep(10000);
+        Thread.sleep(10000);
         requestReport();
     
     }
