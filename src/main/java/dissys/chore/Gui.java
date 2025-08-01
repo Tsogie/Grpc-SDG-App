@@ -166,8 +166,19 @@ public class Gui extends javax.swing.JFrame {
 
     private void StartButtomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartButtomActionPerformed
         //start server
-        ChoreServer choreServer = new ChoreServer();
-        choreServer.startServer();
+        Thread serverThread = new Thread(new Runnable(){
+            @Override
+            public void run(){
+            new ChoreServer().startServer();
+            }
+        });
+        serverThread.start();
+        
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         try {
             //discover service from client
@@ -187,17 +198,17 @@ public class Gui extends javax.swing.JFrame {
                 new StreamObserver<ReportResponse>(){
             @Override
             public void onNext(ReportResponse v) {
-                System.out.println("Response from server (Client streaming, Chore Report): " + v.getReportResult());            }
-
+                serviceTextArea.setText("Response from server (Client streaming, Chore Report): " + v.getReportResult());
+            }                
             @Override
             public void onError(Throwable thrwbl) {
-                System.err.println("Error occurred during stream: " + thrwbl.getMessage());
+                serviceTextArea.setText("Error occurred during stream: " + thrwbl.getMessage());
                 thrwbl.printStackTrace();            
             }
 
             @Override
             public void onCompleted() {
-                System.out.println(LocalTime.now().toString() + "Report is completed");
+                //serviceTextArea.setText(LocalTime.now().toString() + "Report is completed");
             }
         };
         
@@ -224,13 +235,7 @@ public class Gui extends javax.swing.JFrame {
         e.printStackTrace();
         }catch(InterruptedException e){
         e.printStackTrace();
-        }finally {         
-            try {
-                ChoreClient.channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
-            }
-	}
+        }
     }//GEN-LAST:event_ReportButtonActionPerformed
 
     /**

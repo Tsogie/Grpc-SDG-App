@@ -39,6 +39,7 @@ grpc\generated\monitoring\MonitoringRequest.class
 grpc\generated\chore\ChoreResponseOrBuilder.class
 AllServerRegister\RegisterAll.class
 grpc\generated\flight\FlightEmissionCalculatorGrpc$3.class
+dissys\chore\Gui$7.class
 grpc\generated\monitoring\MonitoringResponse.class
 grpc\generated\monitoring\MonitoringResponseOrBuilder.class
 grpc\generated\chore\ChoreResponse$1.class
