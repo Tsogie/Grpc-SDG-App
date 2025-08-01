@@ -24,7 +24,6 @@ grpc\generated\chore\ReportResponse$Builder.class
 grpc\generated\monitoring\StoreMonitoringServiceGrpc$StoreMonitoringServiceFileDescriptorSupplier.class
 grpc\generated\monitoring\StoreMonitoringServiceGrpc$3.class
 grpc\generated\chore\ChoreDividerGrpc$ChoreDividerStub.class
-dissys\chore\ChoreClient$2.class
 grpc\generated\chore\ChoreDividerGrpc$ChoreDividerFutureStub.class
 grpc\generated\monitoring\MonitoringRequest$1.class
 grpc\generated\chore\ReportRequest$Builder.class
@@ -62,6 +61,7 @@ grpc\generated\monitoring\StoreMonitoringServiceGrpc$StoreMonitoringServiceImplB
 grpc\generated\flight\FlightEmissionCalculatorGrpc.class
 grpc\generated\chore\ChoreDividerGrpc$ChoreDividerBaseDescriptorSupplier.class
 grpc\generated\monitoring\StoreMonitoringServiceGrpc$StoreMonitoringServiceBlockingStub.class
+ServiceRegistryAndDiscovery\SmartServiceDiscovery$1.class
 grpc\generated\monitoring\StoreMonitoringServiceGrpc$MethodHandlers.class
 grpc\generated\chore\ChoreDividerGrpc$ChoreDividerMethodDescriptorSupplier.class
 grpc\generated\flight\FlightEmissionCalculatorGrpc$MethodHandlers.class

@@ -1,5 +1,6 @@
 package dissys.chore;
 
+
 import grpc.generated.chore.ChoreDividerGrpc;
 import grpc.generated.chore.ChoreDividerGrpc.ChoreDividerBlockingStub;
 import grpc.generated.chore.ChoreDividerGrpc.ChoreDividerStub;
@@ -14,13 +15,9 @@ import io.grpc.stub.StreamObserver;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.time.LocalTime;
-import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import javax.jmdns.JmDNS;
-import javax.jmdns.ServiceEvent;
-import javax.jmdns.ServiceInfo;
-import javax.jmdns.ServiceListener;
 
 /**
  *
@@ -37,50 +34,10 @@ public class ChoreClient {
         String serviceType = "_grpc._tcp.local.";
         //int port = 50001;
         //String host = "localhost";
-        jmdns.addServiceListener(serviceType, new ServiceListener(){
-            @Override
-            public void serviceAdded(ServiceEvent se) {
-                System.out.println("Service added"); 
-                jmdns.requestServiceInfo(se.getType(), se.getName(), 1);
-            }
-
-            @Override
-            public void serviceRemoved(ServiceEvent se) {
-                System.out.println("Service removed");            
-            }
-            
-            @Override
-            public void serviceResolved(ServiceEvent se) {
-                ServiceInfo serviceInfo = se.getInfo();
-                System.out.println("Service resolved");
-                
-                String discoveredHost = serviceInfo.getHostAddresses()[0];
-                int discoveredPort = serviceInfo.getPort();
-                String serviceName = serviceInfo.getName();
-                
-                try{
-                
-                    if(serviceName.equalsIgnoreCase("ChoreDivider")){
-                    requestChoreDivide(discoveredHost, discoveredPort);                   
-                    }
-                    
-                }catch(IOException e){
-                    e.printStackTrace();                
-                }catch(InterruptedException e){
-                    e.printStackTrace();
-                }catch (RejectedExecutionException e){
-                    e.printStackTrace();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-            
-        });
+        String serviceName = "ChoreDivider";
         
-        //this method is for unary 
-        //requestChoreDivide();
-        //this method is for client streaming
-        //requestReport();
+        jmdns.requestServiceInfo(serviceType, serviceName, 1);
+
         Thread.sleep(30000);
     }//main
     

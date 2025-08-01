@@ -15,7 +15,12 @@ public class SmartServiceRegistration {
     private static SmartServiceRegistration theRegister;
     
     private SmartServiceRegistration() throws IOException{
-        jmdns = JmDNS.create(InetAddress.getLocalHost());
+        
+        try{
+            jmdns = JmDNS.create(InetAddress.getLocalHost());
+        }catch(IOException e){
+            System.out.println("Error happened. could not create instance of JmDNS" + e.getMessage());
+        }
     }
     
     //create instance of SmartServiceRegistration
