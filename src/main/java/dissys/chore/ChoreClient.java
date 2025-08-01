@@ -14,6 +14,7 @@ import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.time.LocalTime;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -22,6 +23,7 @@ import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceEvent;
 import javax.jmdns.ServiceInfo;
 import javax.jmdns.ServiceListener;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -29,22 +31,23 @@ import javax.jmdns.ServiceListener;
  */
 public class ChoreClient {
     private static final Logger logger = Logger.getLogger(ChoreClient.class.getName());
-    private static ManagedChannel channel;
-    private static ChoreDividerStub stubAsync;
-    private static ChoreDividerBlockingStub stub;
+    public static ManagedChannel channel;
+    public static ChoreDividerStub stubAsync;
+    public static ChoreDividerBlockingStub stub;
     static JmDNS jmdns;
-    public static void main(String[] args) throws IOException, InterruptedException {
-        
+    static String message;
+    public static void discoverAndStart() throws UnknownHostException, IOException, InterruptedException{
+    
         jmdns = JmDNS.create(InetAddress.getLocalHost());
         String serviceType = "_grpc._tcp.local.";
         String serviceName = "ChoreDivider";
-        //jmdns.requestServiceInfo(serviceType, serviceName, 1);
-           
-        jmdns.addServiceListener(serviceType, new ServiceListener(){
+        
+            jmdns.addServiceListener(serviceType, new ServiceListener(){
+                //String discoveryMessage = "";
             @Override
             public void serviceAdded(ServiceEvent se) {
                 System.out.println("Service added: " + se.getName());
-                //jmdns.requestServiceInfo(serviceType, serviceName, 1);
+                jmdns.requestServiceInfo(serviceType, serviceName, 1);
             }
 
             @Override
@@ -63,13 +66,18 @@ public class ChoreClient {
                 
                 try{
                     if(inServiceName.equalsIgnoreCase(serviceName)){                    
-                        requestChoreDivide(discoveredHost, discoveredPort);                   
+                        //requestChoreDivide(discoveredHost, discoveredPort);                   
+                        System.out.println("Service discovered at port " + discoveredPort);
+                        channel = ManagedChannelBuilder
+                                .forAddress(discoveredHost, discoveredPort)
+                                .usePlaintext()
+                                .build();
+                        stub = ChoreDividerGrpc.newBlockingStub(channel);
+                        stubAsync = ChoreDividerGrpc.newStub(channel);
+                        message = "Channel is built at port";
+                        //Gui.serviceTextArea.setText("Channel is built at port");
                     }
    
-                }catch(IOException e){
-                    e.printStackTrace();                
-                }catch(InterruptedException e){
-                    e.printStackTrace();
                 }catch (RejectedExecutionException e){
                     e.printStackTrace();
                 }catch (Exception e){
@@ -77,22 +85,16 @@ public class ChoreClient {
                 }
             }
         });
-
+            Thread.sleep(30000);
+        //return discoveryMessage;
+    }
+    public static void main(String[] args) throws IOException, InterruptedException {
         
         Thread.sleep(30000);
     }//main
-   
-    public static void requestChoreDivide(String host, int port) throws Exception{
     
-          channel = ManagedChannelBuilder
-                .forAddress(host, port)
-                .usePlaintext()
-                .build();
-        stub = ChoreDividerGrpc.newBlockingStub(channel);
-        stubAsync = ChoreDividerGrpc.newStub(channel);
-        
-        //Gui gui = new Gui(stub);
-        
+    public static void requestChoreDivide() throws Exception{
+
         try{
 
             ChoreRequest request = ChoreRequest.newBuilder().setNumPeople(4).build();

@@ -20,6 +20,7 @@ grpc\generated\monitoring\StoreMonitoringServiceGrpc$StoreMonitoringServiceBaseD
 grpc\generated\monitoring\StoreMonitoringServiceGrpc$StoreMonitoringServiceFutureStub.class
 dissys\flight\FlightServer.class
 grpc\generated\flight\CO2Request$1.class
+dissys\chore\Gui$6.class
 grpc\generated\chore\ChoreDividerGrpc$1.class
 grpc\generated\flight\CO2Request$Builder.class
 grpc\generated\chore\ReportResponse$Builder.class
@@ -31,6 +32,7 @@ grpc\generated\chore\ChoreDividerGrpc$ChoreDividerFutureStub.class
 grpc\generated\monitoring\MonitoringRequest$1.class
 grpc\generated\chore\ReportRequest$Builder.class
 grpc\generated\chore\ChoreRequestOrBuilder.class
+dissys\chore\Gui$4.class
 grpc\generated\chore\ReportRequest.class
 grpc\generated\chore\ChoreDividerGrpc$ChoreDividerImplBase.class
 grpc\generated\monitoring\MonitoringRequest.class
@@ -43,6 +45,7 @@ grpc\generated\chore\ChoreResponse$1.class
 dissys\chore\ChoreServer.class
 grpc\generated\monitoring\MonitoringResponse$1.class
 grpc\generated\chore\ChoreResponse.class
+dissys\chore\Gui$5.class
 grpc\generated\flight\CO2Request.class
 grpc\generated\chore\ChoreDividerGrpc$ChoreDividerBlockingStub.class
 grpc\generated\chore\ChoreDividerGrpc.class

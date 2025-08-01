@@ -4,9 +4,18 @@
  */
 package dissys.chore;
 
+import static dissys.chore.ChoreClient.stubAsync;
 import grpc.generated.chore.ChoreDividerGrpc;
 import grpc.generated.chore.ChoreRequest;
 import grpc.generated.chore.ChoreResponse;
+import grpc.generated.chore.ReportRequest;
+import grpc.generated.chore.ReportResponse;
+import io.grpc.stub.StreamObserver;
+import java.io.IOException;
+import java.time.LocalTime;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -14,13 +23,12 @@ import grpc.generated.chore.ChoreResponse;
  */
 public class Gui extends javax.swing.JFrame {
 
-    private static ChoreDividerGrpc.ChoreDividerBlockingStub stub;
     /**
      * Creates new form Gui
      */
-    public Gui(ChoreDividerGrpc.ChoreDividerBlockingStub stub) {
+    public Gui() {
         initComponents();
-        this.stub = stub;
+        
     }
 
     /**
@@ -39,6 +47,8 @@ public class Gui extends javax.swing.JFrame {
         NumPeopleButton = new javax.swing.JButton();
         StartButtom = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        ReportButton = new javax.swing.JButton();
+        resultLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,49 +73,74 @@ public class Gui extends javax.swing.JFrame {
         });
 
         StartButtom.setText("START");
+        StartButtom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StartButtomActionPerformed(evt);
+            }
+        });
 
-        jLabel1.setText("jLabel1");
+        jLabel1.setText("To get report click on GET REPORT button");
+
+        ReportButton.setText("GET REPORT");
+        ReportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ReportButtonActionPerformed(evt);
+            }
+        });
+
+        resultLabel.setText("Result");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(NumPeopleButton)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(numPeopleTextField)
+                        .addComponent(NumPeopleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(ReportButton)
+                        .addGap(73, 73, 73))))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(148, 148, 148)
-                        .addComponent(StartButtom))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(NumPeopleButton)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(numPeopleTextField)
-                                        .addComponent(NumPeopleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel1)
-                                .addGap(67, 67, 67)))))
-                .addContainerGap(26, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(resultLabel)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(191, 191, 191)
+                        .addComponent(StartButtom)))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addGap(14, 14, 14)
                 .addComponent(StartButtom)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(NumPeopleLabel)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(numPeopleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addComponent(NumPeopleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(NumPeopleLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(numPeopleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(NumPeopleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ReportButton))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(resultLabel)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
@@ -119,15 +154,84 @@ public class Gui extends javax.swing.JFrame {
         try { 
             int numPeople = Integer.parseInt(numPeopleTextField.getText().trim());
             
-            ChoreRequest request = ChoreRequest.newBuilder().setNumPeople(4).build();
+            ChoreRequest request = ChoreRequest.newBuilder().setNumPeople(numPeople).build();
 
-            ChoreResponse response = stub.doChoderDivide(request); 
+            ChoreResponse response = ChoreClient.stub.doChoderDivide(request); 
         
             serviceTextArea.setText("Response from server " + response.getChoreResult());
         }catch(Exception e){
-        serviceTextArea.setText("Exception!");
+        serviceTextArea.setText("Exception occured " + e.getMessage());
         }
     }//GEN-LAST:event_NumPeopleButtonActionPerformed
+
+    private void StartButtomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartButtomActionPerformed
+        //start server
+        ChoreServer choreServer = new ChoreServer();
+        choreServer.startServer();
+        
+        try {
+            //discover service from client
+            ChoreClient.discoverAndStart();
+            serviceTextArea.setText(ChoreClient.message);
+        } catch (IOException ex) {
+            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_StartButtomActionPerformed
+
+    private void ReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReportButtonActionPerformed
+        
+        StreamObserver<ReportResponse> responseObserver = 
+                new StreamObserver<ReportResponse>(){
+            @Override
+            public void onNext(ReportResponse v) {
+                System.out.println("Response from server (Client streaming, Chore Report): " + v.getReportResult());            }
+
+            @Override
+            public void onError(Throwable thrwbl) {
+                System.err.println("Error occurred during stream: " + thrwbl.getMessage());
+                thrwbl.printStackTrace();            
+            }
+
+            @Override
+            public void onCompleted() {
+                System.out.println(LocalTime.now().toString() + "Report is completed");
+            }
+        };
+        
+        StreamObserver<ReportRequest> requestObserver = stubAsync.doChoreReport(responseObserver);
+    
+        try{
+            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(11).build());
+            Thread.sleep(500);
+            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(1).build());
+            Thread.sleep(500);
+            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(6).build());
+            Thread.sleep(500);
+            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(3).build());
+            Thread.sleep(500);
+            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(4).build());
+            Thread.sleep(500);
+            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(10).build());
+            Thread.sleep(500);
+
+            requestObserver.onCompleted();
+
+            Thread.sleep(10000);
+        }catch(RuntimeException e){
+        e.printStackTrace();
+        }catch(InterruptedException e){
+        e.printStackTrace();
+        }finally {         
+            try {
+                ChoreClient.channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+            }
+	}
+    }//GEN-LAST:event_ReportButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -160,7 +264,7 @@ public class Gui extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new Gui(stub).setVisible(true);
+                new Gui().setVisible(true);
             }
         });
     }
@@ -168,10 +272,12 @@ public class Gui extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton NumPeopleButton;
     private javax.swing.JLabel NumPeopleLabel;
+    private javax.swing.JButton ReportButton;
     private javax.swing.JButton StartButtom;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField numPeopleTextField;
+    private javax.swing.JLabel resultLabel;
     private javax.swing.JTextArea serviceTextArea;
     // End of variables declaration//GEN-END:variables
 }
