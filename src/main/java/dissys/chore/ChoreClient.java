@@ -11,12 +11,15 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.StatusRuntimeException;
 import io.grpc.stub.StreamObserver;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.time.LocalTime;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceEvent;
+import javax.jmdns.ServiceInfo;
 import javax.jmdns.ServiceListener;
 
 /**
@@ -28,7 +31,7 @@ public class ChoreClient {
     private static ManagedChannel channel;
     private static ChoreDividerStub stubAsync;
     static JmDNS jmdns;
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IOException, InterruptedException {
         
         jmdns = JmDNS.create(InetAddress.getLocalHost());
         String serviceType = "_grpc._tcp.local.";
@@ -37,29 +40,52 @@ public class ChoreClient {
         jmdns.addServiceListener(serviceType, new ServiceListener(){
             @Override
             public void serviceAdded(ServiceEvent se) {
-                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                System.out.println("Service added"); 
+                jmdns.requestServiceInfo(se.getType(), se.getName(), 1);
             }
 
             @Override
             public void serviceRemoved(ServiceEvent se) {
-                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                System.out.println("Service removed");            
             }
-
+            
             @Override
             public void serviceResolved(ServiceEvent se) {
-                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+                ServiceInfo serviceInfo = se.getInfo();
+                System.out.println("Service resolved");
+                
+                String discoveredHost = serviceInfo.getHostAddresses()[0];
+                int discoveredPort = serviceInfo.getPort();
+                String serviceName = serviceInfo.getName();
+                
+                try{
+                
+                    if(serviceName.equalsIgnoreCase("ChoreDivider")){
+                    requestChoreDivide(discoveredHost, discoveredPort);                   
+                    }
+                    
+                }catch(IOException e){
+                    e.printStackTrace();                
+                }catch(InterruptedException e){
+                    e.printStackTrace();
+                }catch (RejectedExecutionException e){
+                    e.printStackTrace();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
+            
         });
         
         //this method is for unary 
         //requestChoreDivide();
         //this method is for client streaming
-        requestReport();
-      
+        //requestReport();
+        Thread.sleep(30000);
     }//main
     
     
-    public static void requestChoreDivide(){
+    public static void requestChoreDivide(String host, int port) throws Exception{
     
         channel = ManagedChannelBuilder
                 .forAddress(host, port)
@@ -82,9 +108,10 @@ public class ChoreClient {
         }finally {         
 	    //channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
 	}
+        requestReport();
     
     }
-    public static void requestReport() throws InterruptedException{
+    public static void requestReport() throws Exception{
     
         StreamObserver<ReportResponse> responseObserver = 
                 new StreamObserver<ReportResponse>(){

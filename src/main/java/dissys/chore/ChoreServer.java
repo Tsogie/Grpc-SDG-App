@@ -35,7 +35,9 @@ public class ChoreServer extends ChoreDividerImplBase {
             logger.info("Server started, listening on " + port);
             
             SmartServiceRegistration ssr = SmartServiceRegistration.getInstance();
+            System.out.println("Created instance of SmartServiceRegistration ");
             ssr.registerService("_grpc._tcp.local.", "ChoreDivider", port, "Grpc unary ChoreDivider service");
+            System.out.println("Service registering");
             server.awaitTermination();
             
         }catch(IOException e){
