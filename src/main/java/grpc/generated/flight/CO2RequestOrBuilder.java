@@ -9,30 +9,10 @@ public interface CO2RequestOrBuilder extends
 
   /**
    * <pre>
-   *this parameter is starting location of flight
-   * </pre>
-   *
-   * <code>string startCity = 1;</code>
-   * @return The startCity.
-   */
-  java.lang.String getStartCity();
-  /**
-   * <pre>
-   *this parameter is starting location of flight
-   * </pre>
-   *
-   * <code>string startCity = 1;</code>
-   * @return The bytes for startCity.
-   */
-  com.google.protobuf.ByteString
-      getStartCityBytes();
-
-  /**
-   * <pre>
    *this parameter is destination location. If user wants to add multiple //city, nextCity updates each time. 
    * </pre>
    *
-   * <code>string nextCity = 2;</code>
+   * <code>string nextCity = 1;</code>
    * @return The nextCity.
    */
   java.lang.String getNextCity();
@@ -41,7 +21,7 @@ public interface CO2RequestOrBuilder extends
    *this parameter is destination location. If user wants to add multiple //city, nextCity updates each time. 
    * </pre>
    *
-   * <code>string nextCity = 2;</code>
+   * <code>string nextCity = 1;</code>
    * @return The bytes for nextCity.
    */
   com.google.protobuf.ByteString

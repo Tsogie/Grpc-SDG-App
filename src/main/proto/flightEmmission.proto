@@ -17,11 +17,12 @@ service FlightEmissionCalculator {
 }
 
 message CO2Request{
-    string startCity = 1; //this parameter is starting location of flight
-    string nextCity = 2; //this parameter is destination location. If user wants to add multiple //city, nextCity updates each time. 
+    
+    string nextCity = 1; //this parameter is destination location. If user wants to add multiple //city, nextCity updates each time. 
 }
 message CO2Response{
     double totalCO2 = 1; //this parameter is total amount of CO2 according to flight //distance. 
+    string message = 2; //when user enters wrong input, or server needs to notify to client, hew message declared
 }
 
 

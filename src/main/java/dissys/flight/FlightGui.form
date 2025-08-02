@@ -40,6 +40,7 @@
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="NextCityNameEnterButton" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <Component id="SupportedCityLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -56,8 +57,10 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
               <Component id="StartButton" min="-2" pref="31" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="89" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
               <Component id="NextCityLabel" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+              <Component id="SupportedCityLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="NextCityNameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -85,7 +88,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="NextCityLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Enter next city name"/>
+        <Property name="text" type="java.lang.String" value="Enter city name to calculate flight emission"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="NextCityNameTextField">
@@ -128,6 +131,11 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CompletedButtonActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="SupportedCityLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Supported cities: Dublin, London, Tokyo, Paris"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

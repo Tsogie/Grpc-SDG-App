@@ -16,7 +16,6 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private CO2Request() {
-    startCity_ = "";
     nextCity_ = "";
   }
 
@@ -51,12 +50,6 @@ private static final long serialVersionUID = 0L;
             done = true;
             break;
           case 10: {
-            java.lang.String s = input.readStringRequireUtf8();
-
-            startCity_ = s;
-            break;
-          }
-          case 18: {
             java.lang.String s = input.readStringRequireUtf8();
 
             nextCity_ = s;
@@ -96,60 +89,14 @@ private static final long serialVersionUID = 0L;
             grpc.generated.flight.CO2Request.class, grpc.generated.flight.CO2Request.Builder.class);
   }
 
-  public static final int STARTCITY_FIELD_NUMBER = 1;
-  private volatile java.lang.Object startCity_;
-  /**
-   * <pre>
-   *this parameter is starting location of flight
-   * </pre>
-   *
-   * <code>string startCity = 1;</code>
-   * @return The startCity.
-   */
-  @java.lang.Override
-  public java.lang.String getStartCity() {
-    java.lang.Object ref = startCity_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      startCity_ = s;
-      return s;
-    }
-  }
-  /**
-   * <pre>
-   *this parameter is starting location of flight
-   * </pre>
-   *
-   * <code>string startCity = 1;</code>
-   * @return The bytes for startCity.
-   */
-  @java.lang.Override
-  public com.google.protobuf.ByteString
-      getStartCityBytes() {
-    java.lang.Object ref = startCity_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      startCity_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
-  }
-
-  public static final int NEXTCITY_FIELD_NUMBER = 2;
+  public static final int NEXTCITY_FIELD_NUMBER = 1;
   private volatile java.lang.Object nextCity_;
   /**
    * <pre>
    *this parameter is destination location. If user wants to add multiple //city, nextCity updates each time. 
    * </pre>
    *
-   * <code>string nextCity = 2;</code>
+   * <code>string nextCity = 1;</code>
    * @return The nextCity.
    */
   @java.lang.Override
@@ -170,7 +117,7 @@ private static final long serialVersionUID = 0L;
    *this parameter is destination location. If user wants to add multiple //city, nextCity updates each time. 
    * </pre>
    *
-   * <code>string nextCity = 2;</code>
+   * <code>string nextCity = 1;</code>
    * @return The bytes for nextCity.
    */
   @java.lang.Override
@@ -202,11 +149,8 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(startCity_)) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, startCity_);
-    }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(nextCity_)) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, nextCity_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, nextCity_);
     }
     unknownFields.writeTo(output);
   }
@@ -217,11 +161,8 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(startCity_)) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, startCity_);
-    }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(nextCity_)) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, nextCity_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, nextCity_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -238,8 +179,6 @@ private static final long serialVersionUID = 0L;
     }
     grpc.generated.flight.CO2Request other = (grpc.generated.flight.CO2Request) obj;
 
-    if (!getStartCity()
-        .equals(other.getStartCity())) return false;
     if (!getNextCity()
         .equals(other.getNextCity())) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
@@ -253,8 +192,6 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + STARTCITY_FIELD_NUMBER;
-    hash = (53 * hash) + getStartCity().hashCode();
     hash = (37 * hash) + NEXTCITY_FIELD_NUMBER;
     hash = (53 * hash) + getNextCity().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
@@ -390,8 +327,6 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      startCity_ = "";
-
       nextCity_ = "";
 
       return this;
@@ -420,7 +355,6 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public grpc.generated.flight.CO2Request buildPartial() {
       grpc.generated.flight.CO2Request result = new grpc.generated.flight.CO2Request(this);
-      result.startCity_ = startCity_;
       result.nextCity_ = nextCity_;
       onBuilt();
       return result;
@@ -470,10 +404,6 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(grpc.generated.flight.CO2Request other) {
       if (other == grpc.generated.flight.CO2Request.getDefaultInstance()) return this;
-      if (!other.getStartCity().isEmpty()) {
-        startCity_ = other.startCity_;
-        onChanged();
-      }
       if (!other.getNextCity().isEmpty()) {
         nextCity_ = other.nextCity_;
         onChanged();
@@ -507,109 +437,13 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private java.lang.Object startCity_ = "";
-    /**
-     * <pre>
-     *this parameter is starting location of flight
-     * </pre>
-     *
-     * <code>string startCity = 1;</code>
-     * @return The startCity.
-     */
-    public java.lang.String getStartCity() {
-      java.lang.Object ref = startCity_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        startCity_ = s;
-        return s;
-      } else {
-        return (java.lang.String) ref;
-      }
-    }
-    /**
-     * <pre>
-     *this parameter is starting location of flight
-     * </pre>
-     *
-     * <code>string startCity = 1;</code>
-     * @return The bytes for startCity.
-     */
-    public com.google.protobuf.ByteString
-        getStartCityBytes() {
-      java.lang.Object ref = startCity_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        startCity_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-    /**
-     * <pre>
-     *this parameter is starting location of flight
-     * </pre>
-     *
-     * <code>string startCity = 1;</code>
-     * @param value The startCity to set.
-     * @return This builder for chaining.
-     */
-    public Builder setStartCity(
-        java.lang.String value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
-      startCity_ = value;
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     *this parameter is starting location of flight
-     * </pre>
-     *
-     * <code>string startCity = 1;</code>
-     * @return This builder for chaining.
-     */
-    public Builder clearStartCity() {
-      
-      startCity_ = getDefaultInstance().getStartCity();
-      onChanged();
-      return this;
-    }
-    /**
-     * <pre>
-     *this parameter is starting location of flight
-     * </pre>
-     *
-     * <code>string startCity = 1;</code>
-     * @param value The bytes for startCity to set.
-     * @return This builder for chaining.
-     */
-    public Builder setStartCityBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-      
-      startCity_ = value;
-      onChanged();
-      return this;
-    }
-
     private java.lang.Object nextCity_ = "";
     /**
      * <pre>
      *this parameter is destination location. If user wants to add multiple //city, nextCity updates each time. 
      * </pre>
      *
-     * <code>string nextCity = 2;</code>
+     * <code>string nextCity = 1;</code>
      * @return The nextCity.
      */
     public java.lang.String getNextCity() {
@@ -629,7 +463,7 @@ private static final long serialVersionUID = 0L;
      *this parameter is destination location. If user wants to add multiple //city, nextCity updates each time. 
      * </pre>
      *
-     * <code>string nextCity = 2;</code>
+     * <code>string nextCity = 1;</code>
      * @return The bytes for nextCity.
      */
     public com.google.protobuf.ByteString
@@ -650,7 +484,7 @@ private static final long serialVersionUID = 0L;
      *this parameter is destination location. If user wants to add multiple //city, nextCity updates each time. 
      * </pre>
      *
-     * <code>string nextCity = 2;</code>
+     * <code>string nextCity = 1;</code>
      * @param value The nextCity to set.
      * @return This builder for chaining.
      */
@@ -669,7 +503,7 @@ private static final long serialVersionUID = 0L;
      *this parameter is destination location. If user wants to add multiple //city, nextCity updates each time. 
      * </pre>
      *
-     * <code>string nextCity = 2;</code>
+     * <code>string nextCity = 1;</code>
      * @return This builder for chaining.
      */
     public Builder clearNextCity() {
@@ -683,7 +517,7 @@ private static final long serialVersionUID = 0L;
      *this parameter is destination location. If user wants to add multiple //city, nextCity updates each time. 
      * </pre>
      *
-     * <code>string nextCity = 2;</code>
+     * <code>string nextCity = 1;</code>
      * @param value The bytes for nextCity to set.
      * @return This builder for chaining.
      */

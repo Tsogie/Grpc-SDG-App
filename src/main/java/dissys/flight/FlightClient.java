@@ -85,7 +85,8 @@ public class FlightClient {
 
         @Override
         public void onNext(CO2Response v) {
-            resultOutput.setText("\nResponse from Server: Total emission " + v.getTotalCO2());
+            resultOutput.setText("\nResponse from Server");
+            resultOutput.append("\n" + v.getMessage() + ", total emission: " + v.getTotalCO2() );
             responseArray.add(v.getTotalCO2());
         }
 
@@ -213,11 +214,6 @@ public class FlightClient {
     
         try{
     
-            String startCity = "London";
-            requestObserver.onNext(CO2Request.newBuilder().setStartCity(startCity).setNextCity("Dublin").build());
-            Thread.sleep(500);
-            requestObserver.onNext(CO2Request.newBuilder().setStartCity(startCity).setNextCity("Ulaanbaatar").build());
-            Thread.sleep(500);
 
             requestObserver.onCompleted();
             Thread.sleep(10000);

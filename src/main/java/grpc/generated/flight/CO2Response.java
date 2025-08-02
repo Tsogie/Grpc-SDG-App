@@ -16,6 +16,7 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private CO2Response() {
+    message_ = "";
   }
 
   @java.lang.Override
@@ -51,6 +52,12 @@ private static final long serialVersionUID = 0L;
           case 9: {
 
             totalCO2_ = input.readDouble();
+            break;
+          }
+          case 18: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            message_ = s;
             break;
           }
           default: {
@@ -102,6 +109,52 @@ private static final long serialVersionUID = 0L;
     return totalCO2_;
   }
 
+  public static final int MESSAGE_FIELD_NUMBER = 2;
+  private volatile java.lang.Object message_;
+  /**
+   * <pre>
+   *when user enters wrong input, or server needs to notify to client, hew message declared
+   * </pre>
+   *
+   * <code>string message = 2;</code>
+   * @return The message.
+   */
+  @java.lang.Override
+  public java.lang.String getMessage() {
+    java.lang.Object ref = message_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      message_ = s;
+      return s;
+    }
+  }
+  /**
+   * <pre>
+   *when user enters wrong input, or server needs to notify to client, hew message declared
+   * </pre>
+   *
+   * <code>string message = 2;</code>
+   * @return The bytes for message.
+   */
+  @java.lang.Override
+  public com.google.protobuf.ByteString
+      getMessageBytes() {
+    java.lang.Object ref = message_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      message_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
   private byte memoizedIsInitialized = -1;
   @java.lang.Override
   public final boolean isInitialized() {
@@ -119,6 +172,9 @@ private static final long serialVersionUID = 0L;
     if (java.lang.Double.doubleToRawLongBits(totalCO2_) != 0) {
       output.writeDouble(1, totalCO2_);
     }
+    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(message_)) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, message_);
+    }
     unknownFields.writeTo(output);
   }
 
@@ -131,6 +187,9 @@ private static final long serialVersionUID = 0L;
     if (java.lang.Double.doubleToRawLongBits(totalCO2_) != 0) {
       size += com.google.protobuf.CodedOutputStream
         .computeDoubleSize(1, totalCO2_);
+    }
+    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(message_)) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, message_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -150,6 +209,8 @@ private static final long serialVersionUID = 0L;
     if (java.lang.Double.doubleToLongBits(getTotalCO2())
         != java.lang.Double.doubleToLongBits(
             other.getTotalCO2())) return false;
+    if (!getMessage()
+        .equals(other.getMessage())) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -164,6 +225,8 @@ private static final long serialVersionUID = 0L;
     hash = (37 * hash) + TOTALCO2_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
         java.lang.Double.doubleToLongBits(getTotalCO2()));
+    hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
+    hash = (53 * hash) + getMessage().hashCode();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -299,6 +362,8 @@ private static final long serialVersionUID = 0L;
       super.clear();
       totalCO2_ = 0D;
 
+      message_ = "";
+
       return this;
     }
 
@@ -326,6 +391,7 @@ private static final long serialVersionUID = 0L;
     public grpc.generated.flight.CO2Response buildPartial() {
       grpc.generated.flight.CO2Response result = new grpc.generated.flight.CO2Response(this);
       result.totalCO2_ = totalCO2_;
+      result.message_ = message_;
       onBuilt();
       return result;
     }
@@ -376,6 +442,10 @@ private static final long serialVersionUID = 0L;
       if (other == grpc.generated.flight.CO2Response.getDefaultInstance()) return this;
       if (other.getTotalCO2() != 0D) {
         setTotalCO2(other.getTotalCO2());
+      }
+      if (!other.getMessage().isEmpty()) {
+        message_ = other.message_;
+        onChanged();
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -445,6 +515,102 @@ private static final long serialVersionUID = 0L;
     public Builder clearTotalCO2() {
       
       totalCO2_ = 0D;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object message_ = "";
+    /**
+     * <pre>
+     *when user enters wrong input, or server needs to notify to client, hew message declared
+     * </pre>
+     *
+     * <code>string message = 2;</code>
+     * @return The message.
+     */
+    public java.lang.String getMessage() {
+      java.lang.Object ref = message_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        message_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <pre>
+     *when user enters wrong input, or server needs to notify to client, hew message declared
+     * </pre>
+     *
+     * <code>string message = 2;</code>
+     * @return The bytes for message.
+     */
+    public com.google.protobuf.ByteString
+        getMessageBytes() {
+      java.lang.Object ref = message_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        message_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <pre>
+     *when user enters wrong input, or server needs to notify to client, hew message declared
+     * </pre>
+     *
+     * <code>string message = 2;</code>
+     * @param value The message to set.
+     * @return This builder for chaining.
+     */
+    public Builder setMessage(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      message_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     *when user enters wrong input, or server needs to notify to client, hew message declared
+     * </pre>
+     *
+     * <code>string message = 2;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearMessage() {
+      
+      message_ = getDefaultInstance().getMessage();
+      onChanged();
+      return this;
+    }
+    /**
+     * <pre>
+     *when user enters wrong input, or server needs to notify to client, hew message declared
+     * </pre>
+     *
+     * <code>string message = 2;</code>
+     * @param value The bytes for message to set.
+     * @return This builder for chaining.
+     */
+    public Builder setMessageBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      message_ = value;
       onChanged();
       return this;
     }

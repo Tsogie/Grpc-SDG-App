@@ -16,4 +16,24 @@ public interface CO2ResponseOrBuilder extends
    * @return The totalCO2.
    */
   double getTotalCO2();
+
+  /**
+   * <pre>
+   *when user enters wrong input, or server needs to notify to client, hew message declared
+   * </pre>
+   *
+   * <code>string message = 2;</code>
+   * @return The message.
+   */
+  java.lang.String getMessage();
+  /**
+   * <pre>
+   *when user enters wrong input, or server needs to notify to client, hew message declared
+   * </pre>
+   *
+   * <code>string message = 2;</code>
+   * @return The bytes for message.
+   */
+  com.google.protobuf.ByteString
+      getMessageBytes();
 }

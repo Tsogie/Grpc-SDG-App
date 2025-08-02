@@ -78,21 +78,46 @@ public class FlightServer extends FlightEmissionCalculatorImplBase{
             String previousCity;
             double totalCO;
             ArrayList<String> cityArray = new ArrayList<>();
+            ArrayList<String> supportedCityNames = new ArrayList<>();
+
             @Override
             public void onNext(CO2Request v) {
                 System.out.println("Server recieved next city " + v.getNextCity());
                 currentCity = v.getNextCity().trim();
+                supportedCityNames.add("dublin");
+                supportedCityNames.add("paris");
+                supportedCityNames.add("london");
+                supportedCityNames.add("tokyo");
                 
+                if(!supportedCityNames.contains(currentCity)){
+                
+                        responseObserver.onNext(CO2Response.newBuilder()
+                                .setTotalCO2(totalCO)
+                                .setMessage("Unsupported city entered! " + currentCity)
+                                .build());
+                        return;
+                }
                 //0,1
                 if(cityArray.isEmpty()){
                         cityArray.add(currentCity);
                         totalCO = 0;
+                        responseObserver.onNext(CO2Response.newBuilder()
+                                .setTotalCO2(totalCO)
+                                .setMessage("First city entered! " + currentCity)
+                                .build());
+                        return;
                 }else{
                     
                     previousCity = cityArray.get(cityArray.size() - 1);
                     
                     if(previousCity.equalsIgnoreCase(currentCity)){          
                         System.out.println("Same city entered");
+                        responseObserver.onNext(CO2Response.newBuilder()
+                                .setTotalCO2(totalCO)
+                                .setMessage("Duplicate city name! " + currentCity)
+                                .build());
+                        return;
+
                     }else{
                     
                     
@@ -101,20 +126,36 @@ public class FlightServer extends FlightEmissionCalculatorImplBase{
                             totalCO = totalCO + 200;
                         }else if (currentCity.equalsIgnoreCase("Paris")){
                             totalCO = totalCO + 400;
+                        }else if (currentCity.equalsIgnoreCase("Tokyo")){
+                            totalCO = totalCO + 500;
                         }
                     }
-                    if(previousCity.equalsIgnoreCase("London")){
+                    else if(previousCity.equalsIgnoreCase("London")){
                         if(currentCity.equalsIgnoreCase("Dublin")){
                             totalCO = totalCO + 200;
                         }else if (currentCity.equalsIgnoreCase("Paris")){
                             totalCO = totalCO + 300;
+                        }else if (currentCity.equalsIgnoreCase("Tokyo")){
+                            totalCO = totalCO + 500;
                         }
                     }
-                    if(previousCity.equalsIgnoreCase("Paris")){
+                    else if(previousCity.equalsIgnoreCase("Paris")){
                         if(currentCity.equalsIgnoreCase("Dublin")){
                             totalCO = totalCO + 400;
                         }else if (currentCity.equalsIgnoreCase("London")){
                             totalCO = totalCO + 300;
+                        }else if (currentCity.equalsIgnoreCase("Tokyo")){
+                            totalCO = totalCO + 400;
+                        }
+                    }
+                    
+                    else if(previousCity.equalsIgnoreCase("Tokyo")){
+                        if(currentCity.equalsIgnoreCase("Dublin")){
+                            totalCO = totalCO + 500;
+                        }else if (currentCity.equalsIgnoreCase("London")){
+                            totalCO = totalCO + 500;
+                        }else if (currentCity.equalsIgnoreCase("Paris")){
+                            totalCO = totalCO + 400;
                         }
                     }
                     
@@ -123,7 +164,9 @@ public class FlightServer extends FlightEmissionCalculatorImplBase{
                 }//else
                 
                 
-            responseObserver.onNext(CO2Response.newBuilder().setTotalCO2(totalCO).build());
+            responseObserver.onNext(CO2Response.newBuilder()
+                    .setTotalCO2(totalCO)
+                    .setMessage("Emission updated trip to " + currentCity).build());
     
             }
 

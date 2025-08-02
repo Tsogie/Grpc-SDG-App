@@ -33,13 +33,13 @@ public final class FlightEmmission {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\025flightEmmission.proto\022\006Flight\"1\n\nCO2Re" +
-      "quest\022\021\n\tstartCity\030\001 \001(\t\022\020\n\010nextCity\030\002 \001" +
-      "(\t\"\037\n\013CO2Response\022\020\n\010totalCO2\030\001 \001(\0012b\n\030F" +
-      "lightEmissionCalculator\022F\n\025doEmissionCal" +
-      "culation\022\022.Flight.CO2Request\032\023.Flight.CO" +
-      "2Response\"\000(\0010\001B\031\n\025grpc.generated.flight" +
-      "P\001b\006proto3"
+      "\n\025flightEmmission.proto\022\006Flight\"\036\n\nCO2Re" +
+      "quest\022\020\n\010nextCity\030\001 \001(\t\"0\n\013CO2Response\022\020" +
+      "\n\010totalCO2\030\001 \001(\001\022\017\n\007message\030\002 \001(\t2b\n\030Fli" +
+      "ghtEmissionCalculator\022F\n\025doEmissionCalcu" +
+      "lation\022\022.Flight.CO2Request\032\023.Flight.CO2R" +
+      "esponse\"\000(\0010\001B\031\n\025grpc.generated.flightP\001" +
+      "b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -50,13 +50,13 @@ public final class FlightEmmission {
     internal_static_Flight_CO2Request_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Flight_CO2Request_descriptor,
-        new java.lang.String[] { "StartCity", "NextCity", });
+        new java.lang.String[] { "NextCity", });
     internal_static_Flight_CO2Response_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_Flight_CO2Response_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Flight_CO2Response_descriptor,
-        new java.lang.String[] { "TotalCO2", });
+        new java.lang.String[] { "TotalCO2", "Message", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
