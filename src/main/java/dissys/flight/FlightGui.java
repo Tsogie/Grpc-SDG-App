@@ -5,10 +5,7 @@
 package dissys.flight;
 
 import grpc.generated.flight.CO2Request;
-import grpc.generated.flight.CO2Response;
-import io.grpc.stub.StreamObserver;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

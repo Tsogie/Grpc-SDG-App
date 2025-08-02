@@ -1,6 +1,5 @@
 package dissys.flight;
 
-import AllServerRegister.RegisterAll;
 import ServiceRegistryAndDiscovery.SmartServiceRegistration;
 import grpc.generated.flight.CO2Request;
 import grpc.generated.flight.CO2Response;

@@ -1,6 +1,5 @@
 package dissys.storeMonitoring;
 
-import AllServerRegister.RegisterAll;
 import ServiceRegistryAndDiscovery.SmartServiceRegistration;
 import grpc.generated.monitoring.MonitoringRequest;
 import grpc.generated.monitoring.MonitoringResponse;
@@ -23,7 +22,36 @@ public class StoreMonitoringServer extends StoreMonitoringServiceImplBase {
      */
   
     public static void main(String[] args){
-     StoreMonitoringServer monitoringServer = new StoreMonitoringServer();
+//     StoreMonitoringServer monitoringServer = new StoreMonitoringServer();
+//        int port = 50003;
+//        //RegisterAll.regiterAllServers();
+//        try{
+//            
+//            Server server = ServerBuilder.forPort(port)
+//                    .addService(monitoringServer)
+//                    .build()
+//                    .start();
+//            System.out.println("Server started on port: " + port);
+//        
+//            SmartServiceRegistration ssr = SmartServiceRegistration.getInstance();
+//            System.out.println("Created instance of SmartServiceRegistration for StoreMonitoringService ");
+//            ssr.registerService("_grpc._tcp.local.", "StoreMonitoringService", port, "Grpc server streaming StoreMonitoringService service");
+//            System.out.println("Service registering");
+//            server.awaitTermination();
+//        
+//        }catch(IOException e){
+//        e.getMessage();
+//        
+//        }catch(InterruptedException e){
+//        e.getMessage();
+//        
+//        }
+    
+    } 
+    
+    public void startServer(){
+    
+    StoreMonitoringServer monitoringServer = new StoreMonitoringServer();
         int port = 50003;
         //RegisterAll.regiterAllServers();
         try{
@@ -47,8 +75,7 @@ public class StoreMonitoringServer extends StoreMonitoringServiceImplBase {
         e.getMessage();
         
         }
-    
-    } 
+    }
     @Override 
     public void doMonitoring(MonitoringRequest request, StreamObserver<MonitoringResponse> responseObserver){
     
