@@ -69,7 +69,7 @@ public class FlightServer extends FlightEmissionCalculatorImplBase{
     @Override 
     
     public StreamObserver<CO2Request> doEmissionCalculation(StreamObserver<CO2Response> responseObserver){
-    
+          
         return new StreamObserver<CO2Request>(){
             
             //"Dublin", "London", "Ulaanbaatar"
@@ -77,53 +77,56 @@ public class FlightServer extends FlightEmissionCalculatorImplBase{
             ArrayList<String> cityArray = new ArrayList<>();
             @Override
             public void onNext(CO2Request v) {
-                System.out.println("Starting city " + v.getStartCity());
+                //System.out.println("Starting city " + v.getStartCity());
                 System.out.println("Server recieved next city " + v.getNextCity());
                 //cityArray.add(v.getStartCity());
                 cityArray.add(v.getNextCity());
                 if(cityArray.size() == 1){
-                    if(v.getStartCity().equalsIgnoreCase("Dublin")){
-                        if(cityArray.get(0).equalsIgnoreCase("London")){
+                        totalCO = 0;
+                }
+                if(cityArray.size() == 2){
+                    if(cityArray.get(0).equalsIgnoreCase("Dublin")){
+                        if(cityArray.get(1).equalsIgnoreCase("London")){
                             totalCO = 200;
-                        }else if (cityArray.get(0).equalsIgnoreCase("Ulaanbaatar")){
+                        }else if (cityArray.get(1).equalsIgnoreCase("Ulaanbaatar")){
                             totalCO = 20000;
                         }
                     }
-                    if(v.getStartCity().equalsIgnoreCase("London")){
-                        if(cityArray.get(0).equalsIgnoreCase("Dublin")){
+                    if(cityArray.get(0).equalsIgnoreCase("London")){
+                        if(cityArray.get(1).equalsIgnoreCase("Dublin")){
                             totalCO = 202;
-                        }else if (cityArray.get(0).equalsIgnoreCase("Ulaanbaatar")){
+                        }else if (cityArray.get(1).equalsIgnoreCase("Ulaanbaatar")){
                             totalCO = 20002;
                         }
                     }
-                    if(v.getStartCity().equalsIgnoreCase("Ulaanbaatar")){
-                        if(cityArray.get(0).equalsIgnoreCase("Dublin")){
+                    if(cityArray.get(0).equalsIgnoreCase("Ulaanbaatar")){
+                        if(cityArray.get(1).equalsIgnoreCase("Dublin")){
                             totalCO = 20022;
-                        }else if (cityArray.get(0).equalsIgnoreCase("London")){
+                        }else if (cityArray.get(1).equalsIgnoreCase("London")){
                             totalCO = 20044;
                         }
                     }   
                 }
-                if(cityArray.size() == 2){
+                if(cityArray.size() == 3){
                 
-                    if(v.getStartCity().equalsIgnoreCase("Dublin")){
+                    if(cityArray.get(0).equalsIgnoreCase("Dublin")){
                         if(cityArray.get(0).equalsIgnoreCase("London")){
                             totalCO = 30001;
                         }else if(cityArray.get(0).equalsIgnoreCase("Ulaanbaatar")){
                             totalCO = 30002;
                         }
                     }
-                    if(v.getStartCity().equalsIgnoreCase("London")){
-                        if(cityArray.get(0).equalsIgnoreCase("Dublin")){
+                    if(cityArray.get(0).equalsIgnoreCase("London")){
+                        if(cityArray.get(1).equalsIgnoreCase("Dublin")){
                             totalCO = 30011;
-                        }else if(cityArray.get(0).equalsIgnoreCase("Ulaanbaatar")){
+                        }else if(cityArray.get(1).equalsIgnoreCase("Ulaanbaatar")){
                             totalCO = 30022;
                         }
                     }
-                     if(v.getStartCity().equalsIgnoreCase("Ulaanbaatar")){
-                        if(cityArray.get(0).equalsIgnoreCase("Dublin")){
+                     if(cityArray.get(0).equalsIgnoreCase("Ulaanbaatar")){
+                        if(cityArray.get(1).equalsIgnoreCase("Dublin")){
                             totalCO = 30111;
-                        }else if(cityArray.get(0).equalsIgnoreCase("London")){
+                        }else if(cityArray.get(1).equalsIgnoreCase("London")){
                             totalCO = 30222;
                         }
                     }               
@@ -146,6 +149,8 @@ public class FlightServer extends FlightEmissionCalculatorImplBase{
             public void onCompleted() {
                 responseObserver.onCompleted();             }
         };
+        
+        
     }
     
 }

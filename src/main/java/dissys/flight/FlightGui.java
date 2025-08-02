@@ -4,7 +4,11 @@
  */
 package dissys.flight;
 
+import grpc.generated.flight.CO2Request;
+import grpc.generated.flight.CO2Response;
+import io.grpc.stub.StreamObserver;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,15 +35,13 @@ public class FlightGui extends javax.swing.JFrame {
     private void initComponents() {
 
         StartButton = new javax.swing.JButton();
-        FirstCityTextField = new javax.swing.JTextField();
-        FirstCityLabel = new javax.swing.JLabel();
         NextCityLabel = new javax.swing.JLabel();
         NextCityNameTextField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         serviceTextArea = new javax.swing.JTextArea();
         ResultLabel = new javax.swing.JLabel();
-        FirstCityNameEnterButton = new javax.swing.JButton();
         NextCityNameEnterButton = new javax.swing.JButton();
+        CompletedButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -49,10 +51,6 @@ public class FlightGui extends javax.swing.JFrame {
                 StartButtonActionPerformed(evt);
             }
         });
-
-        FirstCityTextField.setText(" ");
-
-        FirstCityLabel.setText("Enter current city name");
 
         NextCityLabel.setText("Enter next city name");
 
@@ -64,9 +62,19 @@ public class FlightGui extends javax.swing.JFrame {
 
         ResultLabel.setText("Result");
 
-        FirstCityNameEnterButton.setText("ENTER");
-
         NextCityNameEnterButton.setText("ENTER");
+        NextCityNameEnterButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                NextCityNameEnterButtonActionPerformed(evt);
+            }
+        });
+
+        CompletedButton.setText("COMPLETED");
+        CompletedButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CompletedButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -80,18 +88,16 @@ public class FlightGui extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(45, 45, 45)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(FirstCityLabel)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(FirstCityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(FirstCityNameEnterButton))
                             .addComponent(NextCityLabel)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(NextCityNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(NextCityNameEnterButton))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 542, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ResultLabel))))
+                            .addComponent(ResultLabel)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(NextCityNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(NextCityNameEnterButton))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(190, 190, 190)
+                        .addComponent(CompletedButton)))
                 .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -99,19 +105,15 @@ public class FlightGui extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(46, 46, 46)
                 .addComponent(StartButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(FirstCityLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(FirstCityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(FirstCityNameEnterButton))
-                .addGap(18, 18, 18)
+                .addGap(89, 89, 89)
                 .addComponent(NextCityLabel)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(NextCityNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(NextCityNameEnterButton))
-                .addGap(76, 76, 76)
+                .addGap(35, 35, 35)
+                .addComponent(CompletedButton)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ResultLabel)
@@ -150,6 +152,28 @@ public class FlightGui extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_StartButtonActionPerformed
 
+    private void NextCityNameEnterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NextCityNameEnterButtonActionPerformed
+        
+        
+        String nextCity = NextCityNameTextField.getText().trim();
+        try{
+            CO2Request request = CO2Request.newBuilder().setNextCity(nextCity).build();
+
+            FlightClient.requestObserver.onNext(request);
+            Thread.sleep(1500);
+        
+        }catch(InterruptedException e)
+        {
+        serviceTextArea.setText("Exception occured " + e.getMessage());
+        }
+        
+    }//GEN-LAST:event_NextCityNameEnterButtonActionPerformed
+
+    private void CompletedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CompletedButtonActionPerformed
+        
+        FlightClient.requestObserver.onCompleted();
+    }//GEN-LAST:event_CompletedButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -186,9 +210,7 @@ public class FlightGui extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel FirstCityLabel;
-    private javax.swing.JButton FirstCityNameEnterButton;
-    private javax.swing.JTextField FirstCityTextField;
+    private javax.swing.JButton CompletedButton;
     private javax.swing.JLabel NextCityLabel;
     private javax.swing.JButton NextCityNameEnterButton;
     private javax.swing.JTextField NextCityNameTextField;

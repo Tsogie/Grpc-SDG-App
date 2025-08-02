@@ -32,7 +32,7 @@ public class FlightClient {
     public static FlightEmissionCalculatorStub biStub;
     static JmDNS jmdns;
     private static boolean serviceResolved = false;
-    
+    public static StreamObserver<CO2Request> requestObserver;
     
     public static void discoverAndStart(JTextArea resultOutput) throws UnknownHostException, IOException, InterruptedException{
         try{
@@ -77,6 +77,35 @@ public class FlightClient {
                                     biStub = FlightEmissionCalculatorGrpc
                                             .newStub(channel);
                             resultOutput.append("\nChannel is ready now");
+                             // Creating responseObserver, defining its behaviour when recieving reply
+        StreamObserver<CO2Response> responseObserver = 
+                new StreamObserver<CO2Response>(){
+        // created responseArray to collect incoming responses from server
+        ArrayList<Double> responseArray = new ArrayList<>();
+
+        @Override
+        public void onNext(CO2Response v) {
+            resultOutput.setText("\nResponse from Server: Total emission " + v.getTotalCO2());
+            responseArray.add(v.getTotalCO2());
+        }
+
+        @Override
+        public void onError(Throwable thrwbl) {
+            resultOutput.setText("Error message: " + thrwbl.getMessage());
+        }
+
+        @Override
+        public void onCompleted() {
+            //System.out.println("Server stopped responding");
+            resultOutput.setText("All responses from server " + responseArray.toString());
+            resultOutput.append("Completed !");
+
+            }
+
+        };
+            
+        requestObserver = biStub.doEmissionCalculation(responseObserver);
+        resultOutput.append("Stub initialized");
                             }
 
                     }catch (RejectedExecutionException e){
@@ -86,10 +115,13 @@ public class FlightClient {
                     }
                 }
             });
+                
+                
+        
         }catch(IOException e){
             e.getMessage();
         }
-        
+  
     }//discoverAndStart method
     
     
