@@ -69,74 +69,62 @@ public class FlightServer extends FlightEmissionCalculatorImplBase{
     @Override 
     
     public StreamObserver<CO2Request> doEmissionCalculation(StreamObserver<CO2Response> responseObserver){
-          
+        
+       
         return new StreamObserver<CO2Request>(){
             
-            //"Dublin", "London", "Ulaanbaatar"
+            //"Dublin", "London", "Paris"
+            String currentCity;
+            String previousCity;
             double totalCO;
             ArrayList<String> cityArray = new ArrayList<>();
             @Override
             public void onNext(CO2Request v) {
-                //System.out.println("Starting city " + v.getStartCity());
                 System.out.println("Server recieved next city " + v.getNextCity());
-                //cityArray.add(v.getStartCity());
-                cityArray.add(v.getNextCity());
-                if(cityArray.size() == 1){
+                currentCity = v.getNextCity().trim();
+                
+                //0,1
+                if(cityArray.isEmpty()){
+                        cityArray.add(currentCity);
                         totalCO = 0;
-                }
-                if(cityArray.size() == 2){
-                    if(cityArray.get(0).equalsIgnoreCase("Dublin")){
-                        if(cityArray.get(1).equalsIgnoreCase("London")){
-                            totalCO = 200;
-                        }else if (cityArray.get(1).equalsIgnoreCase("Ulaanbaatar")){
-                            totalCO = 20000;
+                }else{
+                    
+                    previousCity = cityArray.get(cityArray.size() - 1);
+                    
+                    if(previousCity.equalsIgnoreCase(currentCity)){          
+                        System.out.println("Same city entered");
+                    }else{
+                    
+                    
+                    if(previousCity.equalsIgnoreCase("Dublin")){
+                        if(currentCity.equalsIgnoreCase("London")){
+                            totalCO = totalCO + 200;
+                        }else if (currentCity.equalsIgnoreCase("Paris")){
+                            totalCO = totalCO + 400;
                         }
                     }
-                    if(cityArray.get(0).equalsIgnoreCase("London")){
-                        if(cityArray.get(1).equalsIgnoreCase("Dublin")){
-                            totalCO = 202;
-                        }else if (cityArray.get(1).equalsIgnoreCase("Ulaanbaatar")){
-                            totalCO = 20002;
+                    if(previousCity.equalsIgnoreCase("London")){
+                        if(currentCity.equalsIgnoreCase("Dublin")){
+                            totalCO = totalCO + 200;
+                        }else if (currentCity.equalsIgnoreCase("Paris")){
+                            totalCO = totalCO + 300;
                         }
                     }
-                    if(cityArray.get(0).equalsIgnoreCase("Ulaanbaatar")){
-                        if(cityArray.get(1).equalsIgnoreCase("Dublin")){
-                            totalCO = 20022;
-                        }else if (cityArray.get(1).equalsIgnoreCase("London")){
-                            totalCO = 20044;
+                    if(previousCity.equalsIgnoreCase("Paris")){
+                        if(currentCity.equalsIgnoreCase("Dublin")){
+                            totalCO = totalCO + 400;
+                        }else if (currentCity.equalsIgnoreCase("London")){
+                            totalCO = totalCO + 300;
                         }
-                    }   
-                }
-                if(cityArray.size() == 3){
+                    }
+                    
+                    cityArray.add(currentCity);
+                    }//else
+                }//else
                 
-                    if(cityArray.get(0).equalsIgnoreCase("Dublin")){
-                        if(cityArray.get(0).equalsIgnoreCase("London")){
-                            totalCO = 30001;
-                        }else if(cityArray.get(0).equalsIgnoreCase("Ulaanbaatar")){
-                            totalCO = 30002;
-                        }
-                    }
-                    if(cityArray.get(0).equalsIgnoreCase("London")){
-                        if(cityArray.get(1).equalsIgnoreCase("Dublin")){
-                            totalCO = 30011;
-                        }else if(cityArray.get(1).equalsIgnoreCase("Ulaanbaatar")){
-                            totalCO = 30022;
-                        }
-                    }
-                     if(cityArray.get(0).equalsIgnoreCase("Ulaanbaatar")){
-                        if(cityArray.get(1).equalsIgnoreCase("Dublin")){
-                            totalCO = 30111;
-                        }else if(cityArray.get(1).equalsIgnoreCase("London")){
-                            totalCO = 30222;
-                        }
-                    }               
-                
-                }
                 
             responseObserver.onNext(CO2Response.newBuilder().setTotalCO2(totalCO).build());
-                
-                
-                
+    
             }
 
             @Override

@@ -98,14 +98,14 @@ public class FlightClient {
         public void onCompleted() {
             //System.out.println("Server stopped responding");
             resultOutput.setText("All responses from server " + responseArray.toString());
-            resultOutput.append("Completed !");
+            resultOutput.append("\nCompleted !");
 
             }
 
         };
             
         requestObserver = biStub.doEmissionCalculation(responseObserver);
-        resultOutput.append("Stub initialized");
+        resultOutput.append("\nStub initialized!");
                             }
 
                     }catch (RejectedExecutionException e){
