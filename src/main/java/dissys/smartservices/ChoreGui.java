@@ -149,11 +149,11 @@ public class ChoreGui extends javax.swing.JFrame {
     private void NumPeopleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumPeopleButtonActionPerformed
         try { 
             int numPeople = Integer.parseInt(numPeopleTextField.getText().trim());
-            
+            //client creates request using newBuilder() instead of constructor and sets number here
             ChoreRequest request = ChoreRequest.newBuilder().setNumPeople(numPeople).build();
-
+            //then calling doChoreDivide() method on server using stub. and gets back one response
             ChoreResponse response = ChoreClient.stub.doChoderDivide(request); 
-        
+            //from that response gets chore result and prints it on text area
             serviceTextArea.setText("Response from server " + response.getChoreResult());
         }catch(Exception e){
         serviceTextArea.setText("Exception occured " + e.getMessage());
@@ -196,6 +196,8 @@ public class ChoreGui extends javax.swing.JFrame {
 
     private void ReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReportButtonActionPerformed
         
+        //when user clicks on report button
+        //client 
         StreamObserver<ReportResponse> responseObserver = 
                 new StreamObserver<ReportResponse>(){
             @Override
@@ -213,12 +215,18 @@ public class ChoreGui extends javax.swing.JFrame {
                 serviceTextArea.append("\n" + LocalTime.now().toString() + "\nReport is completed");
             }
         };
-    //for request we have requestObserver on Server, so whenever client send request
-    //using onNext, server can catch several requests and possible store them.
+
     //for this doChoreReport service, assynchronous stub is used because, we are sending
     //stream of request to server.
-    //here using stub, method doChoreReport is triggered and responseObserver which
-    //we defined its behaviour in this client class is sent to server as a parameter.       
+    //here using stubAsync, method doChoreReport is triggers server and responseObserver,
+    //we defined its behaviour in this client class, is sent to server as a parameter. 
+    //this method gives back request observer to client
+    //whenever client send request
+    //using onNext, server can catch several requests and possibly store them.
+    //in our case, here, client is sending multiple requests onNext()
+    //when request is done it calls onCompleted()
+    //when server knows it is completed, it starts calculating requests and sends
+    //back response using response observer
         StreamObserver<ReportRequest> requestObserver = ChoreClient
                 .stubAsync
                 .doChoreReport(responseObserver);

@@ -32,6 +32,9 @@ public class FlightClient {
     static JmDNS jmdns;
     private static boolean serviceResolved = false;
     //created static requestObserver to use it on gui code.
+    //if we get request observer from server inside gui code, 
+    //whenever user enters city name and clicks
+    //enter button server gives back different requestObserver
     public static StreamObserver<CO2Request> requestObserver;
     
     public static void discoverAndStart(JTextArea resultOutput) throws UnknownHostException, IOException, InterruptedException{
@@ -78,6 +81,18 @@ public class FlightClient {
                                         .newStub(channel);
                         resultOutput.append("\nChannel is ready now");
                     // Creating responseObserver, defining its behaviour when recieving reply
+                    //response observer is created here, for bi directional service
+                    //on gui code, when user click button start server. inside that button code
+                    //firstly, it triggers start server, and triggers client code for discovery
+                    //additionally, it creates responseObserver and creates connection to server
+                    //with following code requestObserver = biStub.doEmissionCalculation(responseObserver);
+                    //once we got requestObserver, it can be used in gui code, in enter button when sending user
+                    //input to server using onNext() method on this requestObserver
+                    //for bi-directional streaming, made sure there is one responseObserver and one requestObserver
+                    
+                    //unlike other services like Chore service. in Gui code, whenever user clicks
+                    //enter button there is new responseObserver is created, because only one response comes back.
+
                     StreamObserver<CO2Response> responseObserver = 
                             new StreamObserver<CO2Response>(){
                     // created responseArray to collect incoming responses from server
@@ -104,6 +119,15 @@ public class FlightClient {
                         }
 
                     };
+//when client calls doEmissionCalculation 
+//on stub and passes responseObserver, server returns request observer
+//on this request observer, client can send requests in our case sending City names
+//when server gets city name response observer's onNext()
+//server gets city name, does calculations. and when response ready it sends
+//that response using response observer which Client sent earlier
+//then response passes on using onNext(), client side response observer's onNext() method
+//triggered, and as however defined that method, in our case, client prints that message
+//and saves the value to an array.
 
                     requestObserver = biStub.doEmissionCalculation(responseObserver);
                     resultOutput.append("\nStub initialized!");

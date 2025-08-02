@@ -506,8 +506,9 @@ public class ClientMainGuiController extends javax.swing.JFrame {
         String nextCity = NextCityNameTextField.getText().trim();
         try{
             CO2Request request = CO2Request.newBuilder().setNextCity(nextCity).build();
-            //requestObserver 
-            FlightClient.requestObserver.onNext(request);
+            //here, existing requestObserver on Client code, we calling onNext()
+            //to send request to server
+           // FlightClient.requestObserver.onNext(request);
             Thread.sleep(1500);
 
         }catch(InterruptedException e)
@@ -518,8 +519,9 @@ public class ClientMainGuiController extends javax.swing.JFrame {
     }//GEN-LAST:event_NextCityNameEnterButtonActionPerformed
 
     private void CompletedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CompletedButtonActionPerformed
-
-        FlightClient.requestObserver.onCompleted();
+        //client sends requests and gets replies
+        //here when client finishes its requests, client calls onCompleted()
+        //FlightClient.requestObserver.onCompleted();
     }//GEN-LAST:event_CompletedButtonActionPerformed
 
     private void StartButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartButton1ActionPerformed
@@ -557,6 +559,12 @@ public class ClientMainGuiController extends javax.swing.JFrame {
         String sectionName = SectionNameTextField.getText().trim();
         service3TextArea.setText("" );
         try{
+            //for server streaming service, server does not need to observe request
+            //because one request from client passed through parameter with response observer
+            //when gets one request, server sends multiple response using 
+            //response observer onNext();
+            //when all responses are sent, server calls onCompleted() to indicate responses
+            //are done
             MonitoringRequest request = MonitoringRequest
             .newBuilder().setSectionName(sectionName).build();
 

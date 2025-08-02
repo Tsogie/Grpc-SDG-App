@@ -4,6 +4,7 @@
  */
 package dissys.smartservices;
 
+
 import grpc.generated.flight.CO2Request;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -160,8 +161,9 @@ public class FlightGui extends javax.swing.JFrame {
         //ArrayList<String> supportedCityNames = new ArrayList<>();
         String nextCity = NextCityNameTextField.getText().trim();
         try{
+            
             CO2Request request = CO2Request.newBuilder().setNextCity(nextCity).build();
-
+            
             FlightClient.requestObserver.onNext(request);
             Thread.sleep(1500);
         
@@ -174,7 +176,7 @@ public class FlightGui extends javax.swing.JFrame {
 
     private void CompletedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CompletedButtonActionPerformed
         
-        FlightClient.requestObserver.onCompleted();
+        //FlightClient.requestObserver.onCompleted();
     }//GEN-LAST:event_CompletedButtonActionPerformed
 
     /**

@@ -10,7 +10,6 @@ dissys\smartservices\ChoreGui$4.class
 dissys\smartservices\ClientMainGuiController$7.class
 dissys\smartservices\ClientMainGuiController.class
 dissys\smartservices\ChoreGui$7.class
-dissys\smartservices\FlightClient$2.class
 dissys\smartservices\FlightGui$3.class
 grpc\generated\chore\ChoreDividerGrpc$1.class
 grpc\generated\chore\ReportResponse$Builder.class

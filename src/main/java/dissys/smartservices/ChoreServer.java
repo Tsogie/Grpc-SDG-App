@@ -607,6 +607,12 @@ public class ChoreServer extends ChoreDividerImplBase {
             
             ArrayList<Integer> completedTaskNums = new ArrayList<>();
             
+            //here request observer onNext(), server collects requests from
+            //client, not do anything unlike bi-directional.
+            //when client calls onCompleted(), it calculates all requests
+            //send one response through onNext() on response observer 
+            //which passed in from client earlier.
+            //then right after calls onCompleted() because server already sent its one response.
             @Override
             public void onNext(ReportRequest v) {
                 System.out.println(LocalTime.now().toString() + " Recieved num : " + v.getCompletedTaskNum() );
@@ -678,6 +684,7 @@ public class ChoreServer extends ChoreDividerImplBase {
                 //behaviour of responseObserver onNext() is defined in Client side
                 //because it is client streaming, server will send back one response
                 responseObserver.onNext(report);
+                //server sent response, not it is calling onCompleted()
                 responseObserver.onCompleted();
             }//onCompleted
         
