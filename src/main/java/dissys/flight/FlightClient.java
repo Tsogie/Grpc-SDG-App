@@ -7,7 +7,9 @@ import grpc.generated.flight.FlightEmissionCalculatorGrpc.FlightEmissionCalculat
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.stub.StreamObserver;
+import java.io.IOException;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -15,6 +17,7 @@ import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceEvent;
 import javax.jmdns.ServiceInfo;
 import javax.jmdns.ServiceListener;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -28,52 +31,117 @@ public class FlightClient {
     private static ManagedChannel channel;
     public static FlightEmissionCalculatorStub biStub;
     static JmDNS jmdns;
-    public static void main(String[] args) throws Exception  {
-        
-        jmdns = JmDNS.create(InetAddress.getLocalHost());
-        String serviceType = "_grpc._tcp.local.";
-        String serviceName = "FlightEmissionCalculator";
-        //jmdns.requestServiceInfo(serviceType, serviceName, 1);
-           
-        jmdns.addServiceListener(serviceType, new ServiceListener(){
-            @Override
-            public void serviceAdded(ServiceEvent se) {
-                System.out.println("Service added: " + se.getName());
-                jmdns.requestServiceInfo(serviceType, serviceName, 1);
-            }
+    private static boolean serviceResolved = false;
+    
+    
+    public static void discoverAndStart(JTextArea resultOutput) throws UnknownHostException, IOException, InterruptedException{
+        try{
+            jmdns = JmDNS.create(InetAddress.getLocalHost());
+            String serviceType = "_grpc._tcp.local.";
+            String serviceName = "FlightEmissionCalculator";
 
-            @Override
-            public void serviceRemoved(ServiceEvent se) {
-                System.out.println("Service removed: " + se.getName());
-            }
-
-            @Override
-            public void serviceResolved(ServiceEvent se) {
-                ServiceInfo serviceInfo = se.getInfo();
-                System.out.println("Service resolved at Flight");
-                
-                String discoveredHost = serviceInfo.getHostAddresses()[0];
-                int discoveredPort = serviceInfo.getPort();
-                String inServiceName = serviceInfo.getName();
-                
-                try{
-                    if(inServiceName.equalsIgnoreCase(serviceName)){                    
-                        doFlightEmissionCalculation(discoveredHost, discoveredPort);                   
-                    }
-   
-                }catch(InterruptedException e){
-                    e.printStackTrace();
-                }catch (RejectedExecutionException e){
-                    e.printStackTrace();
-                }catch (Exception e){
-                    e.printStackTrace();
+                jmdns.addServiceListener(serviceType, new ServiceListener(){
+                    //String discoveryMessage = "";
+                @Override
+                public void serviceAdded(ServiceEvent se) {
+                    resultOutput.setText("Service added: " + se.getName());
+                    System.out.println("Service added: " + se.getName());
+                    jmdns.requestServiceInfo(serviceType, serviceName, 1);
                 }
-            }
-        });
+
+                @Override
+                public void serviceRemoved(ServiceEvent se) {
+                    System.out.println("Service removed: " + se.getName());
+                }
+
+                @Override
+                public void serviceResolved(ServiceEvent se) {
+                    if(serviceResolved){return;}
+                    ServiceInfo serviceInfo = se.getInfo();
+                    //resultOutput.setText(LocalTime.now().toString() + "Service resolved");
+
+                    String discoveredHost = serviceInfo.getHostAddresses()[0];
+                    int discoveredPort = serviceInfo.getPort();
+                    String inServiceName = serviceInfo.getName();
+
+                    try{
+                        if(inServiceName.equalsIgnoreCase(serviceName)){ 
+                            serviceResolved = true;
+                            //requestChoreDivide(discoveredHost, discoveredPort);
+                            resultOutput.append("\n"+serviceName + " service discovered at " + discoveredHost+ ":" + discoveredPort);
+                            System.out.println("Service discovered at port " + discoveredPort);
+                                   channel = ManagedChannelBuilder
+                                            .forAddress(discoveredHost, discoveredPort)
+                                            .usePlaintext()
+                                            .build();
+                                    biStub = FlightEmissionCalculatorGrpc
+                                            .newStub(channel);
+                            resultOutput.append("\nChannel is ready now");
+                            }
+
+                    }catch (RejectedExecutionException e){
+                        e.printStackTrace();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }catch(IOException e){
+            e.getMessage();
+        }
         
-//doFlightEmissionCalculation();
-    }//main
-   
+    }//discoverAndStart method
+    
+    
+    
+    
+    
+//    public static void main(String[] args) throws Exception  {
+//        
+//        jmdns = JmDNS.create(InetAddress.getLocalHost());
+//        String serviceType = "_grpc._tcp.local.";
+//        String serviceName = "FlightEmissionCalculator";
+//        //jmdns.requestServiceInfo(serviceType, serviceName, 1);
+//           
+//        jmdns.addServiceListener(serviceType, new ServiceListener(){
+//            @Override
+//            public void serviceAdded(ServiceEvent se) {
+//                System.out.println("Service added: " + se.getName());
+//                jmdns.requestServiceInfo(serviceType, serviceName, 1);
+//            }
+//
+//            @Override
+//            public void serviceRemoved(ServiceEvent se) {
+//                System.out.println("Service removed: " + se.getName());
+//            }
+//
+//            @Override
+//            public void serviceResolved(ServiceEvent se) {
+//                ServiceInfo serviceInfo = se.getInfo();
+//                System.out.println("Service resolved at Flight");
+//                
+//                String discoveredHost = serviceInfo.getHostAddresses()[0];
+//                int discoveredPort = serviceInfo.getPort();
+//                String inServiceName = serviceInfo.getName();
+//                
+//                try{
+//                    if(inServiceName.equalsIgnoreCase(serviceName)){                    
+//                        doFlightEmissionCalculation(discoveredHost, discoveredPort);                   
+//                    }
+//   
+//                }catch(InterruptedException e){
+//                    e.printStackTrace();
+//                }catch (RejectedExecutionException e){
+//                    e.printStackTrace();
+//                }catch (Exception e){
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//        
+////doFlightEmissionCalculation();
+//    }//main
+//   
     public static void doFlightEmissionCalculation(String host, int port) throws InterruptedException{
     
         channel = ManagedChannelBuilder

@@ -35,63 +35,73 @@ public class ChoreClient {
     public static ChoreDividerStub stubAsync;
     public static ChoreDividerBlockingStub stub;
     static JmDNS jmdns;
-    static String message;
-    public static void discoverAndStart() throws UnknownHostException, IOException, InterruptedException{
-    
-        jmdns = JmDNS.create(InetAddress.getLocalHost());
-        String serviceType = "_grpc._tcp.local.";
-        String serviceName = "ChoreDivider";
-        
-            jmdns.addServiceListener(serviceType, new ServiceListener(){
-                //String discoveryMessage = "";
-            @Override
-            public void serviceAdded(ServiceEvent se) {
-                System.out.println("Service added: " + se.getName());
-                jmdns.requestServiceInfo(serviceType, serviceName, 1);
-            }
+    //static String message = "no";
+    private static boolean serviceResolved = false;
+    public static void discoverAndStart(JTextArea resultOutput) throws UnknownHostException, IOException, InterruptedException{
+        try{
+            jmdns = JmDNS.create(InetAddress.getLocalHost());
+            String serviceType = "_grpc._tcp.local.";
+            String serviceName = "ChoreDivider";
 
-            @Override
-            public void serviceRemoved(ServiceEvent se) {
-                System.out.println("Service removed: " + se.getName());
-            }
-
-            @Override
-            public void serviceResolved(ServiceEvent se) {
-                ServiceInfo serviceInfo = se.getInfo();
-                System.out.println("Service resolved at Chore");
-                
-                String discoveredHost = serviceInfo.getHostAddresses()[0];
-                int discoveredPort = serviceInfo.getPort();
-                String inServiceName = serviceInfo.getName();
-                
-                try{
-                    if(inServiceName.equalsIgnoreCase(serviceName)){                    
-                        //requestChoreDivide(discoveredHost, discoveredPort);                   
-                        System.out.println("Service discovered at port " + discoveredPort);
-                        channel = ManagedChannelBuilder
-                                .forAddress(discoveredHost, discoveredPort)
-                                .usePlaintext()
-                                .build();
-                        stub = ChoreDividerGrpc.newBlockingStub(channel);
-                        stubAsync = ChoreDividerGrpc.newStub(channel);
-                        message = "Channel is built at port";
-                        //Gui.serviceTextArea.setText("Channel is built at port");
-                    }
-   
-                }catch (RejectedExecutionException e){
-                    e.printStackTrace();
-                }catch (Exception e){
-                    e.printStackTrace();
+                jmdns.addServiceListener(serviceType, new ServiceListener(){
+                    //String discoveryMessage = "";
+                @Override
+                public void serviceAdded(ServiceEvent se) {
+                    resultOutput.setText("Service added: " + se.getName());
+                    System.out.println("Service added: " + se.getName());
+                    jmdns.requestServiceInfo(serviceType, serviceName, 1);
                 }
-            }
-        });
-            Thread.sleep(30000);
+
+                @Override
+                public void serviceRemoved(ServiceEvent se) {
+                    System.out.println("Service removed: " + se.getName());
+                }
+
+                @Override
+                public void serviceResolved(ServiceEvent se) {
+                    if(serviceResolved){return;}
+                    ServiceInfo serviceInfo = se.getInfo();
+                    //resultOutput.setText(LocalTime.now().toString() + "Service resolved");
+
+                    String discoveredHost = serviceInfo.getHostAddresses()[0];
+                    int discoveredPort = serviceInfo.getPort();
+                    String inServiceName = serviceInfo.getName();
+
+                    try{
+                        if(inServiceName.equalsIgnoreCase(serviceName)){ 
+                            serviceResolved = true;
+                            //requestChoreDivide(discoveredHost, discoveredPort);
+                            resultOutput.append("\n"+serviceName + " service discovered at " + discoveredHost+ ":" + discoveredPort);
+                            System.out.println("Service discovered at port " + discoveredPort);
+                            channel = ManagedChannelBuilder
+                                    .forAddress(discoveredHost, discoveredPort)
+                                    .usePlaintext()
+                                    .build();
+                            stub = ChoreDividerGrpc.newBlockingStub(channel);
+                            stubAsync = ChoreDividerGrpc.newStub(channel);
+                            resultOutput.append("\nChannel is ready now");
+                            //message = "Channel is built at port" + discoveredPort;
+                            //Gui.serviceTextArea.setText("Channel is built at port");
+                        }
+
+                    }catch (RejectedExecutionException e){
+                        e.printStackTrace();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }catch(IOException e){
+            //message = "Exception occured " + e.getMessage();
+            e.getMessage();
+        }
         //return discoveryMessage;
-    }
-    public static void main(String[] args) throws IOException, InterruptedException {
-        
-        Thread.sleep(30000);
-    }//main
+    }//discoverAndStart method
+    
+//    public static void main(String[] args) throws IOException, InterruptedException {
+//        
+//        Thread.sleep(30000);
+//    }//main
     
     public static void requestChoreDivide() throws Exception{
 

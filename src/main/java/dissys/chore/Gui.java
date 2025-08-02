@@ -1,11 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package dissys.chore;
 
-import static dissys.chore.ChoreClient.stubAsync;
-import grpc.generated.chore.ChoreDividerGrpc;
+//import static dissys.chore.ChoreClient.stubAsync;
 import grpc.generated.chore.ChoreRequest;
 import grpc.generated.chore.ChoreResponse;
 import grpc.generated.chore.ReportRequest;
@@ -13,7 +8,6 @@ import grpc.generated.chore.ReportResponse;
 import io.grpc.stub.StreamObserver;
 import java.io.IOException;
 import java.time.LocalTime;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -40,6 +34,8 @@ public class Gui extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jTabbedPane2 = new javax.swing.JTabbedPane();
         NumPeopleLabel = new javax.swing.JLabel();
         numPeopleTextField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -165,7 +161,7 @@ public class Gui extends javax.swing.JFrame {
     }//GEN-LAST:event_NumPeopleButtonActionPerformed
 
     private void StartButtomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartButtomActionPerformed
-        //start server
+        //Starting new thread in the background to allow GUI performance.
         Thread serverThread = new Thread(new Runnable(){
             @Override
             public void run(){
@@ -173,22 +169,28 @@ public class Gui extends javax.swing.JFrame {
             }
         });
         serverThread.start();
-        
+        serviceTextArea.setText("Server started.");
+        //waiting briefly until server ready
         try {
             Thread.sleep(1000);
         } catch (InterruptedException ex) {
             Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        
+        serviceTextArea.append("\nDiscovering service...");
         try {
             //discover service from client
-            ChoreClient.discoverAndStart();
-            serviceTextArea.setText(ChoreClient.message);
+            ChoreClient.discoverAndStart(serviceTextArea);
+            //serviceTextArea.setText(ChoreClient.message);
         } catch (IOException ex) {
             Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
             Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
+     
         
     }//GEN-LAST:event_StartButtomActionPerformed
 
@@ -208,11 +210,18 @@ public class Gui extends javax.swing.JFrame {
 
             @Override
             public void onCompleted() {
-                //serviceTextArea.setText(LocalTime.now().toString() + "Report is completed");
+                serviceTextArea.append("\n" + LocalTime.now().toString() + "\nReport is completed");
             }
         };
-        
-        StreamObserver<ReportRequest> requestObserver = stubAsync.doChoreReport(responseObserver);
+    //for request we have requestObserver on Server, so whenever client send request
+    //using onNext, server can catch several requests and possible store them.
+    //for this doChoreReport service, assynchronous stub is used because, we are sending
+    //stream of request to server.
+    //here using stub, method doChoreReport is triggered and responseObserver which
+    //we defined its behaviour in this client class is sent to server as a parameter.       
+        StreamObserver<ReportRequest> requestObserver = ChoreClient
+                .stubAsync
+                .doChoreReport(responseObserver);
     
         try{
             requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(11).build());
@@ -225,16 +234,13 @@ public class Gui extends javax.swing.JFrame {
             Thread.sleep(500);
             requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(4).build());
             Thread.sleep(500);
-            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(10).build());
-            Thread.sleep(500);
-
+         
             requestObserver.onCompleted();
 
-            Thread.sleep(10000);
-        }catch(RuntimeException e){
-        e.printStackTrace();
+//            Thread.sleep(10000);
+        
         }catch(InterruptedException e){
-        e.printStackTrace();
+            serviceTextArea.setText("Exception: " + e.getMessage());
         }
     }//GEN-LAST:event_ReportButtonActionPerformed
 
@@ -281,6 +287,8 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JButton StartButtom;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTextField numPeopleTextField;
     private javax.swing.JLabel resultLabel;
     private javax.swing.JTextArea serviceTextArea;

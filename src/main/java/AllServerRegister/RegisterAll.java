@@ -3,7 +3,7 @@ package AllServerRegister;
 import ServiceRegistryAndDiscovery.SmartServiceRegistration;
 import dissys.chore.ChoreServer;
 import dissys.flight.FlightServer;
-import disys.storeMonitoring.StoreMonitoringServer;
+import dissys.storeMonitoring.StoreMonitoringServer;
 import java.io.IOException;
 
 /**

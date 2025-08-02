@@ -1,4 +1,4 @@
-package disys.storeMonitoring;
+package dissys.storeMonitoring;
 
 import AllServerRegister.RegisterAll;
 import ServiceRegistryAndDiscovery.SmartServiceRegistration;

@@ -1,4 +1,4 @@
-package disys.storeMonitoring;
+package dissys.storeMonitoring;
 
 import grpc.generated.monitoring.MonitoringRequest;
 import grpc.generated.monitoring.MonitoringResponse;
