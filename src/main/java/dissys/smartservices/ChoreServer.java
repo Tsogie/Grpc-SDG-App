@@ -1,4 +1,4 @@
-package dissys.chore;
+package dissys.smartservices;
 
 import ServiceRegistryAndDiscovery.SmartServiceRegistration;
 import grpc.generated.chore.ChoreDividerGrpc.ChoreDividerImplBase;

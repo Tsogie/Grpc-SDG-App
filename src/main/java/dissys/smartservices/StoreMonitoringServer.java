@@ -1,4 +1,4 @@
-package dissys.storeMonitoring;
+package dissys.smartservices;
 
 import ServiceRegistryAndDiscovery.SmartServiceRegistration;
 import grpc.generated.monitoring.MonitoringRequest;

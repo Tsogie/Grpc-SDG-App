@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package dissys.flight;
+package dissys.smartservices;
 
 import grpc.generated.flight.CO2Request;
 import java.io.IOException;

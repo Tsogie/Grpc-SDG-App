@@ -1,4 +1,4 @@
-package dissys.flight;
+package dissys.smartservices;
 
 import ServiceRegistryAndDiscovery.SmartServiceRegistration;
 import grpc.generated.flight.CO2Request;
@@ -69,7 +69,7 @@ public class FlightServer extends FlightEmissionCalculatorImplBase{
     
     public StreamObserver<CO2Request> doEmissionCalculation(StreamObserver<CO2Response> responseObserver){
         
-       
+        //requestObserver
         return new StreamObserver<CO2Request>(){
             
             //"Dublin", "London", "Paris"

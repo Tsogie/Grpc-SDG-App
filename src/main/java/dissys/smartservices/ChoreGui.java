@@ -1,4 +1,4 @@
-package dissys.chore;
+package dissys.smartservices;
 
 //import static dissys.chore.ChoreClient.stubAsync;
 import grpc.generated.chore.ChoreRequest;
@@ -15,12 +15,12 @@ import java.util.logging.Logger;
  *
  * @author Tsogzolmaa;
  */
-public class Gui extends javax.swing.JFrame {
+public class ChoreGui extends javax.swing.JFrame {
 
     /**
      * Creates new form Gui
      */
-    public Gui() {
+    public ChoreGui() {
         initComponents();
         
     }
@@ -174,7 +174,7 @@ public class Gui extends javax.swing.JFrame {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException ex) {
-            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ChoreGui.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
@@ -184,9 +184,9 @@ public class Gui extends javax.swing.JFrame {
             ChoreClient.discoverAndStart(serviceTextArea);
             //serviceTextArea.setText(ChoreClient.message);
         } catch (IOException ex) {
-            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ChoreGui.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InterruptedException ex) {
-            Logger.getLogger(Gui.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ChoreGui.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         
@@ -261,21 +261,22 @@ public class Gui extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Gui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ChoreGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Gui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ChoreGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Gui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ChoreGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Gui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ChoreGui.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new Gui().setVisible(true);
+                new ChoreGui().setVisible(true);
             }
         });
     }

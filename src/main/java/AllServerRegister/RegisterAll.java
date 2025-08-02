@@ -1,9 +1,9 @@
 package AllServerRegister;
 
 import ServiceRegistryAndDiscovery.SmartServiceRegistration;
-import dissys.chore.ChoreServer;
-import dissys.flight.FlightServer;
-import dissys.storeMonitoring.StoreMonitoringServer;
+import dissys.smartservices.ChoreServer;
+import dissys.smartservices.FlightServer;
+import dissys.smartservices.StoreMonitoringServer;
 import java.io.IOException;
 
 /**
