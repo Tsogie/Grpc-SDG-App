@@ -32,6 +32,8 @@ public class StoreMonitoringClient {
     public static ManagedChannel channel;
     public static StoreMonitoringServiceStub stubAsync;
     static JmDNS jmdns;
+    //added this boolean, once service is resolved, at some point it keeps
+    //resolving and sending same message, so now once service found, service listener will not find it again
     private static boolean serviceResolved = false;
     
     public static void discoverAndStart(JTextArea resultOutput) throws UnknownHostException, IOException, InterruptedException{
@@ -85,77 +87,74 @@ public class StoreMonitoringClient {
         });
     
     }
-    public static void main(String[] args) throws Exception {
-        // TODO code application logic here
-       jmdns = JmDNS.create(InetAddress.getLocalHost());
-        String serviceType = "_grpc._tcp.local.";
-        String serviceName = "StoreMonitoringService";
-           
-        jmdns.addServiceListener(serviceType, new ServiceListener(){
-            @Override
-            public void serviceAdded(ServiceEvent se) {
-                System.out.println("Service added: " + se.getName());
-                jmdns.requestServiceInfo(serviceType, serviceName, 1);
-            }
+//    public static void main(String[] args) throws Exception {
+//        // TODO code application logic here
+//       jmdns = JmDNS.create(InetAddress.getLocalHost());
+//        String serviceType = "_grpc._tcp.local.";
+//        String serviceName = "StoreMonitoringService";
+//           
+//        jmdns.addServiceListener(serviceType, new ServiceListener(){
+//            @Override
+//            public void serviceAdded(ServiceEvent se) {
+//                System.out.println("Service added: " + se.getName());
+//                jmdns.requestServiceInfo(serviceType, serviceName, 1);
+//            }
+//
+//            @Override
+//            public void serviceRemoved(ServiceEvent se) {
+//                System.out.println("Service removed: " + se.getName());
+//            }
+//
+//            @Override
+//            public void serviceResolved(ServiceEvent se) {
+//                ServiceInfo serviceInfo = se.getInfo();
+//                System.out.println("Service resolved at Monitoring");
+//                
+//                String discoveredHost = serviceInfo.getHostAddresses()[0];
+//                int discoveredPort = serviceInfo.getPort();
+//                String inServiceName = serviceInfo.getName();
+//                
+//                try{
+//                    if(inServiceName.equalsIgnoreCase(serviceName)){                    
+//                        channel = ManagedChannelBuilder
+//                                .forAddress(discoveredHost, discoveredPort)
+//                                .usePlaintext()
+//                                .build();
+//                        stubAsync = StoreMonitoringServiceGrpc.newStub(channel);                  
+//                    }
+//   
+//                }catch (RejectedExecutionException e){
+//                    e.printStackTrace();
+//                }catch (Exception e){
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+// 
+//    }
+    public static void doStoreMonitoring(MonitoringRequest request, JTextArea resultOutput) throws InterruptedException{
 
-            @Override
-            public void serviceRemoved(ServiceEvent se) {
-                System.out.println("Service removed: " + se.getName());
-            }
-
-            @Override
-            public void serviceResolved(ServiceEvent se) {
-                ServiceInfo serviceInfo = se.getInfo();
-                System.out.println("Service resolved at Monitoring");
-                
-                String discoveredHost = serviceInfo.getHostAddresses()[0];
-                int discoveredPort = serviceInfo.getPort();
-                String inServiceName = serviceInfo.getName();
-                
-                try{
-                    if(inServiceName.equalsIgnoreCase(serviceName)){                    
-                        channel = ManagedChannelBuilder
-                                .forAddress(discoveredHost, discoveredPort)
-                                .usePlaintext()
-                                .build();
-                        stubAsync = StoreMonitoringServiceGrpc.newStub(channel);                  
-                    }
-   
-                }catch (RejectedExecutionException e){
-                    e.printStackTrace();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-        });
- 
-    }
-    public static void doStoreMonitoring(String host, int port) throws InterruptedException{
-    
-
-        
         try{
-        MonitoringRequest request = MonitoringRequest
-                .newBuilder().setSectionName("Beverages").build();
         
-        StreamObserver<MonitoringResponse> responseObserver= new StreamObserver<MonitoringResponse>(){
+         StreamObserver<MonitoringResponse> responseObserver= new StreamObserver<MonitoringResponse>(){
             
             ArrayList<String> responseArray = new ArrayList<>();
             @Override
             public void onNext(MonitoringResponse v) {
-                System.out.println("Response from server " + v.getStockLevelMessage());
+                resultOutput.append("Response from server " );
+                resultOutput.append(v.getStockLevelMessage());
                 responseArray.add(v.getStockLevelMessage());
             }
 
             @Override
             public void onError(Throwable thrwbl) {
-                System.err.println("Error occurred during stream: " + thrwbl.getMessage());
+                resultOutput.setText("Error occurred during stream: " + thrwbl.getMessage());
                 thrwbl.printStackTrace();             }
 
             @Override
             public void onCompleted() {
-                System.out.println("Server response(s) completed");
-                System.out.println("Recieved response(s) : " + responseArray.toString());
+                resultOutput.append("\nServer response(s) completed");
+                resultOutput.append("\nRecieved response(s) : " + responseArray.toString());
             }
 
         };

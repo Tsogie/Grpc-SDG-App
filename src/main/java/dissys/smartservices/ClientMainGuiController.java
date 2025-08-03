@@ -558,44 +558,23 @@ public class ClientMainGuiController extends javax.swing.JFrame {
 
         String sectionName = SectionNameTextField.getText().trim();
         service3TextArea.setText("" );
-        try{
-            //for server streaming service, server does not need to observe request
-            //because one request from client passed through parameter with response observer
-            //when gets one request, server sends multiple response using 
-            //response observer onNext();
-            //when all responses are sent, server calls onCompleted() to indicate responses
-            //are done
+
+        try {
+
             MonitoringRequest request = MonitoringRequest
             .newBuilder().setSectionName(sectionName).build();
 
-            StreamObserver<MonitoringResponse> responseObserver= new StreamObserver<MonitoringResponse>(){
+        //removed response observer from this code, now sending request to Client
+        //calling doStoreMonitoring method, in this method client creates response observer
+        //can calls method on server and passes this request and response observer
+        //to server from client side code
+        //to print responses on response observer, here also sends serviceTextArea
+            StoreMonitoringClient.doStoreMonitoring(request, service3TextArea);
 
-                ArrayList<String> responseArray = new ArrayList<>();
-                @Override
-                public void onNext(MonitoringResponse v) {
-                    service3TextArea.append("Response from server " );
-                    service3TextArea.append(v.getStockLevelMessage());
-                    responseArray.add(v.getStockLevelMessage());
-                }
-
-                @Override
-                public void onError(Throwable thrwbl) {
-                    service3TextArea.setText("Error occurred during stream: " + thrwbl.getMessage());
-                    thrwbl.printStackTrace();             }
-
-                @Override
-                public void onCompleted() {
-                    service3TextArea.append("\nServer response(s) completed");
-                    service3TextArea.append("\nRecieved response(s) : " + responseArray.toString());
-                }
-
-            };
-
-            StoreMonitoringClient.stubAsync.doMonitoring(request, responseObserver);
-
-        }catch (StatusRuntimeException e) {
-            e.getStatus();
-        } 
+        } catch (InterruptedException ex) {
+            Logger.getLogger(StoreGui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
     //commented out to keep server alive    
 //        finally {
 //            try {

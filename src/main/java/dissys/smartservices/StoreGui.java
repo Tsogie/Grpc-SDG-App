@@ -153,49 +153,23 @@ public class StoreGui extends javax.swing.JFrame {
         
         String sectionName = SectionNameTextField.getText().trim();
         serviceTextArea.setText("" );
-    try{
-        MonitoringRequest request = MonitoringRequest
-                .newBuilder().setSectionName(sectionName).build();
-        
-        StreamObserver<MonitoringResponse> responseObserver= new StreamObserver<MonitoringResponse>(){
-            
-            ArrayList<String> responseArray = new ArrayList<>();
-            @Override
-            public void onNext(MonitoringResponse v) {
-                serviceTextArea.append("Response from server " );
-                serviceTextArea.append(v.getStockLevelMessage());
-                responseArray.add(v.getStockLevelMessage());
-            }
 
-            @Override
-            public void onError(Throwable thrwbl) {
-                serviceTextArea.setText("Error occurred during stream: " + thrwbl.getMessage());
-                thrwbl.printStackTrace();             }
-
-            @Override
-            public void onCompleted() {
-                serviceTextArea.append("\nServer response(s) completed");
-                serviceTextArea.append("\nRecieved response(s) : " + responseArray.toString());
-            }
-
-        };
-        
-        StoreMonitoringClient.stubAsync.doMonitoring(request, responseObserver);
-        
-        }catch (StatusRuntimeException e) {
-            e.getStatus();
-        } finally {
             try {
-                StoreMonitoringClient.channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
+                
+                MonitoringRequest request = MonitoringRequest
+                .newBuilder().setSectionName(sectionName).build();
+       
+            //removed response observer from this code, now sending request to Client
+            //calling doStoreMonitoring method, in this method client creates response observer
+            //can calls method on server and passes this request and response observer
+            //to server from client side code
+            //to print responses on response observer, here also sends serviceTextArea
+            StoreMonitoringClient.doStoreMonitoring(request, serviceTextArea);
+
             } catch (InterruptedException ex) {
                 Logger.getLogger(StoreGui.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        
-        
-        
-        
-        
+
     }//GEN-LAST:event_EnterButtonActionPerformed
 
     /**

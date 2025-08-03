@@ -97,31 +97,31 @@ public class ChoreServer extends ChoreDividerImplBase {
                     list1String.add("Taking out trash 1");
                     break;
                 case 3:
-                    list1String.add("do grocery 1");
+                    list1String.add("Do grocery 1");
                     break;
                 case 4:
-                    list1String.add("dusting 2");
+                    list1String.add("Dusting 2");
                     break;
                 case 5:
-                    list1String.add("dishes 2");
+                    list1String.add("Dishes 2");
                     break;
                 case 6:
-                    list1String.add("walking dog 2");
+                    list1String.add("Walking dog 2");
                     break;
                 case 7:
-                    list1String.add("dusting 2");
+                    list1String.add("Cleaning windows 2");
                     break;
                 case 8:
-                    list1String.add("laundry 3");
+                    list1String.add("Laundry 3");
                     break;
                 case 9:
-                    list1String.add("gardening 3");
+                    list1String.add("Gardening 3");
                     break;
                 case 10:
-                    list1String.add("cleaning bathroom 4");
+                    list1String.add("Cleaning bathroom 4");
                     break;
                 case 11:
-                    list1String.add("cooking 4");
+                    list1String.add("Cooking 4");
                     break;                    
                 default:
                     break;
@@ -138,31 +138,31 @@ public class ChoreServer extends ChoreDividerImplBase {
                     list2String.add("Taking out trash 1");
                     break;
                 case 3:
-                    list2String.add("do grocery 1");
+                    list2String.add("Do grocery 1");
                     break;
                 case 4:
-                    list2String.add("dusting 2");
+                    list2String.add("Dusting 2");
                     break;
                 case 5:
-                    list2String.add("dishes 2");
+                    list2String.add("Dishes 2");
                     break;
                 case 6:
-                    list2String.add("walking dog 2");
+                    list2String.add("Walking dog 2");
                     break;
                 case 7:
-                    list2String.add("dusting 2");
+                    list2String.add("Cleaning windows 2");
                     break;
                 case 8:
-                    list2String.add("laundry 3");
+                    list2String.add("Laundry 3");
                     break;
                 case 9:
-                    list2String.add("gardening 3");
+                    list2String.add("Gardening 3");
                     break;
                 case 10:
-                    list2String.add("cleaning bathroom 4");
+                    list2String.add("Cleaning bathroom 4");
                     break;
                 case 11:
-                    list2String.add("cooking 4");
+                    list2String.add("Cooking 4");
                     break;                    
                 default:
                     break;
@@ -172,8 +172,8 @@ public class ChoreServer extends ChoreDividerImplBase {
        
         
 
-        return "\nPerson1 task: " + list1String.toString() 
-                + "\nPerson2 task: " + list2String.toString();
+        return "\nPerson-1 task: " + list1String.toString() 
+                + "\nPerson-2 task: " + list2String.toString();
 
 
     }
@@ -208,31 +208,31 @@ public class ChoreServer extends ChoreDividerImplBase {
                     list1String.add("Taking out trash 1");
                     break;
                 case 3:
-                    list1String.add("do grocery 1");
+                    list1String.add("Do grocery 1");
                     break;
                 case 4:
-                    list1String.add("dusting 2");
+                    list1String.add("Dusting 2");
                     break;
                 case 5:
-                    list1String.add("dishes 2");
+                    list1String.add("Dishes 2");
                     break;
                 case 6:
-                    list1String.add("walking dog 2");
+                    list1String.add("Walking dog 2");
                     break;
                 case 7:
-                    list1String.add("dusting 2");
+                    list1String.add("Cleaning windows 2");
                     break;
                 case 8:
-                    list1String.add("laundry 3");
+                    list1String.add("Laundry 3");
                     break;
                 case 9:
-                    list1String.add("gardening 3");
+                    list1String.add("Gardening 3");
                     break;
                 case 10:
-                    list1String.add("cleaning bathroom 4");
+                    list1String.add("Cleaning bathroom 4");
                     break;
                 case 11:
-                    list1String.add("cooking 4");
+                    list1String.add("Cooking 4");
                     break;                    
                 default:
                     break;
@@ -248,31 +248,31 @@ public class ChoreServer extends ChoreDividerImplBase {
                     list2String.add("Taking out trash 1");
                     break;
                 case 3:
-                    list2String.add("do grocery 1");
+                    list2String.add("Do grocery 1");
                     break;
                 case 4:
-                    list2String.add("dusting 2");
+                    list2String.add("Dusting 2");
                     break;
                 case 5:
-                    list2String.add("dishes 2");
+                    list2String.add("Dishes 2");
                     break;
                 case 6:
-                    list2String.add("walking dog 2");
+                    list2String.add("Walking dog 2");
                     break;
                 case 7:
-                    list2String.add("dusting 2");
+                    list2String.add("Cleaning windows 2");
                     break;
                 case 8:
-                    list2String.add("laundry 3");
+                    list2String.add("Laundry 3");
                     break;
                 case 9:
-                    list2String.add("gardening 3");
+                    list2String.add("Gardening 3");
                     break;
                 case 10:
-                    list2String.add("cleaning bathroom 4");
+                    list2String.add("Cleaning bathroom 4");
                     break;
                 case 11:
-                    list2String.add("cooking 4");
+                    list2String.add("Cooking 4");
                     break;                    
                 default:
                     break;
@@ -289,31 +289,31 @@ public class ChoreServer extends ChoreDividerImplBase {
                     list3String.add("Taking out trash 1");
                     break;
                 case 3:
-                    list3String.add("do grocery 1");
+                    list3String.add("Do grocery 1");
                     break;
                 case 4:
-                    list3String.add("dusting 2");
+                    list3String.add("Dusting 2");
                     break;
                 case 5:
-                    list3String.add("dishes 2");
+                    list3String.add("Dishes 2");
                     break;
                 case 6:
-                    list3String.add("walking dog 2");
+                    list3String.add("Walking dog 2");
                     break;
                 case 7:
-                    list3String.add("dusting 2");
+                    list3String.add("Cleaning windows 2");
                     break;
                 case 8:
-                    list3String.add("laundry 3");
+                    list3String.add("Laundry 3");
                     break;
                 case 9:
-                    list3String.add("gardening 3");
+                    list3String.add("Gardening 3");
                     break;
                 case 10:
-                    list3String.add("cleaning bathroom 4");
+                    list3String.add("Cleaning bathroom 4");
                     break;
                 case 11:
-                    list3String.add("cooking 4");
+                    list3String.add("Cooking 4");
                     break;                    
                 default:
                     break;
@@ -321,9 +321,9 @@ public class ChoreServer extends ChoreDividerImplBase {
                         
         }
         
-        return"\nPerson1" + list1String.toString() 
-                + "\nPerson2" + list2String.toString() 
-                + "\nPerson3" + list3String.toString();
+        return"\nPerson-1 task: " + list1String.toString() 
+                + "\nPerson-2 task: " + list2String.toString() 
+                + "\nPerson-3 task: " + list3String.toString();
     }
     
     public String divideFour(ArrayList<Integer> randomizedChores){
@@ -374,7 +374,7 @@ public class ChoreServer extends ChoreDividerImplBase {
                     list1String.add("walking dog 2");
                     break;
                 case 7:
-                    list1String.add("dusting 2");
+                    list1String.add("Cleaning windows 2");
                     break;
                 case 8:
                     list1String.add("laundry 3");
@@ -414,7 +414,7 @@ public class ChoreServer extends ChoreDividerImplBase {
                     list2String.add("walking dog 2");
                     break;
                 case 7:
-                    list2String.add("dusting 2");
+                    list2String.add("Cleaning windows 2");
                     break;
                 case 8:
                     list2String.add("laundry 3");
@@ -455,7 +455,7 @@ public class ChoreServer extends ChoreDividerImplBase {
                     list3String.add("walking dog 2");
                     break;
                 case 7:
-                    list3String.add("dusting 2");
+                    list3String.add("Cleaning windows 2");
                     break;
                 case 8:
                     list3String.add("laundry 3");
@@ -495,7 +495,7 @@ public class ChoreServer extends ChoreDividerImplBase {
                     list4String.add("walking dog 2");
                     break;
                 case 7:
-                    list4String.add("dusting 2");
+                    list4String.add("Cleaning windows 2");
                     break;
                 case 8:
                     list4String.add("laundry 3");
@@ -514,10 +514,10 @@ public class ChoreServer extends ChoreDividerImplBase {
             }
                         
         }
-        return"\nPerson1" + list1String.toString() 
-                + "\nPerson2" + list2String.toString() 
-                + "\nPerson3" + list3String.toString() 
-                + "\nPerson4" + list4String.toString();
+        return"\nPerson 1 task: " + list1String.toString() 
+                + "\nPerson 2 task: " + list2String.toString() 
+                + "\nPerson 3 task: " + list3String.toString() 
+                + "\nPerson 4 task: " + list4String.toString();
     }
 
     @Override 
@@ -534,7 +534,7 @@ public class ChoreServer extends ChoreDividerImplBase {
         //4.dusting-2
         //5.dishes-2
         //6.walking dog-2
-        //7.dusting-2        
+        //7.cleaning windows-2        
         //8.laundry-3
         //9.gardening-3
         //10.cleaning bathroom-4
@@ -642,31 +642,31 @@ public class ChoreServer extends ChoreDividerImplBase {
                         completedTasksString.add("Taking out trash 1");
                         break;
                     case 3:
-                        completedTasksString.add("do grocery 1");
+                        completedTasksString.add("Do grocery 1");
                         break;
                     case 4:
-                        completedTasksString.add("dusting 2");
+                        completedTasksString.add("Dusting 2");
                         break;
                     case 5:
-                        completedTasksString.add("dishes 2");
+                        completedTasksString.add("Dishes 2");
                         break;
                     case 6:
-                        completedTasksString.add("walking dog 2");
+                        completedTasksString.add("Walking dog 2");
                         break;
                     case 7:
-                        completedTasksString.add("dusting 2");
+                        completedTasksString.add("Cleaning windows 2");
                         break;
                     case 8:
-                        completedTasksString.add("laundry 3");
+                        completedTasksString.add("Laundry 3");
                         break;
                     case 9:
-                        completedTasksString.add("gardening 3");
+                        completedTasksString.add("Cardening 3");
                         break;
                     case 10:
-                        completedTasksString.add("cleaning bathroom 4");
+                        completedTasksString.add("Cleaning bathroom 4");
                         break;
                     case 11:
-                        completedTasksString.add("cooking 4");
+                        completedTasksString.add("Cooking 4");
                         break;                    
                     default:
                         break;
@@ -684,7 +684,7 @@ public class ChoreServer extends ChoreDividerImplBase {
                 //behaviour of responseObserver onNext() is defined in Client side
                 //because it is client streaming, server will send back one response
                 responseObserver.onNext(report);
-                //server sent response, not it is calling onCompleted()
+                //server sent response, now it is calling onCompleted()
                 responseObserver.onCompleted();
             }//onCompleted
         

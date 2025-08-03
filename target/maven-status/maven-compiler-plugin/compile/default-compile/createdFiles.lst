@@ -42,7 +42,6 @@ grpc\generated\flight\FlightEmissionCalculatorGrpc$FlightEmissionCalculatorFileD
 ServiceRegistryAndDiscovery\SmartServiceRegistration.class
 grpc\generated\flight\FlightEmissionCalculatorGrpc$1.class
 dissys\smartservices\ChoreGui$2.class
-dissys\smartservices\StoreGui$6.class
 dissys\smartservices\ChoreServer.class
 grpc\generated\monitoring\StoreMonitoringServiceGrpc$StoreMonitoringServiceImplBase.class
 dissys\smartservices\ClientMainGuiController$14.class
