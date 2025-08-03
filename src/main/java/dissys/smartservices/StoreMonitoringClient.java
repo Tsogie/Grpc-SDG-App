@@ -36,6 +36,15 @@ public class StoreMonitoringClient {
     //resolving and sending same message, so now once service found, service listener will not find it again
     private static boolean serviceResolved = false;
     
+    /**
+     * Discovering service and start
+     * @param resultOutput
+     * @throws java.net.UnknownHostException
+     * @throws java.lang.InterruptedException
+     * function - this method will be triggered when user enter button START. 
+     * after server publishes itself, client will discover that service by name and type
+     * once service resolved, channel and stub will set up
+     */
     public static void discoverAndStart(JTextArea resultOutput) throws UnknownHostException, IOException, InterruptedException{
     
         jmdns = JmDNS.create(InetAddress.getLocalHost());
@@ -87,52 +96,23 @@ public class StoreMonitoringClient {
         });
     
     }
-//    public static void main(String[] args) throws Exception {
-//        // TODO code application logic here
-//       jmdns = JmDNS.create(InetAddress.getLocalHost());
-//        String serviceType = "_grpc._tcp.local.";
-//        String serviceName = "StoreMonitoringService";
-//           
-//        jmdns.addServiceListener(serviceType, new ServiceListener(){
-//            @Override
-//            public void serviceAdded(ServiceEvent se) {
-//                System.out.println("Service added: " + se.getName());
-//                jmdns.requestServiceInfo(serviceType, serviceName, 1);
-//            }
-//
-//            @Override
-//            public void serviceRemoved(ServiceEvent se) {
-//                System.out.println("Service removed: " + se.getName());
-//            }
-//
-//            @Override
-//            public void serviceResolved(ServiceEvent se) {
-//                ServiceInfo serviceInfo = se.getInfo();
-//                System.out.println("Service resolved at Monitoring");
-//                
-//                String discoveredHost = serviceInfo.getHostAddresses()[0];
-//                int discoveredPort = serviceInfo.getPort();
-//                String inServiceName = serviceInfo.getName();
-//                
-//                try{
-//                    if(inServiceName.equalsIgnoreCase(serviceName)){                    
-//                        channel = ManagedChannelBuilder
-//                                .forAddress(discoveredHost, discoveredPort)
-//                                .usePlaintext()
-//                                .build();
-//                        stubAsync = StoreMonitoringServiceGrpc.newStub(channel);                  
-//                    }
-//   
-//                }catch (RejectedExecutionException e){
-//                    e.printStackTrace();
-//                }catch (Exception e){
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-// 
-//    }
-    public static void doStoreMonitoring(MonitoringRequest request, JTextArea resultOutput) throws InterruptedException{
+/**
+ * SERVER STREAMING
+ * doStoreMonitoring() method will be triggered by GUI code when user clicks button ENTER
+ * from GUI code it gets MonitoringRequest type request (store section name) and text area
+ * 
+ * @param inRequest
+ * 
+ * @param resultOutput
+ * @throws java.lang.InterruptedException
+ * 
+ * function - it sets up response observer, do method call on asynchronous stub
+ * passes this inRequest and response observer to server
+ * Response from server will come on onNext method of this response observer
+ * when response comes, it prints that message to user resultOutput.append(v.getStockLevelMessage());
+ * and stores responses to an array to display later when communication finishes
+ */
+    public static void doStoreMonitoring(MonitoringRequest inRequest, JTextArea resultOutput) throws InterruptedException{
 
         try{
         
@@ -158,12 +138,14 @@ public class StoreMonitoringClient {
             }
 
         };
-        
-        stubAsync.doMonitoring(request, responseObserver);
+        //using asynchronous stub calling method on server, sending inRequest which is passed in
+        //from GUI side code and response observer
+        stubAsync.doMonitoring(inRequest, responseObserver);
         
         }catch (StatusRuntimeException e) {
             e.getStatus();
         } finally {
+            //if want to keep server alive comment this line out
             channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
         }
     

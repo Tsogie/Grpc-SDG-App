@@ -21,39 +21,11 @@ public class StoreMonitoringServer extends StoreMonitoringServiceImplBase {
      * @param args the command line arguments
      */
   
-    public static void main(String[] args){
-//     StoreMonitoringServer monitoringServer = new StoreMonitoringServer();
-//        int port = 50003;
-//        //RegisterAll.regiterAllServers();
-//        try{
-//            
-//            Server server = ServerBuilder.forPort(port)
-//                    .addService(monitoringServer)
-//                    .build()
-//                    .start();
-//            System.out.println("Server started on port: " + port);
-//        
-//            SmartServiceRegistration ssr = SmartServiceRegistration.getInstance();
-//            System.out.println("Created instance of SmartServiceRegistration for StoreMonitoringService ");
-//            ssr.registerService("_grpc._tcp.local.", "StoreMonitoringService", port, "Grpc server streaming StoreMonitoringService service");
-//            System.out.println("Service registering");
-//            server.awaitTermination();
-//        
-//        }catch(IOException e){
-//        e.getMessage();
-//        
-//        }catch(InterruptedException e){
-//        e.getMessage();
-//        
-//        }
-    
-    } 
-    
+    //Trigger method to start server from GUI
     public void startServer(){
     
     StoreMonitoringServer monitoringServer = new StoreMonitoringServer();
         int port = 50003;
-        //RegisterAll.regiterAllServers();
         try{
             
             Server server = ServerBuilder.forPort(port)
@@ -76,6 +48,14 @@ public class StoreMonitoringServer extends StoreMonitoringServiceImplBase {
         
         }
     }
+    /**
+     * SERVER STREAMING RPC for monitoring certain store section. 
+     * rpc doMonitoring (MonitoringRequest) returns (stream MonitoringResponse){} 
+     * user enters store section name as an input. server will check any updates
+     * and sends one by one - stream MonitoringResponse.
+     * @param request - it is coming request from client
+     * @param responseObserver - it is where server will send response
+     */
     @Override 
     public void doMonitoring(MonitoringRequest request, StreamObserver<MonitoringResponse> responseObserver){
     

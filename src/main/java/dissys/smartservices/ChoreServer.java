@@ -23,34 +23,7 @@ public class ChoreServer extends ChoreDividerImplBase {
 
     private static final Logger logger = Logger.getLogger(ChoreServer.class.getName());
    
-    public static void main(String[] args){
-    
-//        //RegisterAll.regiterAllServers();
-//        ChoreServer choreServer = new ChoreServer();
-//        int port = 50001;
-//        try{
-//            Server server =ServerBuilder
-//                    .forPort(port)
-//                    .addService(choreServer)
-//                    .build()
-//                    .start();
-//            logger.info("Server started, listening on " + port);
-//            
-//            SmartServiceRegistration ssr = SmartServiceRegistration.getInstance();
-//            System.out.println("Created instance of SmartServiceRegistration ");
-//            ssr.registerService("_grpc._tcp.local.", "ChoreDivider", port, "Grpc unary, client streaming ChoreDivider service");
-//            System.out.println("Service registering");
-//            server.awaitTermination();
-//            
-//        }catch(IOException e){
-//            e.printStackTrace();
-//        
-//        }catch(InterruptedException e){
-//            e.printStackTrace();}
-    
-    
-    }//main
-    
+    //Trigger method to start server from GUI
     public void startServer() {
         int port = 50001;
         try {
@@ -520,6 +493,12 @@ public class ChoreServer extends ChoreDividerImplBase {
                 + "\nPerson 4 task: " + list4String.toString();
     }
 
+    /**
+     * UNARY for getting number of people in household, returns equally assigned chores
+     * rpc doChoderDivide  (ChoreRequest) returns (ChoreResponse) {}
+     * @param request 
+     * @param response  
+     */
     @Override 
     public void doChoderDivide(ChoreRequest request, StreamObserver<ChoreResponse> response){
     
@@ -599,6 +578,15 @@ public class ChoreServer extends ChoreDividerImplBase {
         
       
     }
+    /**
+     * Client-streaming for sending on report after gets several completed tasks
+     * rpc doChoreReport (stream ReportRequest) returns (ReportResponse){}
+     * this method will be triggered when user enters task ID, it collects
+     * ID's.When user enters get report button, it returns one String report
+     * @param responseObserver
+     * @return 
+     * 
+     */
     
     @Override 
     public StreamObserver<ReportRequest> doChoreReport(StreamObserver<ReportResponse> responseObserver){

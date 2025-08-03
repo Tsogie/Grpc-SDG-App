@@ -17,7 +17,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.time.LocalTime;
 import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceEvent;
@@ -30,16 +29,23 @@ import javax.swing.JTextArea;
  * @author Tsogzolmaa;
  */
 public class ChoreClient {
+    
     private static final Logger logger = Logger.getLogger(ChoreClient.class.getName());
-    public static ManagedChannel channel;
-    public static ChoreDividerStub stubAsync;
+    //declared this stub static to use it in requestChoreDivide() method
     public static ChoreDividerBlockingStub stub;
     static JmDNS jmdns;
-    //static String message = "no";
     private static boolean serviceResolved = false;
-    
+    //declared requestObserver as static, to use it on guiMainController class
     public static StreamObserver<ReportRequest> requestObserver;
     
+    /**
+     * Discovering service
+     * using this method on GUI code, service will be discovered, channel will be built
+     * stubs will be initialized
+     * Additionally, for client streaming RPC, response observer and request observer 
+     * will be set up
+     * @param resultOutput - text area in gui for printing service information to user
+     */
     public static void discoverAndStart(JTextArea resultOutput) throws UnknownHostException, IOException, InterruptedException{
         try{
             jmdns = JmDNS.create(InetAddress.getLocalHost());
@@ -47,7 +53,6 @@ public class ChoreClient {
             String serviceName = "ChoreDivider";
 
                 jmdns.addServiceListener(serviceType, new ServiceListener(){
-                    //String discoveryMessage = "";
                 @Override
                 public void serviceAdded(ServiceEvent se) {
                     resultOutput.setText("Service added: " + se.getName());
@@ -73,37 +78,51 @@ public class ChoreClient {
                     try{
                         if(inServiceName.equalsIgnoreCase(serviceName)){ 
                             serviceResolved = true;
-                            //requestChoreDivide(discoveredHost, discoveredPort);
                             resultOutput.append("\n"+serviceName + " service discovered at " + discoveredHost+ ":" + discoveredPort);
-                            System.out.println("Service discovered at port " + discoveredPort);
-                            channel = ManagedChannelBuilder
+                            //once service is found, channel is created here at that port and host
+                            ManagedChannel channel = ManagedChannelBuilder
                                     .forAddress(discoveredHost, discoveredPort)
                                     .usePlaintext()
                                     .build();
+                            //initializing stub to make connection between server and client
+                            //this stub is blocking stub for unary RPC
                             stub = ChoreDividerGrpc.newBlockingStub(channel);
-                            stubAsync = ChoreDividerGrpc.newStub(channel);
+                            //for doChoreReport service, assynchronous stub is used because, we are sending
+                            //stream of request to server.
+                            ChoreDividerStub stubAsync = ChoreDividerGrpc.newStub(channel);
                             resultOutput.append("\nChannel is ready now");
-                            //message = "Channel is built at port" + discoveredPort;
-                            //Gui.serviceTextArea.setText("Channel is built at port");
-                            StreamObserver<ReportResponse> responseObserver = 
-                                new StreamObserver<ReportResponse>(){
-                        @Override
-                        public void onNext(ReportResponse v) {
-                            resultOutput.setText("Response from server (Client streaming, Chore Report): " + v.getReportResult());
-                        }                
-                        @Override
-                        public void onError(Throwable thrwbl) {
-                            resultOutput.setText("Error occurred during stream: " + thrwbl.getMessage());
-                            thrwbl.printStackTrace();            
-                        }
-                        @Override
-                        public void onCompleted() {
-                            resultOutput.append("\n" + LocalTime.now().toString() + "\nReport is completed");
-                        }
-                    };
+                        
+                        //moved response observer code here, in order to get request observer
+                        //from server when service resolved. So when service is ready, user enters 
+                        //inputs, request observer can send them to server
+                        //in order to get request observer, we need to send response observer. so first sets up
+                        //new response observer here
+                        StreamObserver<ReportResponse> responseObserver = 
+                            new StreamObserver<ReportResponse>(){
+                            @Override
+                            public void onNext(ReportResponse v) {
+                                resultOutput.setText("Response from server (Client streaming, Chore Report): " + v.getReportResult());
+                            }                
+                            @Override
+                            public void onError(Throwable thrwbl) {
+                                resultOutput.setText("Error occurred during stream: " + thrwbl.getMessage());
+                                thrwbl.printStackTrace();            
+                            }
+                            @Override
+                            public void onCompleted() {
+                                resultOutput.append("\n" + LocalTime.now().toString() + "\nReport is completed");
+                            }
+                        };//response observer
+       
+        //here using stubAsync, method doChoreReport is triggers server. ResponseObserver,
+        //we defined its behaviour in this client class, is sent to server as a parameter.
+        //then we gets requestObserver
+        //in this code, I declared it as public static StreamObserver<ReportRequest> requestObserver;
+        //to use it on GUI code, when user enters number, new requests created, and onNext() on 
+        //request observer, request will be sent to server
+
                         requestObserver = stubAsync.doChoreReport(responseObserver);
 
-                        
                         }//if(inServiceName.equalsIgnoreCase(serviceName))
 
                     }catch (RejectedExecutionException e){
@@ -119,12 +138,18 @@ public class ChoreClient {
         }
         //return discoveryMessage;
     }//discoverAndStart method
-    
-//    public static void main(String[] args) throws IOException, InterruptedException {
-//        
-//        Thread.sleep(30000);
-//    }//main
-    
+ 
+    /**
+    *UNARY
+    *@param numPeople - user input from GUI 
+    *@param resultOutput - text area in GUI 
+    * requestChoreDivide() method will be called when user 
+    * enter the number of people and press the enter button
+    * function
+    * when this method called, ChoreRequest will be created
+    * through stub doChoreDivide method triggered on server
+    * when server gets request, it sends back response
+    */
     public static void requestChoreDivide(int numPeople, JTextArea resultOutput) throws Exception{
 
         try{
@@ -139,59 +164,13 @@ public class ChoreClient {
 
         }catch(StatusRuntimeException e){
             e.printStackTrace();
-        }finally {         
+        }finally { 
+            //commented out channel shut down to keep server alive
 	    //channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
 	}
         Thread.sleep(1000);   
     }
-    public static void requestReport() throws Exception{
     
-        //moved this part code to discoverAndStart()method
-//        StreamObserver<ReportResponse> responseObserver = 
-//                new StreamObserver<ReportResponse>(){
-//            @Override
-//            public void onNext(ReportResponse v) {
-//                System.out.println("Response from server (Client streaming, Chore Report): " + v.getReportResult());            }
-//
-//            @Override
-//            public void onError(Throwable thrwbl) {
-//                System.err.println("Error occurred during stream: " + thrwbl.getMessage());
-//                thrwbl.printStackTrace();            
-//            }
-//
-//            @Override
-//            public void onCompleted() {
-//                System.out.println(LocalTime.now().toString() + "Report is completed");
-//            }
-//        };
-        
-        //requestObserver = stubAsync.doChoreReport(responseObserver);
-    
-        try{
-            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(11).build());
-            Thread.sleep(500);
-            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(1).build());
-            Thread.sleep(500);
-            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(6).build());
-            Thread.sleep(500);
-            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(3).build());
-            Thread.sleep(500);
-            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(4).build());
-            Thread.sleep(500);
-            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(10).build());
-            Thread.sleep(500);
-
-            requestObserver.onCompleted();
-
-            Thread.sleep(10000);
-        }catch(RuntimeException e){
-        e.printStackTrace();
-        }catch(InterruptedException e){
-        e.printStackTrace();
-        }finally {         
-	    channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
-	}
-    }
 
     }//class
     
