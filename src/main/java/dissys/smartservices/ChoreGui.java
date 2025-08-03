@@ -45,6 +45,10 @@ public class ChoreGui extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         ReportButton = new javax.swing.JButton();
         resultLabel = new javax.swing.JLabel();
+        CompletedTaskNumTextField = new javax.swing.JTextField();
+        idlabel = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        FinalReportButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -77,7 +81,7 @@ public class ChoreGui extends javax.swing.JFrame {
 
         jLabel1.setText("To get report click on GET REPORT button");
 
-        ReportButton.setText("GET REPORT");
+        ReportButton.setText("SEND");
         ReportButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ReportButtonActionPerformed(evt);
@@ -85,6 +89,24 @@ public class ChoreGui extends javax.swing.JFrame {
         });
 
         resultLabel.setText("Result");
+
+        CompletedTaskNumTextField.setText(" ");
+        CompletedTaskNumTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CompletedTaskNumTextFieldActionPerformed(evt);
+            }
+        });
+
+        idlabel.setText("Enter ID of completed task one by one");
+
+        jLabel2.setText("ID is between 1-11");
+
+        FinalReportButton.setText("GET FINAL REPORT");
+        FinalReportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FinalReportButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -98,45 +120,64 @@ public class ChoreGui extends javax.swing.JFrame {
                         .addComponent(numPeopleTextField)
                         .addComponent(NumPeopleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(ReportButton)
-                        .addGap(73, 73, 73))))
+                .addComponent(jLabel1)
+                .addGap(51, 51, 51))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(30, 30, 30)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(resultLabel)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(FinalReportButton))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(191, 191, 191)
-                        .addComponent(StartButtom)))
-                .addContainerGap(37, Short.MAX_VALUE))
+                        .addComponent(StartButtom)
+                        .addGap(22, 22, 22)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(idlabel)
+                            .addComponent(jLabel2)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(251, 251, 251)
+                        .addComponent(CompletedTaskNumTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)
+                        .addComponent(ReportButton)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(14, 14, 14)
-                .addComponent(StartButtom)
-                .addGap(18, 18, 18)
-                .addComponent(NumPeopleLabel)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(StartButtom)
+                    .addComponent(idlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(NumPeopleLabel)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(numPeopleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(NumPeopleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ReportButton))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(numPeopleTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ReportButton))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(CompletedTaskNumTextField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(resultLabel)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(NumPeopleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(resultLabel))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(FinalReportButton)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -147,15 +188,14 @@ public class ChoreGui extends javax.swing.JFrame {
     }//GEN-LAST:event_numPeopleTextFieldActionPerformed
 
     private void NumPeopleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumPeopleButtonActionPerformed
+        serviceTextArea.setText("");
         try { 
+            //removed request building and calling stub and sending to server
+            //instead calls requestChoreDivide method on client, so client will
+            //send this request to server directly
             int numPeople = Integer.parseInt(numPeopleTextField.getText().trim());
-            //client creates request using newBuilder() instead of constructor and sets number here
-            ChoreRequest request = ChoreRequest.newBuilder().setNumPeople(numPeople).build();
-            //then calling doChoreDivide() method on server using stub. and gets back one response
-            ChoreResponse response = ChoreClient.stub.doChoderDivide(request); 
-            //from that response gets chore result and prints it on text area
-            serviceTextArea.setText("Response from server " + response.getChoreResult());
-        }catch(Exception e){
+            ChoreClient.requestChoreDivide(numPeople, serviceTextArea );
+            }catch(Exception e){
         serviceTextArea.setText("Exception occured " + e.getMessage());
         }
     }//GEN-LAST:event_NumPeopleButtonActionPerformed
@@ -196,26 +236,11 @@ public class ChoreGui extends javax.swing.JFrame {
 
     private void ReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReportButtonActionPerformed
         
-        //when user clicks on report button
-        //client 
-        StreamObserver<ReportResponse> responseObserver = 
-                new StreamObserver<ReportResponse>(){
-            @Override
-            public void onNext(ReportResponse v) {
-                serviceTextArea.setText("Response from server (Client streaming, Chore Report): " + v.getReportResult());
-            }                
-            @Override
-            public void onError(Throwable thrwbl) {
-                serviceTextArea.setText("Error occurred during stream: " + thrwbl.getMessage());
-                thrwbl.printStackTrace();            
-            }
-
-            @Override
-            public void onCompleted() {
-                serviceTextArea.append("\n" + LocalTime.now().toString() + "\nReport is completed");
-            }
-        };
-
+        int completedTaskNum = Integer.parseInt(CompletedTaskNumTextField.getText().trim());
+        ReportRequest request = ReportRequest.newBuilder().setCompletedTaskNum(completedTaskNum).build();
+        ChoreClient.requestObserver.onNext(request);
+        serviceTextArea.setText("Request sent: completed task number " + completedTaskNum );
+        
     //for this doChoreReport service, assynchronous stub is used because, we are sending
     //stream of request to server.
     //here using stubAsync, method doChoreReport is triggers server and responseObserver,
@@ -227,30 +252,43 @@ public class ChoreGui extends javax.swing.JFrame {
     //when request is done it calls onCompleted()
     //when server knows it is completed, it starts calculating requests and sends
     //back response using response observer
-        StreamObserver<ReportRequest> requestObserver = ChoreClient
-                .stubAsync
-                .doChoreReport(responseObserver);
     
-        try{
-            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(11).build());
-            Thread.sleep(500);
-            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(1).build());
-            Thread.sleep(500);
-            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(6).build());
-            Thread.sleep(500);
-            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(3).build());
-            Thread.sleep(500);
-            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(4).build());
-            Thread.sleep(500);
-         
-            requestObserver.onCompleted();
-
-//            Thread.sleep(10000);
-        
-        }catch(InterruptedException e){
-            serviceTextArea.setText("Exception: " + e.getMessage());
-        }
+//        StreamObserver<ReportRequest> requestObserver = ChoreClient
+//                .stubAsync
+//                .doChoreReport(responseObserver);
+//    
+//        try{
+//            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(11).build());
+//            Thread.sleep(500);
+//            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(1).build());
+//            Thread.sleep(500);
+//            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(6).build());
+//            Thread.sleep(500);
+//            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(3).build());
+//            Thread.sleep(500);
+//            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(4).build());
+//            Thread.sleep(500);
+//         
+//            requestObserver.onCompleted();
+//
+////            Thread.sleep(10000);
+//        
+//        }catch(InterruptedException e){
+//            serviceTextArea.setText("Exception: " + e.getMessage());
+//        }
     }//GEN-LAST:event_ReportButtonActionPerformed
+
+    private void CompletedTaskNumTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CompletedTaskNumTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CompletedTaskNumTextFieldActionPerformed
+
+    private void FinalReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FinalReportButtonActionPerformed
+        
+        
+        //here should call onCompleted() on request observer
+        ChoreClient.requestObserver.onCompleted();
+        
+    }//GEN-LAST:event_FinalReportButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -290,11 +328,15 @@ public class ChoreGui extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField CompletedTaskNumTextField;
+    private javax.swing.JButton FinalReportButton;
     private javax.swing.JButton NumPeopleButton;
     private javax.swing.JLabel NumPeopleLabel;
     private javax.swing.JButton ReportButton;
     private javax.swing.JButton StartButtom;
+    private javax.swing.JLabel idlabel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;

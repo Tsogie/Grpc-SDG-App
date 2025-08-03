@@ -37,6 +37,9 @@ public class ChoreClient {
     static JmDNS jmdns;
     //static String message = "no";
     private static boolean serviceResolved = false;
+    
+    public static StreamObserver<ReportRequest> requestObserver;
+    
     public static void discoverAndStart(JTextArea resultOutput) throws UnknownHostException, IOException, InterruptedException{
         try{
             jmdns = JmDNS.create(InetAddress.getLocalHost());
@@ -82,7 +85,26 @@ public class ChoreClient {
                             resultOutput.append("\nChannel is ready now");
                             //message = "Channel is built at port" + discoveredPort;
                             //Gui.serviceTextArea.setText("Channel is built at port");
+                            StreamObserver<ReportResponse> responseObserver = 
+                                new StreamObserver<ReportResponse>(){
+                        @Override
+                        public void onNext(ReportResponse v) {
+                            resultOutput.setText("Response from server (Client streaming, Chore Report): " + v.getReportResult());
+                        }                
+                        @Override
+                        public void onError(Throwable thrwbl) {
+                            resultOutput.setText("Error occurred during stream: " + thrwbl.getMessage());
+                            thrwbl.printStackTrace();            
                         }
+                        @Override
+                        public void onCompleted() {
+                            resultOutput.append("\n" + LocalTime.now().toString() + "\nReport is completed");
+                        }
+                    };
+                        requestObserver = stubAsync.doChoreReport(responseObserver);
+
+                        
+                        }//if(inServiceName.equalsIgnoreCase(serviceName))
 
                     }catch (RejectedExecutionException e){
                         e.printStackTrace();
@@ -103,47 +125,47 @@ public class ChoreClient {
 //        Thread.sleep(30000);
 //    }//main
     
-    public static void requestChoreDivide() throws Exception{
+    public static void requestChoreDivide(int numPeople, JTextArea resultOutput) throws Exception{
 
         try{
-
-            ChoreRequest request = ChoreRequest.newBuilder().setNumPeople(4).build();
-
-            ChoreResponse response = stub.doChoderDivide(request); //ene trigger hiij bgn boluu?
-
-            System.out.println("Response from Server (Unary, Chore Divide)");
-            logger.info(response.getChoreResult());
+            //client creates request using newBuilder() instead of constructor and sets number here
+            ChoreRequest request = ChoreRequest.newBuilder().setNumPeople(numPeople).build();
+            //then calling doChoreDivide() method on server using stub. and gets back one response
+            ChoreResponse response = stub.doChoderDivide(request); 
+            //from that response gets chore result and prints it on text area
+            resultOutput.append("Response from Server (Unary, Chore Divide)");
+            resultOutput.append(response.getChoreResult());
+            //logger.info(response.getChoreResult());
 
         }catch(StatusRuntimeException e){
             e.printStackTrace();
         }finally {         
 	    //channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
 	}
-        Thread.sleep(10000);
-        requestReport();
-    
+        Thread.sleep(1000);   
     }
     public static void requestReport() throws Exception{
     
-        StreamObserver<ReportResponse> responseObserver = 
-                new StreamObserver<ReportResponse>(){
-            @Override
-            public void onNext(ReportResponse v) {
-                System.out.println("Response from server (Client streaming, Chore Report): " + v.getReportResult());            }
-
-            @Override
-            public void onError(Throwable thrwbl) {
-                System.err.println("Error occurred during stream: " + thrwbl.getMessage());
-                thrwbl.printStackTrace();            
-            }
-
-            @Override
-            public void onCompleted() {
-                System.out.println(LocalTime.now().toString() + "Report is completed");
-            }
-        };
+        //moved this part code to discoverAndStart()method
+//        StreamObserver<ReportResponse> responseObserver = 
+//                new StreamObserver<ReportResponse>(){
+//            @Override
+//            public void onNext(ReportResponse v) {
+//                System.out.println("Response from server (Client streaming, Chore Report): " + v.getReportResult());            }
+//
+//            @Override
+//            public void onError(Throwable thrwbl) {
+//                System.err.println("Error occurred during stream: " + thrwbl.getMessage());
+//                thrwbl.printStackTrace();            
+//            }
+//
+//            @Override
+//            public void onCompleted() {
+//                System.out.println(LocalTime.now().toString() + "Report is completed");
+//            }
+//        };
         
-        StreamObserver<ReportRequest> requestObserver = stubAsync.doChoreReport(responseObserver);
+        //requestObserver = stubAsync.doChoreReport(responseObserver);
     
         try{
             requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(11).build());

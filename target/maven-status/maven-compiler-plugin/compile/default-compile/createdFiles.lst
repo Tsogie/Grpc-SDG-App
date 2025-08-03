@@ -1,4 +1,3 @@
-dissys\smartservices\ChoreClient$2.class
 dissys\smartservices\ClientMainGuiController$4.class
 dissys\smartservices\StoreMonitoringServer.class
 grpc\generated\monitoring\MonitoringRequestOrBuilder.class
@@ -47,17 +46,18 @@ grpc\generated\monitoring\StoreMonitoringServiceGrpc$StoreMonitoringServiceImplB
 dissys\smartservices\ClientMainGuiController$14.class
 dissys\smartservices\ChoreGui$1.class
 dissys\smartservices\StoreGui$5.class
-dissys\smartservices\StoreMonitoringClient$3.class
 grpc\generated\chore\ChoreRequest.class
 grpc\generated\flight\FlightEmissionCalculatorGrpc$2.class
 grpc\generated\chore\ChoreDividerGrpc$ChoreDividerFileDescriptorSupplier.class
 grpc\generated\flight\CO2RequestOrBuilder.class
 dissys\smartservices\FlightServer.class
 grpc\generated\flight\FlightEmissionCalculatorGrpc$FlightEmissionCalculatorMethodDescriptorSupplier.class
+dissys\smartservices\ChoreGui$8.class
 grpc\generated\chore\ChoreDividerGrpc$2.class
 dissys\smartservices\ClientMainGuiController$6.class
 grpc\generated\flight\FlightEmmission.class
 grpc\generated\flight\CO2ResponseOrBuilder.class
+dissys\smartservices\ChoreClient$1$1.class
 dissys\smartservices\StoreGui$4.class
 grpc\generated\chore\ReportResponseOrBuilder.class
 grpc\generated\chore\ChoreDividerGrpc$MethodHandlers.class
