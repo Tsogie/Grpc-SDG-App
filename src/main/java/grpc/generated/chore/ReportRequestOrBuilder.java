@@ -8,8 +8,8 @@ public interface ReportRequestOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>int32 completedTaskNum = 1;</code>
-   * @return The completedTaskNum.
+   * <code>int32 completedTaskID = 1;</code>
+   * @return The completedTaskID.
    */
-  int getCompletedTaskNum();
+  int getCompletedTaskID();
 }

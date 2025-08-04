@@ -132,7 +132,11 @@ public class FlightGui extends javax.swing.JFrame {
         Thread serverThread = new Thread(new Runnable(){
             @Override
             public void run(){
-            new FlightServer().startServer();
+                try {
+                    new FlightServer().startServer();
+                } catch (Exception ex) {
+                    Logger.getLogger(FlightGui.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         serverThread.start();

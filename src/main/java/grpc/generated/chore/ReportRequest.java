@@ -50,7 +50,7 @@ private static final long serialVersionUID = 0L;
             break;
           case 8: {
 
-            completedTaskNum_ = input.readInt32();
+            completedTaskID_ = input.readInt32();
             break;
           }
           default: {
@@ -87,15 +87,15 @@ private static final long serialVersionUID = 0L;
             grpc.generated.chore.ReportRequest.class, grpc.generated.chore.ReportRequest.Builder.class);
   }
 
-  public static final int COMPLETEDTASKNUM_FIELD_NUMBER = 1;
-  private int completedTaskNum_;
+  public static final int COMPLETEDTASKID_FIELD_NUMBER = 1;
+  private int completedTaskID_;
   /**
-   * <code>int32 completedTaskNum = 1;</code>
-   * @return The completedTaskNum.
+   * <code>int32 completedTaskID = 1;</code>
+   * @return The completedTaskID.
    */
   @java.lang.Override
-  public int getCompletedTaskNum() {
-    return completedTaskNum_;
+  public int getCompletedTaskID() {
+    return completedTaskID_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -112,8 +112,8 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (completedTaskNum_ != 0) {
-      output.writeInt32(1, completedTaskNum_);
+    if (completedTaskID_ != 0) {
+      output.writeInt32(1, completedTaskID_);
     }
     unknownFields.writeTo(output);
   }
@@ -124,9 +124,9 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (completedTaskNum_ != 0) {
+    if (completedTaskID_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(1, completedTaskNum_);
+        .computeInt32Size(1, completedTaskID_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -143,8 +143,8 @@ private static final long serialVersionUID = 0L;
     }
     grpc.generated.chore.ReportRequest other = (grpc.generated.chore.ReportRequest) obj;
 
-    if (getCompletedTaskNum()
-        != other.getCompletedTaskNum()) return false;
+    if (getCompletedTaskID()
+        != other.getCompletedTaskID()) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -156,8 +156,8 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + COMPLETEDTASKNUM_FIELD_NUMBER;
-    hash = (53 * hash) + getCompletedTaskNum();
+    hash = (37 * hash) + COMPLETEDTASKID_FIELD_NUMBER;
+    hash = (53 * hash) + getCompletedTaskID();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -291,7 +291,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      completedTaskNum_ = 0;
+      completedTaskID_ = 0;
 
       return this;
     }
@@ -319,7 +319,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public grpc.generated.chore.ReportRequest buildPartial() {
       grpc.generated.chore.ReportRequest result = new grpc.generated.chore.ReportRequest(this);
-      result.completedTaskNum_ = completedTaskNum_;
+      result.completedTaskID_ = completedTaskID_;
       onBuilt();
       return result;
     }
@@ -368,8 +368,8 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(grpc.generated.chore.ReportRequest other) {
       if (other == grpc.generated.chore.ReportRequest.getDefaultInstance()) return this;
-      if (other.getCompletedTaskNum() != 0) {
-        setCompletedTaskNum(other.getCompletedTaskNum());
+      if (other.getCompletedTaskID() != 0) {
+        setCompletedTaskID(other.getCompletedTaskID());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -400,33 +400,33 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private int completedTaskNum_ ;
+    private int completedTaskID_ ;
     /**
-     * <code>int32 completedTaskNum = 1;</code>
-     * @return The completedTaskNum.
+     * <code>int32 completedTaskID = 1;</code>
+     * @return The completedTaskID.
      */
     @java.lang.Override
-    public int getCompletedTaskNum() {
-      return completedTaskNum_;
+    public int getCompletedTaskID() {
+      return completedTaskID_;
     }
     /**
-     * <code>int32 completedTaskNum = 1;</code>
-     * @param value The completedTaskNum to set.
+     * <code>int32 completedTaskID = 1;</code>
+     * @param value The completedTaskID to set.
      * @return This builder for chaining.
      */
-    public Builder setCompletedTaskNum(int value) {
+    public Builder setCompletedTaskID(int value) {
       
-      completedTaskNum_ = value;
+      completedTaskID_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>int32 completedTaskNum = 1;</code>
+     * <code>int32 completedTaskID = 1;</code>
      * @return This builder for chaining.
      */
-    public Builder clearCompletedTaskNum() {
+    public Builder clearCompletedTaskID() {
       
-      completedTaskNum_ = 0;
+      completedTaskID_ = 0;
       onChanged();
       return this;
     }

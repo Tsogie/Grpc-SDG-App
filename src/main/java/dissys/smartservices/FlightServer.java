@@ -17,7 +17,9 @@ import java.util.ArrayList;
 public class FlightServer extends FlightEmissionCalculatorImplBase{
     
     //Trigger method to start server from GUI
-    public void startServer() {
+    public static boolean serverStarted;
+    public void startServer() throws Exception {
+        
         int port = 50002;
         try {
             Server server = ServerBuilder
@@ -31,10 +33,12 @@ public class FlightServer extends FlightEmissionCalculatorImplBase{
             SmartServiceRegistration ssr = SmartServiceRegistration.getInstance();
             ssr.registerService("_grpc._tcp.local.", "FlightEmissionCalculator", port, "Bi-directional FlightEmissionCalculator service");
 
+            serverStarted = true;
+            
             server.awaitTermination(); // Keep the server running
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
-        }
+        } 
     }//startServer
     
     /**
@@ -75,7 +79,7 @@ public class FlightServer extends FlightEmissionCalculatorImplBase{
                 //if statement check if user input among supported cities
                 //if not it send response with following message and total emission
                 //amount stays same
-                if(!supportedCityNames.contains(currentCity)){
+                if(!supportedCityNames.contains(currentCity.toLowerCase())){
                 
                         responseObserver.onNext(CO2Response.newBuilder()
                                 .setTotalCO2(totalCO)

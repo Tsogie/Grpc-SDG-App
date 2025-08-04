@@ -45,13 +45,13 @@ public final class Chore {
     java.lang.String[] descriptorData = {
       "\n\013chore.proto\022\005Chore\"!\n\014ChoreRequest\022\021\n\t" +
       "numPeople\030\001 \001(\005\"$\n\rChoreResponse\022\023\n\013chor" +
-      "eResult\030\001 \001(\t\")\n\rReportRequest\022\030\n\020comple" +
-      "tedTaskNum\030\001 \001(\005\"&\n\016ReportResponse\022\024\n\014re" +
-      "portResult\030\001 \001(\t2\217\001\n\014ChoreDivider\022=\n\016doC" +
-      "hoderDivide\022\023.Chore.ChoreRequest\032\024.Chore" +
-      ".ChoreResponse\"\000\022@\n\rdoChoreReport\022\024.Chor" +
-      "e.ReportRequest\032\025.Chore.ReportResponse\"\000" +
-      "(\001B\030\n\024grpc.generated.choreP\001b\006proto3"
+      "eResult\030\001 \001(\t\"(\n\rReportRequest\022\027\n\017comple" +
+      "tedTaskID\030\001 \001(\005\"&\n\016ReportResponse\022\024\n\014rep" +
+      "ortResult\030\001 \001(\t2\217\001\n\014ChoreDivider\022=\n\016doCh" +
+      "oderDivide\022\023.Chore.ChoreRequest\032\024.Chore." +
+      "ChoreResponse\"\000\022@\n\rdoChoreReport\022\024.Chore" +
+      ".ReportRequest\032\025.Chore.ReportResponse\"\000(" +
+      "\001B\030\n\024grpc.generated.choreP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -74,7 +74,7 @@ public final class Chore {
     internal_static_Chore_ReportRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Chore_ReportRequest_descriptor,
-        new java.lang.String[] { "CompletedTaskNum", });
+        new java.lang.String[] { "CompletedTaskID", });
     internal_static_Chore_ReportResponse_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_Chore_ReportResponse_fieldAccessorTable = new

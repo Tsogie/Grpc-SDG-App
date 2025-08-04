@@ -37,7 +37,7 @@ public class ChoreClient {
     private static boolean serviceResolved = false;
     //declared requestObserver as static, to use it on guiMainController class
     public static StreamObserver<ReportRequest> requestObserver;
-    
+    public static boolean streamIsCompleted;
     /**
      * Discovering service
      * using this method on GUI code, service will be discovered, channel will be built
@@ -110,6 +110,7 @@ public class ChoreClient {
                             }
                             @Override
                             public void onCompleted() {
+                                streamIsCompleted = true;
                                 resultOutput.append("\n" + LocalTime.now().toString() + "\nReport is completed");
                             }
                         };//response observer

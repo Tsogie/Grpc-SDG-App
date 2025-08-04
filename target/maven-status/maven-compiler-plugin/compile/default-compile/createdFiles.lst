@@ -42,6 +42,7 @@ ServiceRegistryAndDiscovery\SmartServiceRegistration.class
 grpc\generated\flight\FlightEmissionCalculatorGrpc$1.class
 dissys\smartservices\ChoreGui$2.class
 dissys\smartservices\ChoreServer.class
+dissys\smartservices\ExceptionHandling.class
 grpc\generated\monitoring\StoreMonitoringServiceGrpc$StoreMonitoringServiceImplBase.class
 dissys\smartservices\ClientMainGuiController$14.class
 dissys\smartservices\ChoreGui$1.class
@@ -122,5 +123,6 @@ grpc\generated\chore\ReportRequest$1.class
 grpc\generated\chore\ReportResponse.class
 grpc\generated\chore\ReportResponse$1.class
 grpc\generated\chore\Chore.class
+dissys\smartservices\CustomException.class
 dissys\smartservices\StoreGui$2.class
 grpc\generated\flight\FlightEmissionCalculatorGrpc$FlightEmissionCalculatorStub.class

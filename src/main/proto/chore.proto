@@ -24,7 +24,7 @@ message ChoreResponse{
     string choreResult = 1;
 }
 message ReportRequest{
-    int32 completedTaskNum = 1;
+    int32 completedTaskID = 1;
 }
 message ReportResponse{
     string reportResult = 1;

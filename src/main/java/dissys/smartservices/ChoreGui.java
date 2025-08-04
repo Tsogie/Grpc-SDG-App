@@ -1,13 +1,8 @@
 package dissys.smartservices;
 
-//import static dissys.chore.ChoreClient.stubAsync;
-import grpc.generated.chore.ChoreRequest;
-import grpc.generated.chore.ChoreResponse;
+
 import grpc.generated.chore.ReportRequest;
-import grpc.generated.chore.ReportResponse;
-import io.grpc.stub.StreamObserver;
 import java.io.IOException;
-import java.time.LocalTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -237,45 +232,11 @@ public class ChoreGui extends javax.swing.JFrame {
     private void ReportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReportButtonActionPerformed
         
         int completedTaskNum = Integer.parseInt(CompletedTaskNumTextField.getText().trim());
-        ReportRequest request = ReportRequest.newBuilder().setCompletedTaskNum(completedTaskNum).build();
+        ReportRequest request = ReportRequest.newBuilder().setCompletedTaskID(completedTaskNum).build();
         ChoreClient.requestObserver.onNext(request);
         serviceTextArea.setText("Request sent: completed task number " + completedTaskNum );
         
-    //for this doChoreReport service, assynchronous stub is used because, we are sending
-    //stream of request to server.
-    //here using stubAsync, method doChoreReport is triggers server and responseObserver,
-    //we defined its behaviour in this client class, is sent to server as a parameter. 
-    //this method gives back request observer to client
-    //whenever client send request
-    //using onNext, server can catch several requests and possibly store them.
-    //in our case, here, client is sending multiple requests onNext()
-    //when request is done it calls onCompleted()
-    //when server knows it is completed, it starts calculating requests and sends
-    //back response using response observer
     
-//        StreamObserver<ReportRequest> requestObserver = ChoreClient
-//                .stubAsync
-//                .doChoreReport(responseObserver);
-//    
-//        try{
-//            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(11).build());
-//            Thread.sleep(500);
-//            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(1).build());
-//            Thread.sleep(500);
-//            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(6).build());
-//            Thread.sleep(500);
-//            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(3).build());
-//            Thread.sleep(500);
-//            requestObserver.onNext(ReportRequest.newBuilder().setCompletedTaskNum(4).build());
-//            Thread.sleep(500);
-//         
-//            requestObserver.onCompleted();
-//
-////            Thread.sleep(10000);
-//        
-//        }catch(InterruptedException e){
-//            serviceTextArea.setText("Exception: " + e.getMessage());
-//        }
     }//GEN-LAST:event_ReportButtonActionPerformed
 
     private void CompletedTaskNumTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CompletedTaskNumTextFieldActionPerformed

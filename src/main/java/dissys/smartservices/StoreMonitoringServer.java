@@ -21,6 +21,7 @@ public class StoreMonitoringServer extends StoreMonitoringServiceImplBase {
      * @param args the command line arguments
      */
   
+    public static boolean serverStarted;
     //Trigger method to start server from GUI
     public void startServer(){
     
@@ -37,6 +38,7 @@ public class StoreMonitoringServer extends StoreMonitoringServiceImplBase {
             SmartServiceRegistration ssr = SmartServiceRegistration.getInstance();
             System.out.println("Created instance of SmartServiceRegistration for StoreMonitoringService ");
             ssr.registerService("_grpc._tcp.local.", "StoreMonitoringService", port, "Grpc server streaming StoreMonitoringService service");
+            serverStarted = true;
             System.out.println("Service registering");
             server.awaitTermination();
         
@@ -62,28 +64,67 @@ public class StoreMonitoringServer extends StoreMonitoringServiceImplBase {
         String inRequest;
         inRequest = request.getSectionName();
         boolean isStockOk = true;
-        String stockMessage;
         boolean anyUpdates = true;
-        String updateMessage;
+        boolean isSectionOpen = true;
         System.out.println("Server recieved message from client: " + request.getSectionName() );
-        if(inRequest.equalsIgnoreCase("Beverages")){
         
-            if(isStockOk){
-                stockMessage = "Stock level low";
-                MonitoringResponse response = MonitoringResponse.newBuilder().setStockLevelMessage(stockMessage).build();
-                responseObserver.onNext(response);
-            }
-            if(anyUpdates){
-                
-                MonitoringResponse response = MonitoringResponse.newBuilder().setStockLevelMessage(findAnyUpdate(inRequest)).build();
-                responseObserver.onNext(response);
-     
-            }
-            responseObserver.onCompleted();
+        //if(isStockOk), (anyUpdates), (isSectionOpen) boolean will trigger make new response and send it to client
+        //so server will streams three times to client and streaming is done, it will onCompleted on response observer
+        //and on client side, if onCompleted called on response observer, all the responses will be printed at the end.
+        if(isSectionOpen){
+            //using isSectionOpen (String sectionName) method, server will get random status of 
+            //that section
+            MonitoringResponse response = MonitoringResponse.newBuilder().setStockLevelMessage(isSectionOpen(inRequest)).build();
+            responseObserver.onNext(response);
         }
+        if(isStockOk){
+            //using isStockOk (String sectionName) this method, server will get String info about stack randomly
+            //send that response back to client first
+            MonitoringResponse response = MonitoringResponse.newBuilder().setStockLevelMessage(isStockOk(inRequest)).build();
+            responseObserver.onNext(response);
+        }
+        if(anyUpdates){
+            //using findAnyUpdate(String sectionName), server will get 2 random updates as one string
+            //and will send that to client lastly
+            MonitoringResponse response = MonitoringResponse.newBuilder().setStockLevelMessage(findAnyUpdate(inRequest)).build();
+            responseObserver.onNext(response);
+
+        }
+        responseObserver.onCompleted();
+        
     
     }
     
+      public String isSectionOpen (String sectionName){
+    
+        //this random code will generate random num 1-3
+        //depending on number, we will get status of that section
+        int randomNum = (int)(Math.random() * 3);
+        if(randomNum == 1){
+        return "\n" + sectionName + " is open";
+        }else if(randomNum == 2){
+        return "\n" + sectionName + " is closed";
+        }else{
+        return "\n" + sectionName + " is opening in 10 minutes";
+        }
+        
+    
+    }
+    public String isStockOk (String sectionName){
+    
+        //this random code will generate random num 1-3
+        //depending on number, we will assign stock level
+        int randomNum = (int)(Math.random() * 3);
+        if(randomNum == 1){
+        return "\nStock level is low at " + sectionName + " section";
+        }else if(randomNum == 2){
+        return "\nStock level is full at " + sectionName + " section";
+        }else{
+        return "\nStock level informational is not found at " + sectionName + " section";
+        }
+        
+    
+    }
     public String findAnyUpdate(String sectionName){
     
         ArrayList<String> updateMessages = new ArrayList<>();

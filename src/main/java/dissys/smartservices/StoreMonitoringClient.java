@@ -13,7 +13,8 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.jmdns.JmDNS;
 import javax.jmdns.ServiceEvent;
 import javax.jmdns.ServiceInfo;
@@ -35,6 +36,7 @@ public class StoreMonitoringClient {
     //added this boolean, once service is resolved, at some point it keeps
     //resolving and sending same message, so now once service found, service listener will not find it again
     private static boolean serviceResolved = false;
+    public static boolean streamIsCompleted;
     
     /**
      * Discovering service and start
@@ -121,9 +123,15 @@ public class StoreMonitoringClient {
             ArrayList<String> responseArray = new ArrayList<>();
             @Override
             public void onNext(MonitoringResponse v) {
-                resultOutput.append("Response from server " );
+                resultOutput.append("\nResponse from server " );
                 resultOutput.append(v.getStockLevelMessage());
                 responseArray.add(v.getStockLevelMessage());
+                //thread sleep 1000 to slow server responses
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(StoreMonitoringClient.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
 
             @Override
@@ -133,6 +141,8 @@ public class StoreMonitoringClient {
 
             @Override
             public void onCompleted() {
+                streamIsCompleted = true;
+                resultOutput.append("\n");
                 resultOutput.append("\nServer response(s) completed");
                 resultOutput.append("\nRecieved response(s) : " + responseArray.toString());
             }
@@ -141,12 +151,13 @@ public class StoreMonitoringClient {
         //using asynchronous stub calling method on server, sending inRequest which is passed in
         //from GUI side code and response observer
         stubAsync.doMonitoring(inRequest, responseObserver);
+        Thread.sleep(500);
         
         }catch (StatusRuntimeException e) {
             e.getStatus();
         } finally {
             //if want to keep server alive comment this line out
-            channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
+            //channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
         }
     
         
